@@ -277,6 +277,18 @@
     text-shadow:3px 3px 0 #b00, -3px -3px 0 #b00, 3px -3px 0 #b00, -3px 3px 0 #b00, 6px 6px 0 rgba(0,0,0,.7);}
   #goal-overlay .who{font-size:1.4rem; margin-top:20px; color:#fff;}
   #goal-overlay .sc{font-family:var(--px); font-size:1.1rem; margin-top:16px; color:#fff;}
+  /* carta appena giocata dall'avversario: scivola SUL tavolo tra le altre, misura normale, atterra storta */
+  #zone-table{position:relative;}
+  #aiplay-spot{position:absolute; inset:0; display:none; align-items:center; justify-content:center; z-index:6; pointer-events:none;}
+  #aiplay-spot.show{display:flex;}
+  #aiplay-spot .aip-tag{position:absolute; top:6px; left:50%; transform:translateX(-50%); font-family:var(--px); font-size:.45rem; background:rgba(0,0,0,.78); color:#fff; padding:4px 10px; letter-spacing:.5px; white-space:nowrap;}
+  #aiplay-spot .card{transform:rotate(-6deg); box-shadow:0 5px 12px rgba(0,0,0,.5); animation:aipslide .5s cubic-bezier(.2,.8,.3,1);}
+  #aiplay-spot .card.theirs:not(.asso) .strip{background:repeating-linear-gradient(90deg,var(--kitB1) 0 7px,var(--kitB2) 7px 14px);}
+  @keyframes aipslide{
+    0%{transform:translate(130px,-160px) rotate(-20deg); filter:blur(3px); opacity:.35;}
+    85%{transform:translate(-3px,4px) rotate(-4deg); filter:blur(.5px);}
+    100%{transform:translate(0,0) rotate(-6deg); filter:blur(0); opacity:1;}
+  }
   @keyframes pop{from{transform:scale(.6); opacity:0;} to{transform:scale(1); opacity:1;}}
 
   /* Chooser */
@@ -452,7 +464,7 @@
     <div id="sprites"></div>
     <div id="kickoff-note" class="field-note hidden"></div>
     <div class="zone" id="zone-ai"><span class="zone-label" style="top:6px;">Avversario</span></div>
-    <div class="zone" id="zone-table"><span class="zone-label" style="top:calc(50% - 60px);">Tavolo</span></div>
+    <div class="zone" id="zone-table"><span class="zone-label" style="top:calc(50% - 60px);">Tavolo</span><div id="aiplay-spot"></div></div>
     <div class="zone" id="zone-me"><span class="zone-label" style="bottom:6px;">La tua mano — clicca una carta</span></div>
   </div>
   <div id="log"></div>
@@ -464,6 +476,7 @@
   <div class="who" id="goal-who"></div>
   <div class="sc" id="goal-score"></div>
 </div>
+
 
 <!-- ===== CHOOSER ===== -->
 <div id="chooser">
@@ -1555,8 +1568,17 @@ function onMyCard(i){
   $('chooser').classList.add('show');
 }
 
+async function revealAiCard(c){ // la carta dell'avversario scivola SUL tavolo, tra le altre, come una carta vera
+  const pname=c.v===1?null:G.players.ai[c.v-2];
+  const spot=$('aiplay-spot');
+  spot.innerHTML=`<div class="aip-tag">${G.names.ai}${pname?' — '+pname:''}</div>`+cardHTML(c,'theirs',pname);
+  spot.classList.add('show');
+  await sleep(1000); // 1 secondo dal lancio alla sparizione (lo scivolo occupa il primo mezzo secondo)
+  spot.classList.remove('show');spot.innerHTML='';
+}
 async function doPlay(side,handIdx,optIdx){
   busy=true;
+  if(side==='ai')await revealAiCard(G.hands.ai[handIdx]);
   const r=playCard(G,side,handIdx,optIdx);
   renderAll(r.laid);
   logMove(r);
@@ -1564,7 +1586,7 @@ async function doPlay(side,handIdx,optIdx){
   if(r.scopa)await showGoal(r);
   if(r.endOfHalf){endHalf();return;}
   if(G.turn==='ai'){
-    await sleep(950);
+    await sleep(500); // pausa "di pensiero" ridotta: il ritmo ora lo dà la carta mostrata
     const ch=aiChoose(G,'ai');
     await doPlay('ai',ch.handIdx,ch.optIdx);
   }else busy=false;
