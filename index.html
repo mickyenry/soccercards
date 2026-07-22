@@ -823,13 +823,14 @@ function aiChoose(G,side){
 if(typeof document!=='undefined'){
 /* SPIA ERRORI: su iPad/telefono non c'è la console — se lo script si rompe, una striscia rossa
    in basso dice l'errore e la riga. Se il gioco "si vede ma non risponde", leggere qui. */
-window.onerror=function(msg,src,line){
+window.onerror=function(msg,src,line,col,err){
   try{
     var d=document.getElementById('err-banner');
     if(!d){d=document.createElement('div');d.id='err-banner';
       d.style.cssText='position:fixed;left:0;right:0;bottom:0;background:#7e1420;color:#fff;font:12px/1.5 monospace;padding:8px 12px;z-index:999;white-space:pre-wrap;';
       document.body.appendChild(d);}
-    d.textContent='⚠ '+msg+'  (riga '+line+')';
+    var s=(err&&err.stack)?'\n'+String(err.stack).split('\n').slice(0,3).join('\n'):'';
+    d.textContent='⚠ '+msg+'  (riga '+line+')'+s;
   }catch(e){}
 };
 /* storage a prova di Safari: con "Blocca tutti i cookie" attivo, toccare localStorage LANCIA UN ERRORE
