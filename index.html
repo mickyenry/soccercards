@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" translate="no">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate"><!-- il gioco è già multilingua: la traduzione automatica di Chrome rovina font e testi -->
 <title>Soccer Cards — Prototipo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,9 +40,9 @@
   .rules-note{font-size:.78rem; color:#7d90d8; margin-top:16px; text-align:center; line-height:1.5;}
 
   /* ===== Sfondo: prima pagina di giornale sportivo in bianco e nero ===== */
-  #scr-menu, #scr-setup, #scr-options, #scr-teams, #scr-interval, #scr-final, #scr-tour-pick, #scr-tour-setup, #scr-tour, #scr-rules, #scr-history, #scr-saves, #scr-career-list, #scr-career-new, #scr-career{background:#e9e5d8; position:relative; overflow:hidden;}
+  #scr-menu, #scr-setup, #scr-options, #scr-teams, #scr-interval, #scr-final, #scr-tour-pick, #scr-tour-setup, #scr-tour, #scr-rules, #scr-history, #scr-saves, #scr-settings, #scr-lang, #scr-career-list, #scr-career-new, #scr-career{background:#e9e5d8; position:relative; overflow:hidden;}
   #scr-menu>*:not(.paper-bg), #scr-setup>*:not(.paper-bg), #scr-options>*:not(.paper-bg), #scr-teams>*:not(.paper-bg),
-  #scr-interval>*:not(.paper-bg), #scr-final>*:not(.paper-bg), #scr-tour-pick>*:not(.paper-bg), #scr-tour-setup>*:not(.paper-bg), #scr-tour>*:not(.paper-bg), #scr-rules>*:not(.paper-bg), #scr-history>*:not(.paper-bg), #scr-saves>*:not(.paper-bg), #scr-career-list>*:not(.paper-bg), #scr-career-new>*:not(.paper-bg), #scr-career>*:not(.paper-bg){position:relative; z-index:1;}
+  #scr-interval>*:not(.paper-bg), #scr-final>*:not(.paper-bg), #scr-tour-pick>*:not(.paper-bg), #scr-tour-setup>*:not(.paper-bg), #scr-tour>*:not(.paper-bg), #scr-rules>*:not(.paper-bg), #scr-history>*:not(.paper-bg), #scr-saves>*:not(.paper-bg), #scr-settings>*:not(.paper-bg), #scr-lang>*:not(.paper-bg), #scr-career-list>*:not(.paper-bg), #scr-career-new>*:not(.paper-bg), #scr-career>*:not(.paper-bg){position:relative; z-index:1;}
   .paper-bg{position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; user-select:none;}
   .pb-head{font-family:var(--px); color:#141414; font-size:clamp(1rem,2.6vw,1.7rem); text-align:center; margin-top:20px; letter-spacing:3px;}
   .pb-head .tred{color:#c00d0d;}
@@ -66,6 +67,9 @@
     background-image:radial-gradient(rgba(0,0,0,.28) 1px, transparent 1.4px), radial-gradient(circle at 50% 45%, #999 0 30%, #707070 31% 100%);
     background-size:4px 4px, auto;}
   .pb-photo2::after{content:'ASSO AL 90\': CHE RIGORE!'; position:absolute; left:0; right:0; bottom:0; background:#141414; color:#e9e5d8; font-family:var(--px); font-size:.48rem; padding:6px 4px; text-align:center; letter-spacing:1px;}
+  /* didascalie del giornale in inglese (la lingua si sceglie in Impostazioni; body.lang-xx dal JS) */
+  body.lang-en .pb-photo::after{content:'THE BALL IS ON THE TABLE: 2-1';}
+  body.lang-en .pb-photo2::after{content:'ACE AT 90\': WHAT A PENALTY!';}
   .mtitle{font-family:var(--px); background:#f2eddc; color:#141414; padding:14px 36px 11px; border:3px solid #141414; box-shadow:6px 6px 0 rgba(0,0,0,.45);
     text-align:center; line-height:1.6; font-size:.9rem; letter-spacing:4px; text-transform:uppercase; margin-bottom:26px;}
   .mtitle span{display:block; font-size:1.9rem; color:#c00d0d; letter-spacing:6px; margin-top:6px;}
@@ -73,7 +77,7 @@
   /* Menu principale: più in basso (deve stare sotto il titolone "Clamoroso al Cibali") */
   #scr-menu{justify-content:flex-start; padding-top:clamp(185px,24vh,225px); overflow-y:auto;}
   /* Tutte le altre maschere: altezza intermedia e uguale tra loro (compromesso: spazio per le tabelle senza salire troppo) */
-  #scr-setup, #scr-options, #scr-teams, #scr-history, #scr-rules, #scr-saves, #scr-tour-pick, #scr-tour-setup, #scr-tour, #scr-career-list, #scr-career-new, #scr-career{
+  #scr-setup, #scr-options, #scr-teams, #scr-history, #scr-rules, #scr-saves, #scr-settings, #scr-lang, #scr-tour-pick, #scr-tour-setup, #scr-tour, #scr-career-list, #scr-career-new, #scr-career{
     justify-content:flex-start; padding-top:clamp(150px,18vh,178px); overflow-y:auto;}
   /* pulsanti Marcatori/Risultati sotto la classifica: stato attivo dal colore netto */
   .subtabs{display:flex; gap:8px; margin:20px 0 12px; padding-top:14px; border-top:1px solid #ffffff22;}
@@ -85,6 +89,8 @@
     font-family:var(--px); font-size:.6rem; border:2px solid #e2e2e2; color:#fff; text-transform:uppercase; letter-spacing:1px; position:relative;
     box-shadow:inset 0 -5px 0 rgba(0,0,0,.35), 4px 4px 0 rgba(0,0,0,.5); text-shadow:1px 1px 0 rgba(0,0,0,.85);}
   .b90 .ico{font-size:1.9rem; filter:drop-shadow(2px 2px 0 rgba(0,0,0,.45));}
+  /* le scritte delle tessere stanno in <span> (per la traduzione): la regola * imporrebbe Segoe, qui si ripristina il font pixel del bottone */
+  .b90 span:not(.ico):not(.soon){font-family:var(--px);}
   .b90.wide{aspect-ratio:auto; flex-direction:row; padding:14px; font-size:.6rem; width:100%;}
   .c-green{background:#1fae1f;}
   .panel90{background:rgba(12,12,12,.82); padding:24px; border:2px solid rgba(0,0,0,.85); width:100%; max-width:520px; display:flex; flex-direction:column; position:relative;}
@@ -146,6 +152,8 @@
   .career-row .cinfo{color:#94a3b8; font-size:.8rem;}
   /* pulsanti riga carriera: quadrati 34x34 come il ◄ in alto, allineati al bordo destro del contenuto */
   .career-row .cbtn{width:34px; height:34px; padding:0; display:flex; align-items:center; justify-content:center; line-height:1; font-family:var(--px); font-size:.62rem; border:2px solid #fff; color:#fff; box-shadow:2px 2px 0 rgba(0,0,0,.5); flex:none;}
+  #career-play{font-size:.52rem; padding:11px 14px;} /* proporzionati alle altre bottoniere dell'hub */
+  #career-sim{aspect-ratio:auto !important; flex-direction:row !important; font-size:.48rem !important; padding:11px 12px !important;} /* niente quadrato: bottone basso, da comprimario */
   .career-row .cres{background:#1fae1f;} .career-row .cdel{background:#c1121f;}
   .trow.gday{color:var(--oro); font-family:var(--px); font-size:.55rem; letter-spacing:1px; border-bottom:none; margin-top:10px; text-transform:uppercase;}
   .ttag{opacity:.65;}
@@ -191,6 +199,7 @@
   #sb-score{font-size:1.9rem; color:var(--oro);}
   #sb-me-name,#sb-ai-name{font-size:.82rem;}
   #sb-exit{position:absolute; right:10px; top:50%; transform:translateY(-50%); background:#7e1420; border:2px solid #fff; padding:6px 9px; font-size:.5rem; box-shadow:3px 3px 0 rgba(0,0,0,.5);}
+  #sb-audio{position:absolute; right:92px; top:50%; transform:translateY(-50%); background:#2a2f3a; border:2px solid #fff; padding:5px 8px; font-size:.62rem; box-shadow:3px 3px 0 rgba(0,0,0,.5);}
   .sb-team{display:flex; align-items:center; gap:8px;}
   .dot{width:14px; height:14px; display:inline-block; border:2px solid #fff;}
   #sb-info{font-size:.55rem; font-family:var(--px); color:#7fd18b; margin-left:14px; text-align:center; line-height:1.9;}
@@ -344,57 +353,80 @@
 <!-- ===== MENU PRINCIPALE ===== -->
 <div id="scr-menu" class="screen active">
   <div class="menu-grid90">
-    <button class="b90 c-gray" onclick="UI.toSetup()"><span class="ico">⚽</span>Amichevole</button>
-    <button class="b90 c-red" onclick="UI.toTour()"><span class="ico">🏆</span>Torneo</button>
-    <button class="b90 c-blue mdis"><span class="ico">👥</span>Multiplayer<span class="soon">presto</span></button>
-    <button class="b90 c-orange" onclick="UI.toOptions()"><span class="ico">⚙️</span>Opzioni</button>
+    <button class="b90 c-gray" onclick="UI.toSetup()"><span class="ico">⚽</span><span data-i18n="m_friendly">Amichevole</span></button>
+    <button class="b90 c-red" onclick="UI.toTour()"><span class="ico">🏆</span><span data-i18n="m_tour">Torneo</span></button>
+    <button class="b90 c-blue mdis"><span class="ico">👥</span><span data-i18n="m_multi">Multiplayer</span><span class="soon" data-i18n="soon">presto</span></button>
+    <button class="b90 c-orange" onclick="UI.toOptions()"><span class="ico">⚙️</span><span data-i18n="m_options">Opzioni</span></button>
   </div>
-  <div class="mcopy">© 2026 Soccer Cards — prototipo v1.0</div>
+  <div class="mcopy" data-i18n="mcopy_menu">© 2026 Soccer Cards — prototipo v1.0</div>
 </div>
 
 <!-- ===== SETUP AMICHEVOLE (stesso layout del menu principale) ===== -->
 <div id="scr-setup" class="screen">
   <div class="panel90">
-    <button class="top-back" onclick="UI.toMenu()" title="Torna al menu">◄</button>
-    <div class="phead">⚽ Amichevole</div>
-    <label>Epoca</label>
+    <button class="top-back" onclick="UI.toMenu()" data-i18n-title="t_backmenu" title="Torna al menu">◄</button>
+    <div class="phead" data-i18n="setup_head">⚽ Amichevole</div>
+    <label data-i18n="lbl_era">Epoca</label>
     <select id="sel-era"></select>
-    <label>La tua squadra</label>
+    <label data-i18n="lbl_yourteam">La tua squadra</label>
     <select id="sel-me"></select>
-    <label>Squadra avversaria (IA)</label>
+    <label data-i18n="lbl_oppteam">Squadra avversaria (IA)</label>
     <select id="sel-ai"></select>
-    <label>Epoca avversario (per sfide tra epoche)</label>
+    <label data-i18n="lbl_oppera">Epoca avversario (per sfide tra epoche)</label>
     <select id="sel-era-ai"></select>
     <div class="btn-row2">
-      <button class="b90 c-green wide" onclick="UI.setup()">⚽ Gioca</button>
+      <button class="b90 c-green wide" onclick="UI.setup()" data-i18n="btn_play">⚽ Gioca</button>
     </div>
-    <div class="rules-note">Regole Scopa &bull; Ogni SCOPA = GOL &bull; Asso = punizione (7 su 8) o rigore (1 su 8): piglia tutto, ma il gol arriva solo con la scopa<br>Le squadre si modificano in Opzioni → Squadre</div>
+    <div class="rules-note" data-i18n-html="setup_note">Regole Scopa &bull; Ogni SCOPA = GOL &bull; Asso = punizione (7 su 8) o rigore (1 su 8): piglia tutto, ma il gol arriva solo con la scopa<br>Le squadre si modificano in Opzioni → Squadre</div>
   </div>
 </div>
 
 <!-- ===== OPZIONI (stesso layout del menu principale) ===== -->
 <div id="scr-options" class="screen">
   <div class="menu-grid90" style="position:relative; padding-top:62px;">
-    <button class="top-back" style="top:14px; right:20px;" onclick="UI.toMenu()" title="Menu">◄</button>
-    <button class="b90 c-red" onclick="UI.toTeams()"><span class="ico">👕</span>Squadre</button>
-    <button class="b90 c-blue" onclick="UI.toRules()"><span class="ico">📜</span>Regole</button>
-    <button class="b90 c-orange" onclick="UI.toHistory()"><span class="ico">🗄️</span>Storico</button>
-    <button class="b90 c-green" onclick="UI.toSaves()"><span class="ico">💾</span>Salvataggi</button>
+    <button class="top-back" style="top:14px; right:20px;" onclick="UI.toMenu()" data-i18n-title="t_menu" title="Menu">◄</button>
+    <button class="b90 c-red" onclick="UI.toTeams()"><span class="ico">👕</span><span data-i18n="opt_teams">Squadre</span></button>
+    <button class="b90 c-blue" onclick="UI.toRules()"><span class="ico">📜</span><span data-i18n="opt_rules">Regole</span></button>
+    <button class="b90 c-orange" onclick="UI.toHistory()"><span class="ico">🗄️</span><span data-i18n="opt_history">Storico Coppe</span></button>
+    <button class="b90" style="background:#2eb82e;" onclick="UI.toSettings()"><span class="ico">⚙️</span><span data-i18n="opt_settings">Impostazioni</span></button>
   </div>
-  <div class="mcopy">Opzioni</div>
+  <div class="mcopy" data-i18n="mcopy_options">Opzioni</div>
+</div>
+
+<!-- ===== IMPOSTAZIONI: salvataggi, audio, lingua ===== -->
+<div id="scr-settings" class="screen">
+  <div class="menu-grid90" style="position:relative; padding-top:62px;">
+    <button class="top-back" style="top:14px; right:20px;" onclick="UI.toOptions()" data-i18n-title="t_options" title="Opzioni">◄</button>
+    <button class="b90 c-green" onclick="UI.toSaves()"><span class="ico">💾</span><span data-i18n="set_saves">Salvataggi</span></button>
+    <button class="b90 c-blue" id="opt-audio" onclick="UI.audioOptToggle()"><span class="ico" id="opt-audio-ico">🔊</span><span data-i18n="set_audio">Audio</span><span class="soon" id="opt-audio-state">SÌ</span></button>
+    <button class="b90 c-orange" id="opt-lang" onclick="UI.toLang()"><span class="ico">🌍</span><span data-i18n="set_lang">Lingua</span><span class="soon" id="opt-lang-state">ITA</span></button>
+  </div>
+  <div class="mcopy" data-i18n="mcopy_settings">Impostazioni</div>
+</div>
+
+<!-- ===== LINGUA: menu di scelta (de/es predisposte, arriveranno) ===== -->
+<div id="scr-lang" class="screen">
+  <div class="menu-grid90" style="position:relative; padding-top:62px;">
+    <button class="top-back" style="top:14px; right:20px;" onclick="UI.toSettings()" data-i18n-title="t_settings" title="Impostazioni">◄</button>
+    <button class="b90 c-green" onclick="UI.setLang('it')"><span class="ico" style="font-family:var(--px); font-size:1.2rem;">IT</span><span>Italiano</span><span class="soon" id="lang-on-it"></span></button>
+    <button class="b90 c-blue" onclick="UI.setLang('en')"><span class="ico" style="font-family:var(--px); font-size:1.2rem;">EN</span><span>English</span><span class="soon" id="lang-on-en"></span></button>
+    <button class="b90 c-gray mdis"><span class="ico" style="font-family:var(--px); font-size:1.2rem;">DE</span><span>Deutsch</span><span class="soon" data-i18n="soon">presto</span></button>
+    <button class="b90 c-gray mdis"><span class="ico" style="font-family:var(--px); font-size:1.2rem;">ES</span><span>Español</span><span class="soon" data-i18n="soon">presto</span></button>
+  </div>
+  <div class="mcopy" data-i18n="mcopy_lang">Scegli la lingua</div>
 </div>
 
 <!-- ===== SALVATAGGI: esporta/importa tutto ===== -->
 <div id="scr-saves" class="screen">
   <div class="panel90" style="max-width:640px;">
-    <button class="top-back" onclick="UI.toOptions()" title="Opzioni">◄</button>
-    <div class="phead">💾 Salvataggi</div>
-    <div class="rules-note" style="margin:14px 0;">Il gioco si salva da solo su questo computer. Da qui puoi metterlo al sicuro in un file — squadre, squadra inventata, carriere e storico — e ripristinarlo quando vuoi, anche su un altro dispositivo.</div>
+    <button class="top-back" onclick="UI.toSettings()" data-i18n-title="t_settings" title="Impostazioni">◄</button>
+    <div class="phead" data-i18n="saves_head">💾 Salvataggi</div>
+    <div class="rules-note" style="margin:14px 0;" data-i18n="saves_note1">Il gioco si salva da solo su questo computer. Da qui puoi metterlo al sicuro in un file — squadre, squadra inventata, carriere e storico — e ripristinarlo quando vuoi, anche su un altro dispositivo.</div>
     <div class="btn-row2">
-      <button class="b90 c-green wide" onclick="UI.exportData()">💾 Esporta</button>
-      <button class="b90 c-blue wide" onclick="UI.importData()">📂 Importa</button>
+      <button class="b90 c-green wide" onclick="UI.exportData()" data-i18n="btn_export">💾 Esporta</button>
+      <button class="b90 c-blue wide" onclick="UI.importData()" data-i18n="btn_import">📂 Importa</button>
     </div>
-    <div class="rules-note" style="margin-top:14px;">Esporta scarica un file nella cartella Download. Importa lo ricarica: i dati attuali vengono sostituiti da quelli del file.</div>
+    <div class="rules-note" style="margin-top:14px;" data-i18n="saves_note2">Esporta scarica un file nella cartella Download. Importa lo ricarica: i dati attuali vengono sostituiti da quelli del file.</div>
     <input type="file" id="imp-file" accept=".json,application/json" style="display:none;" onchange="UI.importFile(this)">
   </div>
 </div>
@@ -402,33 +434,38 @@
 <!-- ===== CONFIGURAZIONE SQUADRE ===== -->
 <div id="scr-teams" class="screen">
   <div class="panel90" style="max-width:840px;">
-    <button class="top-back" onclick="UI.toOptions()" title="Opzioni">◄</button>
-    <div class="phead">👕 Configurazione squadre</div>
+    <button class="top-back" onclick="UI.toOptions()" data-i18n-title="t_options" title="Opzioni">◄</button>
+    <div class="phead" data-i18n="teams_head">👕 Configurazione squadre</div>
     <div class="rules-note" id="teams-msg-top" style="margin:8px 0 4px;"></div>
-    <label>Paese</label>
+    <label data-i18n="lbl_country">Paese</label>
     <select id="team-country" onchange="UI.teamsCountryChanged()"></select>
-    <label>Epoca</label>
+    <label data-i18n="lbl_era">Epoca</label>
     <select id="team-era" onchange="UI.teamsEraChanged()"></select>
     <div class="btn-row2" style="margin-top:10px;">
-      <button class="b90 c-blue wide ttag active" id="tab-rosa" onclick="UI.teamsTab('rosa')">👕 Rosa</button>
-      <button class="b90 c-orange wide ttag" id="tab-forza" onclick="UI.teamsTab('forza')">💪 Forza</button>
-      <button class="b90 c-gray wide ttag" id="tab-custom" onclick="UI.teamsTab('custom')">⭐ Inventata</button>
+      <button class="b90 c-blue wide ttag active" id="tab-rosa" onclick="UI.teamsTab('rosa')" data-i18n="tab_rosa">👕 Rosa</button>
+      <button class="b90 c-orange wide ttag" id="tab-forza" onclick="UI.teamsTab('forza')" data-i18n="tab_forza">💪 Forza</button>
+      <button class="b90 c-gray wide ttag" id="tab-custom" onclick="UI.teamsTab('custom')" data-i18n="tab_custom">⭐ Inventata</button>
     </div>
     <div class="teams-wrap" id="teams-wrap" style="margin-top:12px;"></div>
     <div class="btn-row2">
-      <button class="b90 c-green wide" onclick="UI.saveTeams()">💾 Salva</button>
+      <button class="b90 c-green wide" onclick="UI.saveTeams()" data-i18n="btn_save">💾 Salva</button>
     </div>
-    <div class="rules-note" id="teams-msg">I numeri 2–10 sono i marcatori (il 10 è il fuoriclasse). Le modifiche valgono per le prossime partite.</div>
+    <div class="btn-row2" style="margin-top:10px;">
+      <button class="b90 c-blue wide" style="font-size:.5rem;" onclick="UI.csvExport()" data-i18n="btn_csv_ex">📄 Scarica rose (CSV)</button>
+      <button class="b90 c-gray wide" style="font-size:.5rem;" onclick="UI.csvImport()" data-i18n="btn_csv_im">📥 Importa rose (CSV)</button>
+    </div>
+    <input type="file" id="csv-file" accept=".csv,text/csv" style="display:none;" onchange="UI.csvFile(this)">
+    <div class="rules-note" id="teams-msg" data-i18n="teams_note">I numeri 2–10 sono i marcatori (il 10 è il fuoriclasse). Le modifiche valgono per le prossime partite. Per rinominare tutto in blocco: scarica il CSV, aprilo in Excel, modifica nomi/rose/forza e reimportalo (salva come "CSV UTF-8"; non toccare CODICE ed EPOCA).</div>
   </div>
 </div>
 
 <!-- ===== STORICO: ALBO D'ORO E BACHECA (layout giornale) ===== -->
 <div id="scr-history" class="screen">
   <div class="panel90" style="max-width:740px;">
-    <button class="top-back" onclick="UI.toOptions()" title="Opzioni">◄</button>
-    <div class="phead">🗄️ Albo d'oro</div>
+    <button class="top-back" onclick="UI.toOptions()" data-i18n-title="t_options" title="Opzioni">◄</button>
+    <div class="phead" data-i18n="hist_head">🗄️ Storico Coppe</div>
     <div id="hist-albo" style="margin-top:8px;"></div>
-    <div class="phead" style="margin-top:22px;">🏆 Bacheca delle squadre</div>
+    <div class="phead" style="margin-top:22px;" data-i18n="hist_bacheca">🏆 Bacheca dei club</div>
     <div id="hist-bacheca" style="margin-top:8px;"></div>
   </div>
 </div>
@@ -436,8 +473,8 @@
 <!-- ===== REGOLAMENTO (layout giornale) ===== -->
 <div id="scr-rules" class="screen">
   <div class="panel90" style="max-width:740px;">
-    <button class="top-back" onclick="UI.toOptions()" title="Opzioni">◄</button>
-    <div class="phead">📜 Regolamento ufficiale</div>
+    <button class="top-back" onclick="UI.toOptions()" data-i18n-title="t_options" title="Opzioni">◄</button>
+    <div class="phead" data-i18n="rules_head">📜 Regolamento ufficiale</div>
     <div id="rules-tabs" class="rules-tabs"></div>
     <div id="rules-content" class="rules-body"></div>
   </div>
@@ -446,7 +483,8 @@
 <!-- ===== MATCH ===== -->
 <div id="scr-match" class="screen">
   <div id="scoreboard">
-    <button id="sb-exit" onclick="event.stopPropagation();UI.quitMatch()">✖ Esci</button>
+    <button id="sb-exit" onclick="event.stopPropagation();UI.quitMatch()" data-i18n="btn_exit">✖ Esci</button>
+    <button id="sb-audio" onclick="event.stopPropagation();UI.audioToggle()" data-i18n-title="t_audio" title="Audio stadio">🔊</button>
     <span class="sb-team"><span class="dot kit-me"></span><span id="sb-me-name"></span></span>
     <span id="sb-score">0 - 0</span>
     <span class="sb-team"><span id="sb-ai-name"></span><span class="dot kit-ai" style="border:1px solid #555;"></span></span>
@@ -463,9 +501,9 @@
     </div>
     <div id="sprites"></div>
     <div id="kickoff-note" class="field-note hidden"></div>
-    <div class="zone" id="zone-ai"><span class="zone-label" style="top:6px;">Avversario</span></div>
-    <div class="zone" id="zone-table"><span class="zone-label" style="top:calc(50% - 60px);">Tavolo</span><div id="aiplay-spot"></div></div>
-    <div class="zone" id="zone-me"><span class="zone-label" style="bottom:6px;">La tua mano — clicca una carta</span></div>
+    <div class="zone" id="zone-ai"><span class="zone-label" style="top:6px;" data-i18n="z_opp">Avversario</span></div>
+    <div class="zone" id="zone-table"><span class="zone-label" style="top:calc(50% - 60px);" data-i18n="z_table">Tavolo</span><div id="aiplay-spot"></div></div>
+    <div class="zone" id="zone-me"><span class="zone-label" style="bottom:6px;" data-i18n="z_hand">La tua mano — clicca una carta</span></div>
   </div>
   <div id="log"></div>
 </div>
@@ -484,7 +522,7 @@
     <h3 id="chooser-title">Scegli la presa</h3>
     <div class="chooser-played-row" id="chooser-played"></div>
     <div id="chooser-opts"></div>
-    <button class="btn-cancel" onclick="UI.closeChooser()">Annulla</button>
+    <button class="btn-cancel" onclick="UI.closeChooser()" data-i18n="chooser_cancel">Annulla</button>
   </div>
 </div>
 
@@ -493,8 +531,8 @@
   <div class="box confirm-box">
     <div class="confirm-msg" id="confirm-msg"></div>
     <div class="btn-row2">
-      <button class="b90 c-red wide" onclick="UI.confirmYes()">✔ Sì</button>
-      <button class="b90 c-gray wide" onclick="UI.closeConfirm()">✖ No</button>
+      <button class="b90 c-red wide" onclick="UI.confirmYes()" data-i18n="c_yes">✔ Sì</button>
+      <button class="b90 c-gray wide" onclick="UI.closeConfirm()" data-i18n="c_no">✖ No</button>
     </div>
   </div>
 </div>
@@ -502,27 +540,27 @@
 <!-- ===== INTERVALLO (layout giornale) ===== -->
 <div id="scr-interval" class="screen">
   <div class="panel90" style="text-align:center;">
-    <div class="phead">⏸ Intervallo</div>
+    <div class="phead" data-i18n="int_head">⏸ Intervallo</div>
     <div id="int-teams" class="sub" style="margin-bottom:0;"></div>
     <div class="big-score" id="int-score"></div>
-    <div class="marcatori"><h4>Marcatori</h4><div id="int-marcatori"></div></div>
-    <button class="b90 c-green wide" style="margin-top:22px;" onclick="UI.secondHalf()">Inizia il 2° tempo</button>
+    <div class="marcatori"><h4 data-i18n="h_marcatori">Marcatori</h4><div id="int-marcatori"></div></div>
+    <button class="b90 c-green wide" style="margin-top:22px;" onclick="UI.secondHalf()" data-i18n="btn_2nd">Inizia il 2° tempo</button>
   </div>
 </div>
 
 <!-- ===== FINALE (layout giornale) ===== -->
 <div id="scr-final" class="screen">
   <div class="panel90" style="text-align:center;">
-    <div class="phead">🏁 Fine partita</div>
+    <div class="phead" data-i18n="fin_head">🏁 Fine partita</div>
     <div id="fin-teams" class="sub" style="margin-bottom:0;"></div>
     <div class="big-score" id="fin-score"></div>
     <div class="esito" id="fin-esito"></div>
-    <div class="marcatori"><h4>Tabellino marcatori</h4><div id="fin-marcatori"></div></div>
+    <div class="marcatori"><h4 data-i18n="h_tabellino">Tabellino marcatori</h4><div id="fin-marcatori"></div></div>
     <div class="btn-row">
-      <button id="btn-rigioca" class="b90 c-green wide" onclick="UI.rematch()">Rigioca</button>
-      <button id="btn-tour-back" class="b90 c-orange wide" style="display:none;" onclick="UI.tourAfterMatch()">🏆 Torneo</button>
-      <button id="btn-career-back" class="b90 c-orange wide" style="display:none;" onclick="UI.careerAfterMatch()">📅 Carriera</button>
-      <button class="b90 c-gray wide" onclick="UI.toMenu()">Menu</button>
+      <button id="btn-rigioca" class="b90 c-green wide" onclick="UI.rematch()" data-i18n="btn_rematch">Rigioca</button>
+      <button id="btn-tour-back" class="b90 c-orange wide" style="display:none;" onclick="UI.tourAfterMatch()" data-i18n="btn_tourback">🏆 Torneo</button>
+      <button id="btn-career-back" class="b90 c-orange wide" style="display:none;" onclick="UI.careerAfterMatch()" data-i18n="btn_careerback">📅 Carriera</button>
+      <button class="b90 c-gray wide" onclick="UI.toMenu()" data-i18n="btn_menu">Menu</button>
     </div>
   </div>
 </div>
@@ -530,65 +568,65 @@
 <!-- ===== TORNEO: SCELTA COMPETIZIONE ===== -->
 <div id="scr-tour-pick" class="screen">
   <div class="menu-grid90" style="position:relative; padding-top:62px;">
-    <button class="top-back" style="top:14px; right:20px;" onclick="UI.toMenu()" title="Menu">◄</button>
-    <button class="b90 c-red" onclick="UI.toTourSetup()"><span class="ico">🏆</span>Coppa</button>
-    <button class="b90 c-blue" onclick="UI.toCareerList()"><span class="ico">📅</span>Stagione</button>
+    <button class="top-back" style="top:14px; right:20px;" onclick="UI.toMenu()" data-i18n-title="t_menu" title="Menu">◄</button>
+    <button class="b90 c-red" onclick="UI.toTourSetup()"><span class="ico">🏆</span><span data-i18n="pick_cup">Coppa</span></button>
+    <button class="b90 c-blue" onclick="UI.toCareerList()"><span class="ico">📅</span><span data-i18n="pick_season">Stagione</span></button>
   </div>
-  <div class="mcopy">Scegli la competizione</div>
+  <div class="mcopy" data-i18n="mcopy_pick">Scegli la competizione</div>
 </div>
 
 <!-- ===== COPPA: SETUP (layout giornale) ===== -->
 <div id="scr-tour-setup" class="screen">
   <div class="panel90" style="max-width:600px;">
-    <button class="top-back" onclick="UI.toTourPick()" title="Indietro">◄</button>
-    <div class="phead">🏆 Nuova Coppa</div>
-    <label>Preconfigurata</label>
+    <button class="top-back" onclick="UI.toTourPick()" data-i18n-title="t_back" title="Indietro">◄</button>
+    <div class="phead" data-i18n="ts_head">🏆 Nuova Coppa</div>
+    <label data-i18n="lbl_preset">Preconfigurata</label>
     <div class="btn-row2" style="margin-top:2px;">
-      <button class="b90 c-orange wide" onclick="UI.tourPreset('eurocup')">🌍 Euro Cup</button>
+      <button class="b90 c-orange wide" onclick="UI.tourPreset('eurocup')">Euro Cup</button>
     </div>
-    <label>...oppure crea la tua — nome della coppa</label>
+    <label data-i18n="lbl_orname">...oppure crea la tua — nome della coppa</label>
     <input type="text" id="tour-name" value="La mia Coppa" maxlength="24">
-    <label>Squadre partecipanti</label>
+    <label data-i18n="lbl_parts">Squadre partecipanti</label>
     <div id="tour-teams-pick" class="pick-list"></div>
-    <label>La tua squadra</label>
+    <label data-i18n="lbl_yourteam">La tua squadra</label>
     <select id="tour-user"></select>
-    <label>Epoca della coppa</label>
+    <label data-i18n="lbl_cupera">Epoca della coppa</label>
     <select id="tour-era"></select>
-    <label>Girone iniziale</label>
-    <select id="tour-formula"><option value="2">Andata e ritorno</option><option value="1">Solo andata</option></select>
-    <label>Squadre alla fase finale</label>
+    <label data-i18n="lbl_formula">Girone iniziale</label>
+    <select id="tour-formula"><option value="2" data-i18n="opt_ar">Andata e ritorno</option><option value="1" data-i18n="opt_a">Solo andata</option></select>
+    <label data-i18n="lbl_qual">Squadre alla fase finale</label>
     <select id="tour-qual">
-      <option value="4">4 — semifinali (A/R) e finale</option>
-      <option value="8">8 — quarti (A/R), semifinali (A/R) e finale</option>
-      <option value="2">2 — finale secca</option>
+      <option value="4" data-i18n="opt_q4">4 — semifinali (A/R) e finale</option>
+      <option value="8" data-i18n="opt_q8">8 — quarti (A/R), semifinali (A/R) e finale</option>
+      <option value="2" data-i18n="opt_q2">2 — finale secca</option>
     </select>
     <div class="btn-row2">
-      <button class="b90 c-green wide" onclick="UI.tourCreate()">Crea coppa</button>
+      <button class="b90 c-green wide" onclick="UI.tourCreate()" data-i18n="btn_createcup">Crea coppa</button>
     </div>
-    <div class="rules-note" id="tour-msg">La coppa è girone all'italiana + fase finale a eliminazione. La preconfigurata (Euro Cup) è la CARRIERA: trofei in bacheca e albo d'oro, e si salva da sola (esci e riprendi quando vuoi). Le coppe inventate sono amichevoli: nessun trofeo. Le partite senza di te le gioca l'IA.</div>
+    <div class="rules-note" id="tour-msg" data-i18n-html="ts_note">La coppa è girone all'italiana + fase finale a eliminazione. La preconfigurata (Euro Cup) assegna il trofeo, che finisce nello <b>Storico Coppe</b> (Opzioni → Storico), e si salva da sola (esci e riprendi quando vuoi). Le coppe inventate sono amichevoli: nessun trofeo. Le partite senza di te le gioca l'IA.</div>
   </div>
 </div>
 
 <!-- ===== TORNEO: CLASSIFICA E CALENDARIO (layout giornale) ===== -->
 <div id="scr-tour" class="screen">
   <div class="panel90" style="max-width:880px;">
-    <button class="top-back" onclick="UI.toMenu()" title="Torna al menu">◄</button>
+    <button class="top-back" onclick="UI.toMenu()" data-i18n-title="t_backmenu" title="Torna al menu">◄</button>
     <div class="phead" id="tour-title">🏆 Torneo</div>
     <div id="tour-status" class="sub" style="text-align:center; margin-bottom:4px;"></div>
     <div class="tour-tabs">
-      <button class="b90 c-blue ttag" id="tab-class" onclick="UI.tourTab('class')">📊 Classifica</button>
-      <button class="b90 c-red ttag" id="tab-brk" onclick="UI.tourTab('brk')">🏆 Tabellone</button>
-      <button class="b90 c-orange ttag" id="tab-marc" onclick="UI.tourTab('marc')">⚽ Marcatori</button>
-      <button class="b90 c-gray ttag" id="tab-ris" onclick="UI.tourTab('ris')">📅 Risultati</button>
+      <button class="b90 c-blue ttag" id="tab-class" onclick="UI.tourTab('class')" data-i18n="tab_class">📊 Classifica</button>
+      <button class="b90 c-red ttag" id="tab-brk" onclick="UI.tourTab('brk')" data-i18n="tab_brk">🏆 Tabellone</button>
+      <button class="b90 c-orange ttag" id="tab-marc" onclick="UI.tourTab('marc')" data-i18n="tab_marc">⚽ Marcatori</button>
+      <button class="b90 c-gray ttag" id="tab-ris" onclick="UI.tourTab('ris')" data-i18n="tab_ris">📅 Risultati</button>
     </div>
     <div id="tour-view-class" class="tview"><table class="ttab" id="tour-table"></table></div>
     <div id="tour-view-brk" class="tview" style="display:none;"><div id="tour-bracket"></div></div>
     <div id="tour-view-marc" class="tview" style="display:none;"><div id="tour-scorers"></div></div>
     <div id="tour-view-ris" class="tview" style="display:none;"><div id="tour-results"></div></div>
     <div class="btn-row2">
-      <button class="b90 c-green wide" id="tour-play" onclick="UI.tourNext()">▶ Prosegui</button>
-      <button class="b90 c-green wide" id="tour-new" style="display:none;" onclick="UI.tourFinish()">🏆 Nuova competizione</button>
-      <button class="b90 c-red wide" id="tour-abandon" onclick="UI.tourAbandon()">✖ Annulla</button>
+      <button class="b90 c-green wide" id="tour-play" onclick="UI.tourNext()" data-i18n="btn_next">▶ Prosegui</button>
+      <button class="b90 c-green wide" id="tour-new" style="display:none;" onclick="UI.tourFinish()" data-i18n="btn_newcomp">🏆 Nuova competizione</button>
+      <button class="b90 c-red wide" id="tour-abandon" onclick="UI.tourAbandon()" data-i18n="btn_abandon">✖ Annulla</button>
     </div>
   </div>
 </div>
@@ -596,11 +634,11 @@
 <!-- ===== CARRIERA: LISTA SALVATAGGI ===== -->
 <div id="scr-career-list" class="screen">
   <div class="panel90" style="max-width:640px;">
-    <button class="top-back" onclick="UI.toTourPick()" title="Indietro">◄</button>
-    <div class="phead">📅 Carriera</div>
+    <button class="top-back" onclick="UI.toTourPick()" data-i18n-title="t_back" title="Indietro">◄</button>
+    <div class="phead" data-i18n="cl_head">📅 Carriera</div>
     <div id="career-saves" style="margin-top:8px;"></div>
     <div class="btn-row2">
-      <button class="b90 c-green wide" onclick="UI.careerNew()">Nuova carriera</button>
+      <button class="b90 c-green wide" onclick="UI.careerNew()" data-i18n="btn_newcareer">Nuova carriera</button>
     </div>
   </div>
 </div>
@@ -608,38 +646,38 @@
 <!-- ===== CARRIERA: NUOVA ===== -->
 <div id="scr-career-new" class="screen">
   <div class="panel90" style="max-width:560px;">
-    <button class="top-back" onclick="UI.toCareerList()" title="Indietro">◄</button>
-    <div class="phead">📅 Nuova carriera</div>
-    <label>Nome del salvataggio</label>
+    <button class="top-back" onclick="UI.toCareerList()" data-i18n-title="t_back" title="Indietro">◄</button>
+    <div class="phead" data-i18n="cn_head">📅 Nuova carriera</div>
+    <label data-i18n="lbl_savename">Nome del salvataggio</label>
     <input type="text" id="career-name" value="La mia carriera" maxlength="28">
-    <label>Giocatori</label>
+    <label data-i18n="lbl_players">Giocatori</label>
     <select id="career-players">
-      <option value="1">1 giocatore (vs IA)</option>
-      <option value="2" disabled>2 giocatori (presto)</option>
+      <option value="1" data-i18n="opt_1p">1 giocatore (vs IA)</option>
+      <option value="2" disabled data-i18n="opt_2p">2 giocatori (presto)</option>
     </select>
-    <label>Epoca (bloccata per tutta la carriera)</label>
+    <label data-i18n="lbl_careerera">Epoca (bloccata per tutta la carriera)</label>
     <select id="career-era"></select>
-    <label>La tua squadra</label>
+    <label data-i18n="lbl_yourteam">La tua squadra</label>
     <select id="career-team"></select>
     <div class="btn-row2">
-      <button class="b90 c-green wide" onclick="UI.careerCreate()">Crea carriera</button>
+      <button class="b90 c-green wide" onclick="UI.careerCreate()" data-i18n="btn_createcareer">Crea carriera</button>
     </div>
-    <div class="rules-note" id="career-msg">La squadra scelta giocherà il campionato della sua nazione. Gli altri campionati li simula l'IA. L'epoca vale per tutte le squadre e non cambia fino a fine carriera.</div>
+    <div class="rules-note" id="career-msg" data-i18n="career_new_note">La squadra scelta giocherà il campionato della sua nazione. Gli altri campionati li simula l'IA. L'epoca vale per tutte le squadre e non cambia fino a fine carriera.</div>
   </div>
 </div>
 
 <!-- ===== CARRIERA: HUB STAGIONE ===== -->
 <div id="scr-career" class="screen">
   <div class="panel90" style="max-width:880px;">
-    <button class="top-back" onclick="UI.careerSaveExit()" title="Salva ed esci">◄</button>
+    <button class="top-back" onclick="UI.careerSaveExit()" data-i18n-title="t_saveexit" title="Salva ed esci">◄</button>
     <div class="phead" id="career-title">📅 Carriera</div>
     <div id="career-status" class="sub" style="text-align:center; margin-bottom:4px; padding:0 44px;"></div>
     <div class="tour-tabs" id="career-tabs"></div>
     <div class="tview" id="career-view"></div>
-    <div class="rules-note" id="career-note" style="margin:6px 0 0;">Premi "Gioca" per disputare la tua giornata di campionato: le altre partite di tutte le leghe vengono simulate. Usa ◄ in alto a destra per salvare ed uscire: riprendi quando vuoi.</div>
+    <div class="rules-note" id="career-note" style="margin:6px 0 0;" data-i18n="career_note">Premi "Gioca" per disputare la tua giornata di campionato: le altre partite di tutte le leghe vengono simulate. Usa ◄ in alto a destra per salvare ed uscire: riprendi quando vuoi.</div>
     <div class="btn-row2">
       <button class="b90 c-green wide" id="career-play" style="display:none;" onclick="UI.careerPlay()">▶ Gioca</button>
-      <button class="b90 c-gray" id="career-sim" style="display:none; flex:0 0 auto; font-size:.5rem; padding:13px 16px;" onclick="UI.careerSim()" title="L'IA gioca anche la tua partita: giornata istantanea">⏩ Simula</button>
+      <button class="b90 c-gray" id="career-sim" style="display:none; flex:0 0 auto; font-size:.5rem; padding:13px 16px;" onclick="UI.careerSim()" data-i18n-title="t_sim" data-i18n="btn_csim" title="L'IA gioca anche la tua partita: giornata istantanea">⏩ Simula</button>
     </div>
   </div>
 </div>
@@ -783,6 +821,17 @@ function aiChoose(G,side){
 
 /* ================= UI ================= */
 if(typeof document!=='undefined'){
+/* SPIA ERRORI: su iPad/telefono non c'è la console — se lo script si rompe, una striscia rossa
+   in basso dice l'errore e la riga. Se il gioco "si vede ma non risponde", leggere qui. */
+window.onerror=function(msg,src,line){
+  try{
+    var d=document.getElementById('err-banner');
+    if(!d){d=document.createElement('div');d.id='err-banner';
+      d.style.cssText='position:fixed;left:0;right:0;bottom:0;background:#7e1420;color:#fff;font:12px/1.5 monospace;padding:8px 12px;z-index:999;white-space:pre-wrap;';
+      document.body.appendChild(d);}
+    d.textContent='⚠ '+msg+'  (riga '+line+')';
+  }catch(e){}
+};
 var G=null,busy=false,pendingStart=null;
 const $=id=>document.getElementById(id);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -790,6 +839,319 @@ function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.re
 var confirmCb=null;
 function askConfirm(msg,onYes){$('confirm-msg').textContent=msg;confirmCb=onYes;$('confirm-modal').classList.add('show');} // conferma in stile gioco
 function askConfirmHtml(html,onYes){$('confirm-msg').innerHTML=html;confirmCb=onYes;$('confirm-modal').classList.add('show');} // versione con colori/formattazione (solo testi interni, mai input utente non escapato)
+
+/* ================= MULTILINGUA =================
+   Dizionario I18N estensibile: per aggiungere una lingua basta un blocco I18N.xx completo,
+   la sua sigla in LANGS e (se si vuole) le regole CSS body.lang-xx per le didascalie del giornale.
+   REGOLA: nomi di club e giocatori NON si traducono mai (sono contenuto dell'utente). */
+const LANGS=['it','en'];
+var LANG=(function(){try{const s=localStorage.getItem('soccercard_lang');if(s&&LANGS.indexOf(s)>=0)return s;}catch(e){}
+  return ((navigator.language||'it').slice(0,2)==='it')?'it':'en';})(); // primo avvio: lingua del browser
+const I18N={};
+var T=null; // tabella della lingua corrente (T=I18N[LANG])
+function fmt(s){const a=arguments;return String(s).replace(/\{(\d)\}/g,function(m,i){return a[+i+1];});}
+I18N.it={
+ langName:'Italiano', langBadge:'ITA',
+ title:'Soccer Cards — Prototipo',
+ headline:'Clamoroso al Cibali!',
+ yes:'SÌ', no:'NO',
+ eras:{e90:'Anni 90',oggi:'Oggi'}, sameEra:'Stessa epoca',
+ countries:{}, kits:{},
+ // menu, navigazione, tooltip
+ m_friendly:'Amichevole', m_tour:'Torneo', m_multi:'Multiplayer', soon:'presto', m_options:'Opzioni',
+ mcopy_menu:'© 2026 Soccer Cards — prototipo v1.0', mcopy_options:'Opzioni', mcopy_settings:'Impostazioni', mcopy_pick:'Scegli la competizione', mcopy_lang:'Scegli la lingua',
+ t_backmenu:'Torna al menu', t_menu:'Menu', t_options:'Opzioni', t_back:'Indietro', t_saveexit:'Salva ed esci', t_settings:'Impostazioni',
+ t_sim:"L'IA gioca anche la tua partita: giornata istantanea", t_audio:'Audio stadio',
+ // amichevole
+ setup_head:'Amichevole', lbl_era:'Epoca', lbl_yourteam:'La tua squadra', lbl_oppteam:'Squadra avversaria (IA)',
+ lbl_oppera:'Epoca avversario (per sfide tra epoche)', btn_play:'Gioca',
+ setup_note:'Regole Scopa &bull; Ogni SCOPA = GOL &bull; Asso = punizione (7 su 8) o rigore (1 su 8): piglia tutto, ma il gol arriva solo con la scopa<br>Le squadre si modificano in Opzioni &rarr; Squadre',
+ // opzioni e impostazioni
+ opt_teams:'Squadre', opt_rules:'Regole', opt_history:'Storico Coppe', opt_settings:'Impostazioni',
+ set_saves:'Salvataggi', set_audio:'Audio', set_lang:'Lingua',
+ saves_head:'Salvataggi',
+ saves_note1:'Il gioco si salva da solo su questo computer. Da qui puoi metterlo al sicuro in un file — squadre, squadra inventata, carriere e storico — e ripristinarlo quando vuoi, anche su un altro dispositivo.',
+ saves_note2:'Esporta scarica un file nella cartella Download. Importa lo ricarica: i dati attuali vengono sostituiti da quelli del file.',
+ btn_export:'Esporta', btn_import:'Importa',
+ // squadre
+ teams_head:'Configurazione squadre', lbl_country:'Paese', tab_rosa:'Rosa', tab_forza:'Forza', tab_custom:'Inventata',
+ btn_save:'Salva', btn_csv_ex:'Scarica rose (CSV)', btn_csv_im:'Importa rose (CSV)',
+ teams_note:'I numeri 2–10 sono i marcatori (il 10 è il fuoriclasse). Le modifiche valgono per le prossime partite. Per rinominare tutto in blocco: scarica il CSV, aprilo in Excel, modifica nomi/rose/forza e reimportalo (salva come "CSV UTF-8"; non toccare CODICE ed EPOCA).',
+ ed_fixed:'Club (nome fisso)', ed_kit:'Maglia', ed_players:'Giocatori (2–10) — {0}',
+ ed_slot1:'Questa è la tua squadra inventata (al posto di <b>{0}</b>). Si modifica dalla scheda "Inventata".',
+ ed_slot2:'Squadra inventata: la forza si regola dalla scheda "Inventata".',
+ f_att:'⚔️ Attacco', f_dif:'🛡️ Difesa', f_vis:'🧠 Lucidità',
+ cu_name:'Nome squadra inventata', cu_players:'Giocatori (2–10) — rosa unica, vale per tutte le epoche', cu_target:'Prende il posto di',
+ cu_note_on:'ATTIVA: gioca al posto di <b>{0}</b> nel suo campionato. Disabilitandola torna l\'originale, identico. Le carriere già iniziate non cambiano.',
+ cu_note_off:'SPENTA: i club originali sono tutti al loro posto. Abilitandola prende il posto del club scelto (stesso campionato). Le carriere già iniziate non cambiano.',
+ cu_btn_off:'Disabilita (torna {0})', cu_btn_on:'Abilita (sostituisce il club scelto)',
+ cu_defname:'La mia squadra', cu_defplayer:'Giocatore', the_orig:"l'originale",
+ msg_cu_off:'✔ Squadra inventata disabilitata: è tornato {0}.',
+ msg_cu_on:'✔ {0} è in gioco al posto di {1}. Vale per le prossime partite, coppe e carriere nuove.',
+ msg_saved:'✔ Salvato! Vale da subito per le prossime partite.', msg_saved2:'✔ Salvato!',
+ msg_csvdl:'✔ CSV scaricato (cartella Download). In Excel cambia CLUB, giocatori e forza; NON toccare CODICE ed EPOCA; poi salva come "CSV UTF-8" e reimporta.',
+ q_csv:'Importare le rose dal CSV?\nNomi, giocatori e forza di TUTTI i club verranno sostituiti.',
+ csv_deact:'\nLa squadra inventata verrà disabilitata.',
+ msg_csvok:'✔ Rose importate! Valgono per le prossime partite, coppe e carriere nuove.',
+ err_csv:'CSV non valido:\n{0}',
+ err_empty:'file vuoto', err_head:"manca l'intestazione (prima colonna: CODICE)", err_cols:'riga {0}: servono 15 colonne',
+ err_code:'riga {0}: codice sconosciuto "{1}" (non toccare la colonna CODICE)', err_era:'riga {0}: EPOCA deve essere "ANNI 90" oppure "OGGI"',
+ err_club:'riga {0}: manca il nome del club', err_clublen:'riga {0}: nome club troppo lungo (max 20 lettere)',
+ err_ros:'riga {0}: servono 9 giocatori (N2..N10)', err_plen:'riga {0}: nome giocatore troppo lungo (max 18 lettere)',
+ err_forza:'riga {0}: Attacco/Difesa/Lucidità devono essere numeri da 1 a 5',
+ err_same:'{0}: il nome del club deve essere uguale sulle sue due righe',
+ err_missing:'mancano righe per il codice {0} (servono ANNI 90 e OGGI)',
+ err_dup:'due club hanno lo stesso nome: devono essere tutti diversi',
+ // storico e regolamento
+ hist_head:'Storico Coppe', hist_bacheca:'Bacheca dei club', rules_head:'Regolamento ufficiale',
+ h_none:'Nessun torneo concluso: la storia comincia dalla prossima finale.', h_winner:'Vincitore', h_second:'finalista/2°',
+ h_capo:'Capocannoniere', h_exaequo:' ex aequo ', h_with:'con {0} gol', h_empty2:'Bacheche ancora vuote.',
+ tipo_cup:'Coppa', tipo_league:'Campionato',
+ // partita
+ z_opp:'Avversario', z_table:'Tavolo', z_hand:'La tua mano — clicca una carta', btn_exit:'Esci',
+ goalBig:'⚽ GOL!', chooser_cancel:'Annulla', c_yes:'Sì', c_no:'No',
+ int_head:'Intervallo', h_marcatori:'Marcatori', btn_2nd:'Inizia il 2° tempo',
+ fin_head:'Fine partita', h_tabellino:'Tabellino marcatori', btn_rematch:'Rigioca', btn_tourback:'Torneo', btn_careerback:'Carriera', btn_menu:'Menu',
+ strip_pen:'⚽ RIGORE', strip_fk:'PUNIZIONE',
+ ph_pens:'RIGORI', ph_half1:'1° TEMPO', ph_half2:'2° TEMPO', ph_extra:'SUPPLEMENTARI', deckinfo:'mazzo: {0} carte',
+ half1:'1° tempo', half2:'2° tempo', extra:'Supplementari',
+ log_start:"{0} — 4 carte in campo, 3 a testa, {1} nel mazzo. Batte il calcio d'inizio <b>{2}</b>",
+ log_lay:'<b>{0}</b> mette il {1} sul tavolo',
+ pen_flash:'RIGORE!', ace_pen:'il rigore', ace_fk:'la punizione',
+ log_ace_take:"<b>{0}</b> batte {1}: l'asso piglia tutto ({2})",
+ log_ace_empty:"<b>{0}</b> batte {1}: a tavolo vuoto — l'asso esce dal gioco",
+ log_take:'<b>{0}</b> gioca il {1} e prende {2}',
+ log_scopa:' — <b style="color:var(--oro)">SCOPA! GOL!</b>',
+ log_newround:'— Fine giro: il mazzo distribuisce 3 nuove carte a testa (quelle sul tavolo restano) —',
+ log_shootout:'⚽ Calci di rigore — 10 carte a testa su tavolo vuoto: ogni scopa è un rigore trasformato. Se finisce pari, si ribatte.',
+ fn_kickoff:"🪙 CALCIO D'INIZIO", fn_kick2:'{0} vs {1} — monetina: inizia {2}{3}',
+ fn_2half:'2° TEMPO', fn_2half2:'Inizia {0} — {1}',
+ fn_extra:'SUPPLEMENTARI!', fn_extra2:'Se resta pari, calci di rigore — inizia {0}{1}',
+ fn_pens:'⚽ RIGORI!', fn_pens2:'10 carte a testa, una a turno: ogni scopa è un rigore segnato{0}',
+ fn_touch:' — tocca il campo per iniziare',
+ ch_title:'Giochi il {0}{1}', ch_multi:'può prendere in più modi: scegli.', ch_scopa:'SCOPA!',
+ no_scorers:'Nessun marcatore',
+ res_win:'Vittoria {0}!', res_pts3:' (3 punti)', res_draw:'Pareggio', res_pts1:' (1 punto a testa)', res_pens:'{0} passa ai rigori!', dcr:'dcr',
+ q_quit:"Vuoi annullare l'incontro?\nIl risultato attuale andrà perso.",
+ // salvataggi
+ msg_export:'Salvataggio esportato!\nIl file è nella cartella Download: conservalo dove vuoi (Drive, chiavetta...). Per ripristinare tutto, anche su un altro computer, usa "Importa".',
+ msg_bad:'File non valido: non sembra un salvataggio di Soccer Cards.',
+ q_import:'Importare questo salvataggio?\nSquadre, carriere e storico ATTUALI verranno sostituiti da quelli del file.',
+ // torneo / coppa
+ pick_cup:'Coppa', pick_season:'Stagione',
+ ts_head:'Nuova Coppa', lbl_preset:'Preconfigurata', lbl_orname:'...oppure crea la tua — nome della coppa',
+ lbl_parts:'Squadre partecipanti', lbl_cupera:'Epoca della coppa', lbl_formula:'Girone iniziale',
+ opt_ar:'Andata e ritorno', opt_a:'Solo andata', lbl_qual:'Squadre alla fase finale',
+ opt_q4:'4 — semifinali (A/R) e finale', opt_q8:'8 — quarti (A/R), semifinali (A/R) e finale', opt_q2:'2 — finale secca',
+ btn_createcup:'Crea coppa', myCup:'La mia Coppa', myCareer:'La mia carriera', default_tour:'Torneo', default_career:'Carriera',
+ ts_note:'La coppa è girone all\'italiana + fase finale a eliminazione. La preconfigurata (Euro Cup) assegna il trofeo, che finisce nello <b>Storico Coppe</b> (Opzioni &rarr; Storico), e si salva da sola (esci e riprendi quando vuoi). Le coppe inventate sono amichevoli: nessun trofeo. Le partite senza di te le gioca l\'IA.',
+ tab_class:'Classifica', tab_brk:'Tabellone', tab_marc:'Marcatori', tab_ris:'Risultati',
+ btn_next:'Prosegui', btn_newcomp:'Nuova competizione', btn_abandon:'Annulla',
+ sel_all:'Seleziona tutte',
+ msg_preset:'✔ Competizione ufficiale di CARRIERA caricata (epoca modificabile): vale per bacheca e albo d\'oro. Scegli la tua squadra e premi "Crea coppa".',
+ warn_2:'⚠ Servono almeno 2 squadre.', warn_q:'⚠ Con la fase finale a {0} servono almeno {0} squadre.',
+ ko_q:'Quarti di finale', ko_s:'Semifinali', ko_f:'Finale',
+ tt_done:'CAMPIONE: {0}!', tt_run:'{0} — {1} squadre',
+ phase_grp:'Fase a girone', phase_ar:'Campionato, andata e ritorno', phase_sa:'Campionato, solo andata', youlead:' — tu guidi {0}',
+ tblh:['Squadra','Pt','G','V','N','P','GF','GS','DR'],
+ nogoals:'Ancora nessun gol', day_n:'{0}ª giornata', seed_n:'{0}ª',
+ toplay_p:'(da giocare)', leg1:'(andata)', leg2:'(ritorno)', leg2tp:'(ritorno, da giocare)',
+ pensline:'calci di rigore: {0} - {1}', advances:'→ passa {0}', penShort:'r',
+ save_file:'SoccerCards_salvataggio_', csv_file:'SoccerCards_Rose.csv',
+ brk_note:'Girone in corso: ecco chi è provvisoriamente qualificato (prime {0}) e come sarebbe accoppiato. Il tabellone definitivo si forma alla fine del girone.',
+ brk_prov:' · provvisorio', brk_champ:'Campione: {0}',
+ q_abandon:'Annullare il torneo?\nClassifica e risultati andranno persi.',
+ q_finish_car:'Torneo concluso e salvato in Storico (albo d\'oro e bacheca).\nAprire la scelta di una nuova competizione?',
+ q_finish_fr:'Chiudere questo torneo amichevole?\nLe amichevoli non vengono salvate.\nAprire la scelta di una nuova competizione?',
+ // carriera
+ cl_head:'Carriera', btn_newcareer:'Nuova carriera', cl_empty:'Nessuna carriera salvata. Creane una nuova.',
+ cl_res:'Riprendi la carriera', cl_del:'Elimina carriera', st_abbr:'Stag. {0}',
+ cn_head:'Nuova carriera', lbl_savename:'Nome del salvataggio', lbl_players:'Giocatori',
+ opt_1p:'1 giocatore (vs IA)', opt_2p:'2 giocatori (presto)', lbl_careerera:'Epoca (bloccata per tutta la carriera)', btn_createcareer:'Crea carriera',
+ career_new_note:'La squadra scelta giocherà il campionato della sua nazione. Gli altri campionati li simula l\'IA. L\'epoca vale per tutte le squadre e non cambia fino a fine carriera.',
+ career_note:'Premi "Gioca" per disputare la tua giornata di campionato: le altre partite di tutte le leghe vengono simulate. Usa ◄ in alto a destra per salvare ed uscire: riprendi quando vuoi.',
+ btn_cplay:'Gioca', btn_csim:'Simula',
+ warn_dup:'⚠ Esiste già una carriera con questo nome: scegline un altro.',
+ q_del:'Eliminare la carriera "{0}"?',
+ q_exit:"Vuoi uscire dalla carriera?\nTutto è salvato automaticamente: la ritroverai nell'elenco esattamente da dove hai lasciato.",
+ q_close_season:'Chiudere la Stagione {0}?\nLa Euro Cup va in bacheca, poi parte la nuova stagione.',
+ q_close_leagues:'Chiudere i campionati della Stagione {0}?\nVengono assegnati scudetti e capocannonieri (a pari punti decidono differenza reti e gol fatti).',
+ hub_euro:'Stagione {0} · Euro SuperCup — {1}', euro_done:'conclusa',
+ hub_league:'Stagione {0} · {1}', league_done:'campionato finito', day_of:'giornata {0} di {1}',
+ btn_close_season:'Chiudi la stagione', btn_play_euro:'Gioca Euro · {0}', btn_proceed_euro:'Prosegui · {0}',
+ btn_close_leagues:'Chiudi i campionati', btn_play_day:'Gioca giornata {0}',
+ ed_g:'giornata {0} di 3', ed_sa:'semifinali · andata', ed_sr:'semifinali · ritorno', ed_f:'FINALE',
+ grp:'Girone {0}', gday:'Giornata {0}', toplay2:'da giocare',
+ sub_ris:'Risultati', sub_marc:'Marcatori', sub_gironi:'Gironi', sub_albo:"Albo d'oro", top10:'— primi 10 —',
+ brk_h:'TABELLONE', brk_prov2:'(provvisorio: 1ª e 2ª di ogni girone)', semi_i:'Semifinale {0}: ',
+ fin_lbl:'Finale: ', fin_tbd:'Finale: vincente Semifinale 1 - vincente Semifinale 2', champ_is:'CAMPIONE: ',
+ and_lbl:'and.', rit_lbl:'rit.', dcr_p:'(dcr)', svg_fin:'FINALE', svg_champ:'CAMPIONE ✓', svg_brk:'Tabellone',
+ albo_empty:"L'albo d'oro si riempie a fine stagione.", season_row:'Stagione {0}',
+ fz_head:'CAMPIONATI CONCLUSI<br>STAGIONE {0}', fz_scud:'SCUDETTI', fz_qual:'QUALIFICATE EURO CUP',
+ fz_now:'ORA SI GIOCA LA EURO SUPERCUP<br>POI AL VIA LA STAGIONE {0}!', and_word:' e ',
+ ns_head:'STAGIONE {0} CONCLUSA!', ns_euro:'EURO CUP', ns_bd:"PALLONE D'ORO", goals_w:'gol',
+ ns_all:"Tutto in bacheca (scheda Albo d'oro).", ns_next:'AL VIA LA STAGIONE {0}!'
+};
+I18N.en={
+ langName:'English', langBadge:'ENG',
+ title:'Soccer Cards — Prototype',
+ headline:"They think it's all over!",
+ yes:'ON', no:'OFF',
+ eras:{e90:"'90s",oggi:'Today'}, sameEra:'Same era',
+ countries:{Italia:'Italy',Inghilterra:'England',Spagna:'Spain',Germania:'Germany'},
+ kits:{rossonera:'Red & black (stripes)',azzurra:'Sky blue',bianconera:'Black & white (stripes)',nerazzurra:'Black & blue (stripes)',
+  giallorossa:'Red & yellow',granata:'Maroon',bianca:'White',verde:'Green',viola:'Purple',rossa:'Red',gialla:'Yellow',blu:'Blue',
+  biancoceleste:'White & sky blue',blaugrana:'Claret & blue (stripes)',biancorossa:'White & red (stripes)',biancoblu:'White & blue (stripes)',biancoverde:'White & green (stripes)'},
+ // menu, navigation, tooltips
+ m_friendly:'Friendly', m_tour:'Tournament', m_multi:'Multiplayer', soon:'soon', m_options:'Options',
+ mcopy_menu:'© 2026 Soccer Cards — prototype v1.0', mcopy_options:'Options', mcopy_settings:'Settings', mcopy_pick:'Choose your competition', mcopy_lang:'Choose your language',
+ t_backmenu:'Back to menu', t_menu:'Menu', t_options:'Options', t_back:'Back', t_saveexit:'Save and exit', t_settings:'Settings',
+ t_sim:'The AI plays your match too: instant matchday', t_audio:'Stadium sound',
+ // friendly
+ setup_head:'Friendly', lbl_era:'Era', lbl_yourteam:'Your team', lbl_oppteam:'Opponent (AI)',
+ lbl_oppera:'Opponent era (for cross-era matches)', btn_play:'Play',
+ setup_note:'Scopa rules &bull; Every SWEEP = GOAL &bull; Ace = free kick (7 in 8) or penalty (1 in 8): it takes everything, but goals only come from a sweep<br>Teams can be edited in Options &rarr; Teams',
+ // options & settings
+ opt_teams:'Teams', opt_rules:'Rules', opt_history:'Cup History', opt_settings:'Settings',
+ set_saves:'Saves', set_audio:'Sound', set_lang:'Language',
+ saves_head:'Saves',
+ saves_note1:'The game saves itself on this computer. From here you can back everything up to a file — teams, custom team, careers and history — and restore it whenever you want, even on another device.',
+ saves_note2:'Export downloads a file to your Downloads folder. Import loads it back: current data is replaced by the file.',
+ btn_export:'Export', btn_import:'Import',
+ // teams
+ teams_head:'Team setup', lbl_country:'Country', tab_rosa:'Squad', tab_forza:'Strength', tab_custom:'Custom',
+ btn_save:'Save', btn_csv_ex:'Download squads (CSV)', btn_csv_im:'Import squads (CSV)',
+ teams_note:'Numbers 2–10 are the scorers (10 is the star player). Changes apply to upcoming matches. To rename everything in one go: download the CSV, open it in Excel, edit names/squads/strength and re-import it (save as "CSV UTF-8"; do not touch the CODICE and EPOCA columns).',
+ ed_fixed:'Club (fixed name)', ed_kit:'Kit', ed_players:'Players (2–10) — {0}',
+ ed_slot1:'This is your custom team (in place of <b>{0}</b>). Edit it in the "Custom" tab.',
+ ed_slot2:'Custom team: strength is set in the "Custom" tab.',
+ f_att:'⚔️ Attack', f_dif:'🛡️ Defence', f_vis:'🧠 Composure',
+ cu_name:'Custom team name', cu_players:'Players (2–10) — one squad for every era', cu_target:'Takes the place of',
+ cu_note_on:'ACTIVE: playing in place of <b>{0}</b> in its league. Disable it and the original returns, untouched. Careers already started do not change.',
+ cu_note_off:'OFF: all original clubs are in place. Enable it and it takes the place of the chosen club (same league). Careers already started do not change.',
+ cu_btn_off:'Disable ({0} returns)', cu_btn_on:'Enable (replaces the chosen club)',
+ cu_defname:'My team', cu_defplayer:'Player', the_orig:'the original',
+ msg_cu_off:'✔ Custom team disabled: {0} is back.',
+ msg_cu_on:'✔ {0} is now playing in place of {1}. Applies to upcoming matches, cups and new careers.',
+ msg_saved:'✔ Saved! Applies from the next matches.', msg_saved2:'✔ Saved!',
+ msg_csvdl:'✔ CSV downloaded (Downloads folder). In Excel edit CLUB, players and strength; do NOT touch CODICE and EPOCA; then save as "CSV UTF-8" and re-import.',
+ q_csv:'Import squads from the CSV?\nNames, players and strength of ALL clubs will be replaced.',
+ csv_deact:'\nThe custom team will be disabled.',
+ msg_csvok:'✔ Squads imported! They apply to upcoming matches, cups and new careers.',
+ err_csv:'Invalid CSV:\n{0}',
+ err_empty:'empty file', err_head:'header row missing (first column: CODICE)', err_cols:'row {0}: 15 columns are needed',
+ err_code:'row {0}: unknown code "{1}" (do not touch the CODICE column)', err_era:'row {0}: EPOCA must be "ANNI 90" or "OGGI"',
+ err_club:'row {0}: club name missing', err_clublen:'row {0}: club name too long (max 20 letters)',
+ err_ros:'row {0}: 9 players are needed (N2..N10)', err_plen:'row {0}: player name too long (max 18 letters)',
+ err_forza:'row {0}: Attack/Defence/Composure must be numbers from 1 to 5',
+ err_same:'{0}: the club name must be identical on its two rows',
+ err_missing:'rows missing for code {0} (both ANNI 90 and OGGI are needed)',
+ err_dup:'two clubs share the same name: they must all be different',
+ // history & rules
+ hist_head:'Cup History', hist_bacheca:'Club trophy cabinets', rules_head:'Official rulebook',
+ h_none:'No tournament finished yet: history starts with the next final.', h_winner:'Winner', h_second:'runner-up',
+ h_capo:'Top scorer', h_exaequo:' joint with ', h_with:'with {0} goals', h_empty2:'Trophy cabinets still empty.',
+ tipo_cup:'Cup', tipo_league:'League',
+ // match
+ z_opp:'Opponent', z_table:'Table', z_hand:'Your hand — click a card', btn_exit:'Quit',
+ goalBig:'⚽ GOAL!', chooser_cancel:'Cancel', c_yes:'Yes', c_no:'No',
+ int_head:'Half-time', h_marcatori:'Scorers', btn_2nd:'Start the 2nd half',
+ fin_head:'Full time', h_tabellino:'Scoresheet', btn_rematch:'Rematch', btn_tourback:'Tournament', btn_careerback:'Career', btn_menu:'Menu',
+ strip_pen:'⚽ PENALTY', strip_fk:'FREE KICK',
+ ph_pens:'PENALTIES', ph_half1:'1ST HALF', ph_half2:'2ND HALF', ph_extra:'EXTRA TIME', deckinfo:'deck: {0} cards',
+ half1:'1st half', half2:'2nd half', extra:'Extra time',
+ log_start:'{0} — 4 cards on the table, 3 each, {1} in the deck. <b>{2}</b> kicks off',
+ log_lay:'<b>{0}</b> lays the {1} on the table',
+ pen_flash:'PENALTY!', ace_pen:'the penalty', ace_fk:'the free kick',
+ log_ace_take:'<b>{0}</b> takes {1}: the ace sweeps up everything ({2})',
+ log_ace_empty:'<b>{0}</b> takes {1} on an empty table — the ace leaves the game',
+ log_take:'<b>{0}</b> plays the {1} and captures {2}',
+ log_scopa:' — <b style="color:var(--oro)">SWEEP! GOAL!</b>',
+ log_newround:'— End of round: the deck deals 3 new cards each (table cards stay) —',
+ log_shootout:'⚽ Penalty shootout — 10 cards each on an empty table: every sweep is a converted penalty. If it ends level, another round is played.',
+ fn_kickoff:'🪙 KICK-OFF', fn_kick2:'{0} vs {1} — coin toss: {2} starts{3}',
+ fn_2half:'2ND HALF', fn_2half2:'{0} starts — {1}',
+ fn_extra:'EXTRA TIME!', fn_extra2:'If still level, penalty shootout — {0} starts{1}',
+ fn_pens:'⚽ PENALTIES!', fn_pens2:'10 cards each, one per turn: every sweep is a scored penalty{0}',
+ fn_touch:' — touch the pitch to start',
+ ch_title:'You play the {0}{1}', ch_multi:'can capture in more than one way: choose.', ch_scopa:'SWEEP!',
+ no_scorers:'No scorers',
+ res_win:'{0} win!', res_pts3:' (3 points)', res_draw:'Draw', res_pts1:' (1 point each)', res_pens:'{0} go through on penalties!', dcr:'pens',
+ q_quit:'Abandon this match?\nThe current score will be lost.',
+ // saves
+ msg_export:'Backup exported!\nThe file is in your Downloads folder: keep it wherever you like (Drive, USB stick...). To restore everything, even on another computer, use "Import".',
+ msg_bad:'Invalid file: it does not look like a Soccer Cards backup.',
+ q_import:'Import this backup?\nCURRENT teams, careers and history will be replaced by the file.',
+ // tournament / cup
+ pick_cup:'Cup', pick_season:'Season',
+ ts_head:'New Cup', lbl_preset:'Preset', lbl_orname:'...or create your own — cup name',
+ lbl_parts:'Participating teams', lbl_cupera:'Cup era', lbl_formula:'Group stage',
+ opt_ar:'Home and away', opt_a:'Single round', lbl_qual:'Teams in the knockout stage',
+ opt_q4:'4 — semifinals (H/A) and final', opt_q8:'8 — quarterfinals (H/A), semifinals (H/A) and final', opt_q2:'2 — single-match final',
+ btn_createcup:'Create cup', myCup:'My Cup', myCareer:'My career', default_tour:'Tournament', default_career:'Career',
+ ts_note:'The cup is a round-robin group plus a knockout stage. The preset (Euro Cup) awards the trophy, which goes into <b>Cup History</b> (Options &rarr; History), and saves itself (leave and resume anytime). Cups you invent are friendlies: no trophy. Matches without you are played by the AI.',
+ tab_class:'Table', tab_brk:'Bracket', tab_marc:'Scorers', tab_ris:'Results',
+ btn_next:'Continue', btn_newcomp:'New competition', btn_abandon:'Abandon',
+ sel_all:'Select all',
+ msg_preset:'✔ Official CAREER competition loaded (era editable): counts for cabinets and history. Pick your team and press "Create cup".',
+ warn_2:'⚠ At least 2 teams are needed.', warn_q:'⚠ A knockout stage of {0} needs at least {0} teams.',
+ ko_q:'Quarterfinals', ko_s:'Semifinals', ko_f:'Final',
+ tt_done:'CHAMPIONS: {0}!', tt_run:'{0} — {1} teams',
+ phase_grp:'Group stage', phase_ar:'League, home and away', phase_sa:'League, single round', youlead:' — you manage {0}',
+ tblh:['Team','Pts','P','W','D','L','GF','GA','GD'],
+ nogoals:'No goals yet', day_n:'Matchday {0}', seed_n:'#{0}',
+ toplay_p:'(to play)', leg1:'(1st leg)', leg2:'(2nd leg)', leg2tp:'(2nd leg, to play)',
+ pensline:'penalty shootout: {0} - {1}', advances:'→ {0} advance', penShort:'p',
+ save_file:'SoccerCards_backup_', csv_file:'SoccerCards_Squads.csv',
+ brk_note:'Group stage in progress: these are the provisional qualifiers (top {0}) and how they would be paired. The final bracket forms when the group ends.',
+ brk_prov:' · provisional', brk_champ:'Champions: {0}',
+ q_abandon:'Abandon the tournament?\nTable and results will be lost.',
+ q_finish_car:'Tournament finished and saved in Cup History.\nOpen the new competition menu?',
+ q_finish_fr:'Close this friendly tournament?\nFriendlies are not saved.\nOpen the new competition menu?',
+ // career
+ cl_head:'Career', btn_newcareer:'New career', cl_empty:'No saved careers. Create a new one.',
+ cl_res:'Resume career', cl_del:'Delete career', st_abbr:'Seas. {0}',
+ cn_head:'New career', lbl_savename:'Save name', lbl_players:'Players',
+ opt_1p:'1 player (vs AI)', opt_2p:'2 players (soon)', lbl_careerera:'Era (locked for the whole career)', btn_createcareer:'Create career',
+ career_new_note:'Your team plays its national league. The other leagues are simulated by the AI. The era applies to every team and never changes for the whole career.',
+ career_note:'Press "Play" to play your league matchday: every other match in all leagues is simulated. Use ◄ top right to save and exit: resume anytime.',
+ btn_cplay:'Play', btn_csim:'Simulate',
+ warn_dup:'⚠ A career with this name already exists: choose another.',
+ q_del:'Delete the career "{0}"?',
+ q_exit:'Leave the career?\nEverything is saved automatically: you will find it in the list exactly where you left off.',
+ q_close_season:'Close Season {0}?\nThe Euro Cup goes into the cabinet, then the new season starts.',
+ q_close_leagues:'Close the Season {0} leagues?\nTitles and top scorers are awarded (if level on points, goal difference then goals scored decide).',
+ hub_euro:'Season {0} · Euro SuperCup — {1}', euro_done:'finished',
+ hub_league:'Season {0} · {1}', league_done:'league finished', day_of:'matchday {0} of {1}',
+ btn_close_season:'Close the season', btn_play_euro:'Play Euro · {0}', btn_proceed_euro:'Continue · {0}',
+ btn_close_leagues:'Close the leagues', btn_play_day:'Play matchday {0}',
+ ed_g:'matchday {0} of 3', ed_sa:'semifinals · 1st leg', ed_sr:'semifinals · 2nd leg', ed_f:'FINAL',
+ grp:'Group {0}', gday:'Matchday {0}', toplay2:'to play',
+ sub_ris:'Results', sub_marc:'Scorers', sub_gironi:'Groups', sub_albo:'Hall of fame', top10:'— top 10 —',
+ brk_h:'BRACKET', brk_prov2:'(provisional: 1st and 2nd of each group)', semi_i:'Semifinal {0}: ',
+ fin_lbl:'Final: ', fin_tbd:'Final: winner of Semifinal 1 - winner of Semifinal 2', champ_is:'CHAMPIONS: ',
+ and_lbl:'1st', rit_lbl:'2nd', dcr_p:'(pens)', svg_fin:'FINAL', svg_champ:'CHAMPIONS ✓', svg_brk:'Bracket',
+ albo_empty:'The hall of fame fills up at the end of each season.', season_row:'Season {0}',
+ fz_head:'LEAGUES FINISHED<br>SEASON {0}', fz_scud:'LEAGUE CHAMPIONS', fz_qual:'EURO CUP QUALIFIERS',
+ fz_now:'NOW THE EURO SUPERCUP<br>THEN SEASON {0} KICKS OFF!', and_word:' and ',
+ ns_head:'SEASON {0} COMPLETE!', ns_euro:'EURO CUP', ns_bd:'GOLDEN BALL', goals_w:'goals',
+ ns_all:'Everything is in the cabinet (Hall of fame tab).', ns_next:'SEASON {0} KICKS OFF!'
+};
+function applyLang(){
+  T=I18N[LANG]||I18N.it;
+  try{localStorage.setItem('soccercard_lang',LANG);}catch(e){}
+  document.documentElement.lang=LANG;
+  document.body.className=LANG==='it'?'':'lang-'+LANG; // le didascalie del giornale (::after) cambiano via CSS
+  document.title=T.title;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[el.getAttribute('data-i18n')];if(v!=null)el.textContent=v;});
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{const v=T[el.getAttribute('data-i18n-html')];if(v!=null)el.innerHTML=v;});
+  document.querySelectorAll('[data-i18n-title]').forEach(el=>{const v=T[el.getAttribute('data-i18n-title')];if(v!=null)el.title=v;});
+  const b=$('opt-lang-state');if(b)b.textContent=T.langBadge;
+}
+T=I18N[LANG]||I18N.it; // T pronta da subito (applyLang parte a fine caricamento)
+function eraLbl(k){return (T.eras&&T.eras[k])||(ERAS[k]&&ERAS[k].label)||k;}
+function coLbl(c){return (T.countries&&T.countries[c])||c;}
+function kitLbl(id){return (T.kits&&T.kits[id])||(KITS[id]&&KITS[id].label)||id;}
 
 /* ===== Squadre configurabili (Opzioni -> Squadre) ===== */
 const KITS={
@@ -815,106 +1177,106 @@ const KITS={
 const ERAS={e90:{label:'Anni 90',tag:"'90"},oggi:{label:'Oggi',tag:"'26"}};
 /* 32 club, 4 campionati, 2 epoche ciascuno + forza AI (rose e forza ritoccabili nell'editor) */
 const DEFAULT_CLUBS=[
- // ITALIA
- {club:'Milan',country:'Italia',kit:'rossonera',rosters:{
-  e90:['Tassotti','Maldini','Albertini','Costacurta','Baresi','Donadoni','Rijkaard','Van Basten','Gullit'],
-  oggi:['Emerson R.','Hernandez','Bennacer','Tomori','Thiaw','Pulisic','Loftus-Cheek','Morata','Leao']}},
- {club:'Napoli',country:'Italia',kit:'azzurra',rosters:{
-  e90:['Ferrara','Francini','Crippa','Alemao','Renica','Carnevale','De Napoli','Careca','Maradona'],
-  oggi:['Di Lorenzo','Olivera','Buongiorno','Rrahmani','Anguissa','Politano','McTominay','Lukaku','Neres']}},
- {club:'Inter',country:'Italia',kit:'nerazzurra',rosters:{
-  e90:['Bergomi','Brehme','Matteoli','Ferri','Mandorlini','Bianchi','Berti','Serena','Matthaus'],
-  oggi:['Pavard','Dimarco','Bastoni','Acerbi','Barella','Dumfries','Calhanoglu','Thuram','Lautaro']}},
- {club:'Roma',country:'Italia',kit:'giallorossa',rosters:{
-  e90:['Tempestilli','Benedetti','Berthold','Nela','Aldair','Rizzitelli','Di Mauro','Voller','Giannini'],
-  oggi:['Celik','Angelino','Mancini','Ndicka','Cristante','Soule','Pellegrini','Dovbyk','Dybala']}},
- {club:'Juve',country:'Italia',kit:'bianconera',rosters:{
-  e90:['Gentile','Cabrini','Bonini','Brio','Scirea','Boniek','Tardelli','Rossi','Platini'],
-  oggi:['Savona','Cambiaso','Bremer','Kalulu','Locatelli','Gonzalez','Koopmeiners','Vlahovic','Yildiz']}},
- {club:'Fiorentina',country:'Italia',kit:'viola',rosters:{
-  e90:['Malusci','Carobbi','Iachini','Pin','Battistini','Di Chiara','Dunga','Borgonovo','Baggio'],
-  oggi:['Dodo','Gosens','Comuzzo','Ranieri','Adli','Colpani','Mandragora','Kean','Gudmundsson']}},
- {club:'Lazio',country:'Italia',kit:'biancoceleste',rosters:{
-  e90:['Negro','Favalli','Nesta','Mihajlovic','Almeyda','Nedved','Stankovic','Salas','Mancini'],
-  oggi:['Marusic','Tavares','Gila','Romagnoli','Guendouzi','Isaksen','Rovella','Castellanos','Zaccagni']}},
- {club:'Sampdoria',country:'Italia',kit:'blu',rosters:{
-  e90:['Mannini','Katanec','Pari','Vierchowod','Lanna','Lombardo','Cerezo','Vialli','Mancini'],
-  oggi:['Depaoli','Ioannou','Ferrari','Riccio','Yepes','Sekulov','Benedetti','Coda','Tutino']}},
+ // ITALIA — nomi di FANTASIA (i nomi veri si caricano col CSV: Opzioni → Squadre)
+ {club:'Diavoli Milano',country:'Italia',kit:'rossonera',rosters:{
+  e90:['Tarabini','Malvezzi','Aldrini','Costaguti','Barisoni','Donatelli','Rijnsburg','Van Bakel','Gulden'],
+  oggi:['Emorini','Herrandes','Bennaceur','Tomassi','Thielmann','Pulcini','Loffredo','Moralda','Leandro']}},
+ {club:'Vesuvio FC',country:'Italia',kit:'azzurra',rosters:{
+  e90:['Ferraro','Franchini','Crippini','Alemanno','Renzullo','Carnevaro','De Nardo','Carreira','Maranello'],
+  oggi:['Di Lauro','Oliviero','Buonanno','Rahmani','Anguilla','Politi','McTavish','Lukanga','Nerini']}},
+ {club:'Biscione FC',country:'Italia',kit:'nerazzurra',rosters:{
+  e90:['Bergonzi','Brehmer','Mattioli','Ferrini','Mandelli','Bianconi','Bertini','Serrano','Matthias'],
+  oggi:['Pavani','Dimarchi','Bastianini','Acerbo','Barelli','Dumas','Calhoun','Thurmann','Lautari']}},
+ {club:'Lupa Roma',country:'Italia',kit:'giallorossa',rosters:{
+  e90:['Tempesti','Benedetto','Bertoldi','Nelli','Aldari','Rizzardi','Di Marzio','Vollmer','Giannotti'],
+  oggi:['Celiko','Angelini','Mancinelli','Ndiaye','Cristaldi','Soulé B.','Pellegrino','Dovbenko','Dybalski']}},
+ {club:'Zebre Torino',country:'Italia',kit:'bianconera',rosters:{
+  e90:['Gentilini','Cabrelli','Boninsegni','Briotti','Scireni','Bonek','Tardino','Rossellini','Platner'],
+  oggi:['Savoia','Cambio','Bremura','Kalulé','Locatello','Gonzago','Koopman','Vlahov','Yilmaz']}},
+ {club:'Giglio Viola',country:'Italia',kit:'viola',rosters:{
+  e90:['Malucchi','Carobbio','Iacchetti','Pinelli','Battistoni','Di Chio','Dungara','Borgonzoni','Baglioni'],
+  oggi:['Dodini','Gossler','Comuzzi','Ranucci','Adlani','Colpaesi','Mandruzzato','Keano','Gudmund']}},
+ {club:'Aquila Celeste',country:'Italia',kit:'biancoceleste',rosters:{
+  e90:['Negrini','Favaretto','Nestore','Mihajlo','Almeida R.','Nedvor','Stankov','Salazar','Mancuso'],
+  oggi:['Marusko','Tavarelli','Gilardi','Romagnoli F.','Guendo','Isaksson','Rovelli','Castellani','Zaccagno']}},
+ {club:'Lanterna Blu',country:'Italia',kit:'blu',rosters:{
+  e90:['Manniello','Katanic','Parodi','Vierchi','Lannutti','Lombardini','Cerezio','Viallini','Mancin']  ,
+  oggi:['De Paolis','Iovine','Ferraris','Ricciotti','Yepez','Sekulic','Benedetti M.','Codazzi','Tutolo']}},
  // INGHILTERRA
- {club:'Manchester U.',country:'Inghilterra',kit:'rossa',rosters:{
-  e90:['G. Neville','Irwin','Bruce','Keane','Pallister','Cantona','Ince','Cole','Hughes'],
-  oggi:['Dalot','Shaw','Martinez L.','De Ligt','Casemiro','Garnacho','Fernandes B.','Hojlund','Rashford']}},
- {club:'Liverpool',country:'Inghilterra',kit:'rossa',rosters:{
-  e90:['R. Jones','Bjornebye','Redknapp','Ruddock','Babb','McManaman','Barnes','Fowler','Owen'],
-  oggi:['Alexander-Arnold','Robertson','Konate','Van Dijk','Gravenberch','Salah','Mac Allister','Nunez','Szoboszlai']}},
- {club:'Arsenal',country:'Inghilterra',kit:'biancorossa',rosters:{
-  e90:['Dixon','Winterburn','Adams','Keown','Vieira','Overmars','Petit','Anelka','Bergkamp'],
-  oggi:['White','Gabriel','Saliba','Timber','Rice','Saka','Odegaard','Havertz','Martinelli']}},
- {club:'Chelsea',country:'Inghilterra',kit:'blu',rosters:{
-  e90:['Petrescu','Le Saux','Leboeuf','Desailly','Wise','Poyet','Di Matteo','Vialli','Zola'],
-  oggi:['James','Cucurella','Fofana','Colwill','Caicedo','Neto','Fernandez E.','Jackson','Palmer']}},
- {club:'Leeds',country:'Inghilterra',kit:'bianca',rosters:{
-  e90:['Kelly','Harte','Radebe','Wetherall','Batty','Bowyer','Kewell','Smith A.','Hasselbaink'],
-  oggi:['Byram','Firpo','Struijk','Rodon','Ampadu','Gnonto','Tanaka','Piroe','Aaronson']}},
- {club:'Newcastle',country:'Inghilterra',kit:'bianconera',rosters:{
-  e90:['Watson','Beresford','Albert','Peacock','Lee','Gillespie','Beardsley','Ferdinand L.','Ginola'],
-  oggi:['Trippier','Hall','Schar','Botman','Guimaraes','Murphy','Tonali','Isak','Gordon']}},
- {club:'Tottenham',country:'Inghilterra',kit:'bianca',rosters:{
-  e90:['Austin','Edinburgh','Mabbutt','Campbell S.','Howells','Anderton','Klinsmann','Sheringham','Ginola'],
-  oggi:['Porro','Udogie','Romero','Van de Ven','Bentancur','Johnson','Maddison','Solanke','Son']}},
- {club:'Manchester C.',country:'Inghilterra',kit:'biancoceleste',rosters:{
-  e90:['Edghill','Brightwell','Curle','Symons','Flitcroft','Summerbee','Kinkladze','Quinn','Rosler'],
-  oggi:['Walker','Gvardiol','Dias','Stones','Rodri','Foden','De Bruyne','Haaland','Doku']}},
+ {club:'Northfield Utd',country:'Inghilterra',kit:'rossa',rosters:{
+  e90:['Neville G.','Irving','Brewster','Kearns','Pallwood','Cantwell','Inceford','Colman','Hewson'],
+  oggi:['Dalton','Shawcross','Martens','De Lange','Casewell','Garnett','Ferndale','Hoyland','Rushmore']}},
+ {club:'Port Rovers',country:'Inghilterra',kit:'rossa',rosters:{
+  e90:['Jonesy','Bjornsen','Redgrave','Ruddick','Babbington','McMannis','Barnesley','Fowlerton','Owens'],
+  oggi:['Arnoldson','Robertsen','Konaday','Van Dyken','Gravenhall','Salahdin','McAllen','Nunston','Szabolcs']}},
+ {club:'Royal Cannons',country:'Inghilterra',kit:'biancorossa',rosters:{
+  e90:['Dickson','Winterbourne','Addams','Keowley','Vierton','Overfield','Pettibone','Anelli','Bergson'],
+  oggi:['Whitmore','Gabrielson','Salford','Timberley','Ricewood','Sakala','Odegard','Haverton','Martindale']}},
+ {club:'West Bridge FC',country:'Inghilterra',kit:'blu',rosters:{
+  e90:['Petrides','Le Sault','Lebrun','Desmond','Wisdom','Poyner','Di Marco','Viall','Zolan'],
+  oggi:['Jameson','Cucarelli','Fofanah','Colwell','Caiceda','Netherton','Fernley','Jacobson','Palmerston']}},
+ {club:'White Rose AFC',country:'Inghilterra',kit:'bianca',rosters:{
+  e90:['Kellaway','Hartley','Radford','Weatherby','Battle','Bowman','Kewley','Smithson','Hasselgren'],
+  oggi:['Byrne','Firth','Struthers','Roddan','Ampleford','Gnoni','Tanaka K.','Pirow','Aaronsen']}},
+ {club:'Coalport Utd',country:'Inghilterra',kit:'bianconera',rosters:{
+  e90:['Watkins','Beresfield','Albertson','Peacocke','Leeming','Gillespy','Beardmore','Ferdinand K.','Ginolet'],
+  oggi:['Tripwell','Hallsworth','Scharf','Bothman','Guimard','Murdock','Tonelli','Isaksen R.','Gordonson']}},
+ {club:'North Lane FC',country:'Inghilterra',kit:'bianca',rosters:{
+  e90:['Austen','Edinboro','Mabbott','Campling','Howell','Andertson','Klinsberg','Sherwood','Ginson'],
+  oggi:['Porrell','Udoka','Romey','Van der Veen','Bentley','Johnston','Maddock','Solander','Sonny']}},
+ {club:'Skyburn City',country:'Inghilterra',kit:'biancoceleste',rosters:{
+  e90:['Edgehill','Brightman','Curling','Symonds','Flitwick','Summerfield','Kinkade','Quinlan','Roslin'],
+  oggi:['Walkerton','Gvardas','Diaz M.','Stoneham','Rodrigo P.','Fodden','De Bruyn','Haalgren','Dokku']}},
  // SPAGNA
- {club:'Real Madrid',country:'Spagna',kit:'bianca',rosters:{
-  e90:['Chendo','R. Carlos','Hierro','Sanchis','Redondo','Raul','Mijatovic','Suker','Seedorf'],
-  oggi:['Carvajal','Mendy F.','Militao','Rudiger','Tchouameni','Valverde','Bellingham','Mbappe','Vinicius']}},
- {club:'Barcellona',country:'Spagna',kit:'blaugrana',rosters:{
-  e90:['Ferrer','Sergi','Koeman','Nadal','Guardiola','Bakero','Laudrup','Romario','Stoichkov'],
-  oggi:['Kounde','Balde','Cubarsi','Araujo','De Jong','Yamal','Pedri','Lewandowski','Raphinha']}},
- {club:'Atletico M.',country:'Spagna',kit:'biancorossa',rosters:{
-  e90:['Geli','Toni M.','Solozabal','Santi','Vizcaino','Caminero','Simeone','Penev','Kiko'],
-  oggi:['Llorente','Galan','Gimenez','Le Normand','Barrios','De Paul','Koke','Alvarez','Griezmann']}},
- {club:'Valencia',country:'Spagna',kit:'bianca',rosters:{
-  e90:['Camarasa','Giner','Romero','Mazinho','Fernando','Mendieta','Karpin','Salenko','Mijatovic'],
-  oggi:['Foulquier','Gaya','Mosquera','Diakhaby','Barrenechea','Rioja','Almeida','Duro','Diego Lopez']}},
- {club:'Siviglia',country:'Spagna',kit:'bianca',rosters:{
-  e90:['Prieto','Martagon','Cortijo','Simeone','Rafa Paz','Moya','Polster','Zamorano','Suker'],
-  oggi:['Montiel','Pedrosa','Bade','Kike Salas','Gudelj','Lukebakio','Saul','Isaac','Ejuke']}},
- {club:'Athletic B.',country:'Spagna',kit:'biancorossa',rosters:{
-  e90:['Andrinua','Larrazabal','Karanka','Alkorta','Garitano','Ziganda','Julen Guerrero','Etxeberria','Urzaiz'],
-  oggi:['De Marcos','Yuri','Vivian','Paredes','R. de Galarreta','Inaki Williams','Sancet','Guruzeta','Nico Williams']}},
- {club:'Deportivo',country:'Spagna',kit:'biancoblu',rosters:{
-  e90:['Lopez Rekarte','Nando','Voro','Djukic','Mauro Silva','Fran','Donato','Bebeto','Rivaldo'],
-  oggi:['Sergio Lopez','Escudero','Dani Barcia','Pablo Vazquez','Jose Angel','Yeremay','Soriano','Lucas Perez','Mella']}},
- {club:'Betis',country:'Spagna',kit:'biancoverde',rosters:{
-  e90:['Jaime','Merino','Vidakovic','Canas','Cuellar','Finidi','Alexis','Sabas','Alfonso'],
-  oggi:['Bellerin','Perraud','Bartra','Natan','Johnny','Antony','Isco','Bakambu','Ezzalzouli']}},
+ {club:'Corona Blanca',country:'Spagna',kit:'bianca',rosters:{
+  e90:['Chendín','Carlos R.','Hierrez','Sanchidrián','Redonda','Raulito','Mijatov','Sukic','Seedorp'],
+  oggi:['Carvajo','Mendiola','Militão J.','Rudinger','Tchoua','Valverdi','Bellinga','Mbappo','Vinicio']}},
+ {club:'Condal FC',country:'Spagna',kit:'blaugrana',rosters:{
+  e90:['Ferrera','Sergio C.','Koemans','Nadalet','Guardino','Baqueiro','Laudberg','Romarinho','Stoichev'],
+  oggi:['Koundou','Baldé R.','Cubero','Araujo M.','De Jongh','Yamal H.','Pedrín','Lewandow','Rafinha S.']}},
+ {club:'Manzanares CF',country:'Spagna',kit:'biancorossa',rosters:{
+  e90:['Gelito','Tonete','Solozano','Santillana J.','Vizcarra','Caminante','Simón D.','Penev H.','Kikín'],
+  oggi:['Llorentino','Galano','Giménez P.','Le Norman','Barriga','De Pablo','Kokín','Alvarito','Grizmann']}},
+ {club:'Naranja CF',country:'Spagna',kit:'bianca',rosters:{
+  e90:['Camarena','Ginerés','Romerales','Mazinha','Fernandinho V.','Mendiluce','Karpov A.','Salenkov','Mijares'],
+  oggi:['Folquet','Gayón','Mosquero','Diakité','Barrenetxe','Riojano','Almeido','Durán K.','Diego Luis']}},
+ {club:'Giralda FC',country:'Spagna',kit:'bianca',rosters:{
+  e90:['Prietos','Martagón R.','Cortines','Simoni','Rafa Pardo','Moyano','Polsterer','Zamorín','Sukovic'],
+  oggi:['Montielo','Pedroso','Badié','Kike Soler','Gudeljic','Lukembo','Saulo','Isaquito','Ejike']}},
+ {club:'Leones Norte',country:'Spagna',kit:'biancorossa',rosters:{
+  e90:['Andrieta','Larrazola','Karanko','Alkortza','Garikano','Zigandia','Julen Gorria','Etxebarne','Urzaga'],
+  oggi:['De Marca','Yurrita','Viviano','Paredón','Galarreta X.','Iñaki Guillén','Sanceta','Guruzabal','Nico Guillén']}},
+ {club:'Atlantico CF',country:'Spagna',kit:'biancoblu',rosters:{
+  e90:['Rekalde','Nandín','Vorito','Djukanov','Mario Salva','Frano','Donaire','Bebeco','Rivalinho'],
+  oggi:['Sergio Losa','Escudera','Dani Barja','Pablo Vega','José Anxo','Yeremai','Sorio','Lucas Paz','Mellado']}},
+ {club:'Triana Verde',country:'Spagna',kit:'biancoverde',rosters:{
+  e90:['Jaimito','Merindad','Vidakov','Cañizo','Cuéllares','Finito O.','Alexín','Sabalete','Alfonsín'],
+  oggi:['Bellerino','Perrault','Bartres','Natanael','Juanito J.','Antonho','Iscobar','Bakumba','Ezzarai']}},
  // GERMANIA
- {club:'Borussia D.',country:'Germania',kit:'gialla',rosters:{
-  e90:['Reuter','Heinrich','Kohler','Sammer','Freund','Ricken','Zorc','Chapuisat','Moller'],
-  oggi:['Ryerson','Bensebaini','Schlotterbeck','Can','Sabitzer','Adeyemi','Brandt','Guirassy','Gittens']}},
- {club:'Bayern M.',country:'Germania',kit:'rossa',rosters:{
-  e90:['Babbel','Ziege','Helmer','Effenberg','Basler','Scholl','Zickler','Klinsmann','Matthaus'],
-  oggi:['Kimmich','Davies','Upamecano','Kim','Pavlovic','Olise','Musiala','Kane','Sane']}},
- {club:'Leverkusen',country:'Germania',kit:'rossonera',rosters:{
-  e90:['Nowotny','Heintze','Kadlec','Ramelow','Lehnhoff','Thom','Schuster','Kirsten','Rink'],
-  oggi:['Frimpong','Grimaldo','Tah','Tapsoba','Xhaka','Hofmann','Wirtz','Boniface','Schick']}},
- {club:'Werder B.',country:'Germania',kit:'verde',rosters:{
-  e90:['Borowka','Bratseth','Eilts','Votava','Bode','Basler','Herzog','Rufer','Hobsch'],
-  oggi:['Weiser','Friedl','Stark','Pieper','Stage','Lynen','Schmid','Ducksch','Njinmah']}},
- {club:'Stoccarda',country:'Germania',kit:'bianca',rosters:{
-  e90:['Frontzeck','Buchwald','Berthold','Soldo','Poschner','Verlaat','Balakov','Elber','Bobic'],
-  oggi:['Vagnoman','Mittelstadt','Rouault','Chabot','Karazor','Stiller','Undav','Demirovic','Leweling']}},
- {club:'Schalke 04',country:'Germania',kit:'blu',rosters:{
-  e90:['De Kock','Linke','Thon','Buskens','Eigenrauch','Latal','Wilmots','Max','Anderbrugge'],
-  oggi:['Bulut','Murkin','Kalas','Kaminski','Schallenberg','Bachmann','Karaman','Sylla','Lasme']}},
- {club:'Amburgo',country:'Germania',kit:'bianca',rosters:{
-  e90:['Panadic','Kober','Hollerbach','Sporl','Cardoso','Furtok','Letchkov','Breitenreiter','Von Heesen'],
-  oggi:['Muheim','Omari','Hadzikadunic','Elfadli','Meffert','Jatta','Konigsdorfer','Glatzel','Dompe']}},
- {club:'Gladbach',country:'Germania',kit:'bianca',rosters:{
-  e90:['Klinkert','Wynhoff','Andersson','Pflipsen','Effenberg','Dahlin','Herrlich','Juskowiak','Kastenmaier'],
-  oggi:['Scally','Ullrich','Itakura','Elvedi','Weigl','Honorat','Reitz','Kleindienst','Hack']}}
+ {club:'Ruhrstadt 09',country:'Germania',kit:'gialla',rosters:{
+  e90:['Reutner','Heinrichs','Kohlmann','Sammler','Freundlich','Rickert','Zorn','Chappuis','Mollner'],
+  oggi:['Ryersen','Bensebach','Schlotter','Canay','Sabitzki','Adeyola','Brandtner','Guiraud','Gitting']}},
+ {club:'Alpenstern FC',country:'Germania',kit:'rossa',rosters:{
+  e90:['Babbler','Ziegler R.','Helmert','Effenbach','Baslmeier','Schollen','Zicklein','Klinsberger','Matthies'],
+  oggi:['Kimmler','Daviesen','Upambo','Kimon','Pavlow','Olisen','Musialek','Kaner','Sanetti']}},
+ {club:'Rheinwerk 04',country:'Germania',kit:'rossonera',rosters:{
+  e90:['Nowotnik','Heintzel','Kadlecek','Ramelau','Lehnhardt','Thomke','Schusterle','Kirstner','Rinkel'],
+  oggi:['Frimpton','Grimaldi A.','Tahsen','Tapsole','Xhakari','Hofstetter','Wirthz','Bonifay','Schickler']}},
+ {club:'Weserstadt SV',country:'Germania',kit:'verde',rosters:{
+  e90:['Borowski U.','Bratberg','Eilert','Votawa','Bodemann','Baslerek','Herzhof','Ruferson','Hobbler'],
+  oggi:['Weisert','Friedland','Starke','Piepenbrink','Stager','Lynens','Schmiedel','Duckwitz','Njimans']}},
+ {club:'Schwaben SV',country:'Germania',kit:'bianca',rosters:{
+  e90:['Frontzek','Buchwalder','Bertholdt','Soldner','Poschmann','Verlath','Balakow','Elbers','Bobich'],
+  oggi:['Vagner J.','Mittelmann','Rouhault','Chabottke','Karzor','Stillner','Undheim','Demirci','Lewelling']}},
+ {club:'Bergbau 04',country:'Germania',kit:'blu',rosters:{
+  e90:['De Kuiper','Linkmann','Thonberg','Buskotte','Eigenrath','Latalek','Wilmotte','Maxen','Anderbrock'],
+  oggi:['Bulutay','Murkens','Kalasch','Kaminsky','Schallenbach','Bachmeier','Karamon','Syllabo','Lasmé K.']}},
+ {club:'Hafen SV',country:'Germania',kit:'bianca',rosters:{
+  e90:['Panadler','Koberle','Hollerbeck','Spoerl','Cardone','Furtner','Letchov','Breitenrath','Von Heers'],
+  oggi:['Muhlheim','Omarson','Hadzik','Elfadel','Meffner','Jattson','Konigsfeld','Glatzer','Dompers']}},
+ {club:'Niederrhein BV',country:'Germania',kit:'bianca',rosters:{
+  e90:['Klinkhart','Wynhof','Anderberg','Pflips','Effenrode','Dahlgren','Herrlein','Juskow','Kastenholz'],
+  oggi:['Scallon','Ullmann','Itakuro','Elvedin','Weiglein','Honorbeck','Reitzel','Kleinfeld','Hackmann']}}
 ];
 function loadClubsRaw(){
   const valid=c=>Array.isArray(c)&&c.length>=2&&c.every(x=>x.club&&x.rosters&&['e90','oggi'].every(e=>x.rosters[e]&&x.rosters[e].length===9));
@@ -940,22 +1302,22 @@ function loadClubsRaw(){
 }
 /* Forza preimpostata (att,dif,vis 1-5) solo per alcune big — il resto parte a 3-3-3 e lo regoli tu.
    Es. Milan '90 (Sacchi) più forte del Milan di oggi. */
-const FORZA_PRESET={
-  'Milan':{e90:{att:5,dif:5,vis:5},oggi:{att:3,dif:3,vis:3}},
-  'Napoli':{e90:{att:5,dif:3,vis:4},oggi:{att:4,dif:4,vis:4}},
-  'Inter':{e90:{att:4,dif:4,vis:4},oggi:{att:4,dif:5,vis:4}},
-  'Juve':{e90:{att:4,dif:5,vis:4},oggi:{att:3,dif:4,vis:3}},
-  'Sampdoria':{e90:{att:4,dif:4,vis:3},oggi:{att:2,dif:2,vis:2}},
-  'Manchester U.':{e90:{att:5,dif:4,vis:4},oggi:{att:3,dif:3,vis:3}},
-  'Liverpool':{e90:{att:3,dif:3,vis:3},oggi:{att:4,dif:4,vis:5}},
-  'Arsenal':{e90:{att:4,dif:5,vis:4},oggi:{att:4,dif:4,vis:4}},
-  'Manchester C.':{e90:{att:2,dif:2,vis:2},oggi:{att:5,dif:4,vis:5}},
-  'Real Madrid':{e90:{att:4,dif:4,vis:4},oggi:{att:5,dif:4,vis:5}},
-  'Barcellona':{e90:{att:5,dif:4,vis:5},oggi:{att:4,dif:3,vis:5}},
-  'Atletico M.':{e90:{att:3,dif:3,vis:3},oggi:{att:4,dif:5,vis:4}},
-  'Bayern M.':{e90:{att:4,dif:4,vis:4},oggi:{att:5,dif:5,vis:5}},
-  'Borussia D.':{e90:{att:4,dif:3,vis:4},oggi:{att:4,dif:3,vis:4}},
-  'Leverkusen':{e90:{att:3,dif:3,vis:3},oggi:{att:4,dif:4,vis:4}}
+const FORZA_PRESET={ // agganciata ai nomi di FANTASIA dei default (chi importa nomi suoi ha la forza già salvata)
+  'Diavoli Milano':{e90:{att:5,dif:5,vis:5},oggi:{att:3,dif:3,vis:3}},
+  'Vesuvio FC':{e90:{att:5,dif:3,vis:4},oggi:{att:4,dif:4,vis:4}},
+  'Biscione FC':{e90:{att:4,dif:4,vis:4},oggi:{att:4,dif:5,vis:4}},
+  'Zebre Torino':{e90:{att:4,dif:5,vis:4},oggi:{att:3,dif:4,vis:3}},
+  'Lanterna Blu':{e90:{att:4,dif:4,vis:3},oggi:{att:2,dif:2,vis:2}},
+  'Northfield Utd':{e90:{att:5,dif:4,vis:4},oggi:{att:3,dif:3,vis:3}},
+  'Port Rovers':{e90:{att:3,dif:3,vis:3},oggi:{att:4,dif:4,vis:5}},
+  'Royal Cannons':{e90:{att:4,dif:5,vis:4},oggi:{att:4,dif:4,vis:4}},
+  'Skyburn City':{e90:{att:2,dif:2,vis:2},oggi:{att:5,dif:4,vis:5}},
+  'Corona Blanca':{e90:{att:4,dif:4,vis:4},oggi:{att:5,dif:4,vis:5}},
+  'Condal FC':{e90:{att:5,dif:4,vis:5},oggi:{att:4,dif:3,vis:5}},
+  'Manzanares CF':{e90:{att:3,dif:3,vis:3},oggi:{att:4,dif:5,vis:4}},
+  'Alpenstern FC':{e90:{att:4,dif:4,vis:4},oggi:{att:5,dif:5,vis:5}},
+  'Ruhrstadt 09':{e90:{att:4,dif:3,vis:4},oggi:{att:4,dif:3,vis:4}},
+  'Rheinwerk 04':{e90:{att:3,dif:3,vis:3},oggi:{att:4,dif:4,vis:4}}
 };
 function ensureForza(clubs){
   clubs.forEach(c=>{
@@ -974,7 +1336,7 @@ function saveClubs(){try{localStorage.setItem('soccercard_clubs_v5',JSON.stringi
 var CUSTOM=null;
 try{const s=localStorage.getItem('soccercard_custom_v1');if(s)CUSTOM=JSON.parse(s);}catch(e){}
 function saveCustom(){try{if(CUSTOM)localStorage.setItem('soccercard_custom_v1',JSON.stringify(CUSTOM));else localStorage.removeItem('soccercard_custom_v1');}catch(e){}}
-function defaultCustom(){return {name:'La mia squadra',kit:'verde',players:Array.from({length:9},(_,i)=>'Giocatore '+(i+2)),forza:{att:3,dif:3,vis:3},target:0,enabled:false,backup:null};}
+function defaultCustom(){return {name:T.cu_defname,kit:'verde',players:Array.from({length:9},(_,i)=>T.cu_defplayer+' '+(i+2)),forza:{att:3,dif:3,vis:3},target:0,enabled:false,backup:null};}
 function customApply(){ // sostituisce il club bersaglio (l'originale finisce nel backup, intatto)
   if(!CUSTOM||!CUSTOM.enabled)return;
   if(!CUSTOM.backup)CUSTOM.backup=JSON.parse(JSON.stringify(CLUBS[CUSTOM.target]));
@@ -991,6 +1353,49 @@ function customDisable(){ // ripristina l'originale, identico a prima
   saveClubs();saveCustom();
 }
 function customOriginalName(i){return (CUSTOM&&CUSTOM.enabled&&i===CUSTOM.target&&CUSTOM.backup)?CUSTOM.backup.club:CLUBS[i].club;}
+/* ===== ROSE VIA CSV: scarichi il modello, lo editi in Excel, lo reimporti (nomi liberi, struttura fissa) ===== */
+function csvCode(i){ // codice fisso per slot: IT1..IT8, EN1..EN8, ES1..ES8, DE1..DE8
+  const p={'Italia':'IT','Inghilterra':'EN','Spagna':'ES','Germania':'DE'};let n=0;
+  for(let k=0;k<=i;k++)if(CLUBS[k].country===CLUBS[i].country)n++;
+  return (p[CLUBS[i].country]||'XX')+n;
+}
+function parseRoseCSV(txt){
+  txt=String(txt).replace(/^﻿/,''); // via il BOM di Excel
+  const lines=txt.split(/\r?\n/).map(l=>l.trim()).filter(l=>l);
+  if(lines.length<2)return {err:T.err_empty};
+  const sep=lines[0].includes(';')?';':',';
+  const cells=l=>l.split(sep).map(x=>x.trim().replace(/^"(.*)"$/,'$1'));
+  if(cells(lines[0])[0].toUpperCase()!=='CODICE')return {err:T.err_head};
+  const exp=CLUBS.map((c,i)=>csvCode(i));
+  const map={};
+  for(let li=1;li<lines.length;li++){
+    const c=cells(lines[li]);
+    if(c.length<15)return {err:fmt(T.err_cols,li+1)};
+    const code=c[0].toUpperCase(), club=c[1], era=c[2].toUpperCase();
+    if(!exp.includes(code))return {err:fmt(T.err_code,li+1,c[0])};
+    const key=era.indexOf('ANNI')===0?'e90':(era==='OGGI'?'oggi':null);
+    if(!key)return {err:fmt(T.err_era,li+1)};
+    if(!club)return {err:fmt(T.err_club,li+1)};
+    if(club.length>20)return {err:fmt(T.err_clublen,li+1)};
+    const ros=c.slice(3,12);
+    if(ros.some(x=>!x))return {err:fmt(T.err_ros,li+1)};
+    if(ros.some(x=>x.length>18))return {err:fmt(T.err_plen,li+1)};
+    const fz=c.slice(12,15).map(Number);
+    if(fz.some(v=>!(v>=1&&v<=5)))return {err:fmt(T.err_forza,li+1)};
+    map[code]=map[code]||{};
+    if(map[code].club&&map[code].club!==club)return {err:fmt(T.err_same,code)};
+    map[code].club=club;map[code][key]=ros;map[code]['f'+key]={att:fz[0],dif:fz[1],vis:fz[2]};
+  }
+  const data=[];
+  for(let i=0;i<CLUBS.length;i++){
+    const m=map[exp[i]];
+    if(!m||!m.e90||!m.oggi)return {err:fmt(T.err_missing,exp[i])};
+    data.push({club:m.club,e90:m.e90,oggi:m.oggi,f90:m.fe90,foggi:m.foggi});
+  }
+  const names=data.map(d=>d.club);
+  if(new Set(names).size!==names.length)return {err:T.err_dup};
+  return {data};
+}
 // auto-riparazione: se i club sono stati rigenerati (storage perso) ma la inventata risulta attiva, ri-applicala
 if(CUSTOM&&CUSTOM.enabled&&(!CLUBS[CUSTOM.target]||CLUBS[CUSTOM.target].club!==CUSTOM.name)){CUSTOM.backup=null;customApply();}
 function teamsByCountry(){
@@ -1004,8 +1409,8 @@ function mkTeam(ci,era){
     forza:(c.forza&&c.forza[era])?Object.assign({},c.forza[era]):{att:3,dif:3,vis:3}};
 }
 function fillEraSelect(sel,withSame){
-  sel.innerHTML=withSame?'<option value="same">Stessa epoca</option>':'';
-  Object.entries(ERAS).forEach(([k,e])=>{const o=document.createElement('option');o.value=k;o.textContent=e.label;sel.appendChild(o);});
+  sel.innerHTML=withSame?'<option value="same">'+T.sameEra+'</option>':'';
+  Object.keys(ERAS).forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=eraLbl(k);sel.appendChild(o);});
 }
 function kitOf(t){return KITS[t.kit]||KITS.rossonera;}
 function kitCSS(k){return `repeating-linear-gradient(90deg, ${k.c1} 0 10px, ${k.c2} 10px 20px)`;}
@@ -1031,7 +1436,7 @@ function applyKits(A,B){
 function fillGrouped(sel,defIdx){ // select con i club raggruppati per Paese
   sel.innerHTML='';
   Object.entries(teamsByCountry()).forEach(([c,list])=>{
-    const og=document.createElement('optgroup');og.label=c;
+    const og=document.createElement('optgroup');og.label=coLbl(c);
     list.forEach(i=>{const o=document.createElement('option');o.value=i;o.textContent=CLUBS[i].club;if(i===defIdx)o.selected=true;og.appendChild(o);});
     sel.appendChild(og);
   });
@@ -1042,7 +1447,7 @@ function fillGroupedFrom(sel,idxs,defVal){
   sel.innerHTML='';
   const byC={};idxs.forEach(i=>{(byC[CLUBS[i].country||'Altro']=byC[CLUBS[i].country||'Altro']||[]).push(i);});
   Object.entries(byC).forEach(([c,list])=>{
-    const og=document.createElement('optgroup');og.label=c;
+    const og=document.createElement('optgroup');og.label=coLbl(c);
     list.forEach(i=>{const o=document.createElement('option');o.value=i;o.textContent=CLUBS[i].club;og.appendChild(o);});
     sel.appendChild(og);
   });
@@ -1055,8 +1460,9 @@ function refreshTourUser(){
 }
 function fillTeamSelects(){
   ['sel-me','sel-ai'].forEach((id,k)=>{const s=$(id);if(s)fillGrouped(s,k);});
-  const se=$('sel-era');if(se&&!se.options.length)fillEraSelect(se,false);
-  const sa=$('sel-era-ai');if(sa&&!sa.options.length)fillEraSelect(sa,true);
+  // sempre ricostruiti (le etichette seguono la lingua), conservando la scelta fatta
+  const se=$('sel-era');if(se){const v=se.value;fillEraSelect(se,false);if(v)se.value=v;}
+  const sa=$('sel-era-ai');if(sa){const v=sa.value;fillEraSelect(sa,true);if(v)sa.value=v;}
 }
 function renderTeamsEditor(country,era){
   era=era||'e90';
@@ -1065,13 +1471,13 @@ function renderTeamsEditor(country,era){
     if(country&&(c.country||'Altro')!==country)return;
     const d=document.createElement('div');d.className='team-ed';
     if(CUSTOM&&CUSTOM.enabled&&ti===CUSTOM.target){ // slot occupato dalla squadra inventata
-      d.innerHTML=`<label>⭐ ${c.club}</label><div class="rules-note">Questa è la tua squadra inventata (al posto di <b>${CUSTOM.backup?CUSTOM.backup.club:'—'}</b>). Si modifica dalla scheda "Inventata".</div>`;
+      d.innerHTML=`<label>⭐ ${c.club}</label><div class="rules-note">${fmt(T.ed_slot1,escHtml(CUSTOM.backup?CUSTOM.backup.club:'—'))}</div>`;
       host.appendChild(d);return;
     }
-    d.innerHTML=`<label>Club (nome fisso)</label><input type="text" id="tn-${ti}" value="${c.club}" maxlength="20" readonly style="opacity:.55;">
-      <label>Maglia</label><select id="tk-${ti}">${Object.keys(KITS).map(id=>`<option value="${id}" ${id===c.kit?'selected':''}>${KITS[id].label}</option>`).join('')}</select>
+    d.innerHTML=`<label>${T.ed_fixed}</label><input type="text" id="tn-${ti}" value="${c.club}" maxlength="20" readonly style="opacity:.55;">
+      <label>${T.ed_kit}</label><select id="tk-${ti}">${Object.keys(KITS).map(id=>`<option value="${id}" ${id===c.kit?'selected':''}>${kitLbl(id)}</option>`).join('')}</select>
       <div class="kit-prev" id="kp-${ti}"></div>
-      <label>Giocatori (2–10) — ${ERAS[era].label}</label>
+      <label>${fmt(T.ed_players,eraLbl(era))}</label>
       ${c.rosters[era].map((p,i)=>`<div class="prow"><span class="pnum">${i+2}</span><input type="text" id="tp-${ti}-${i}" value="${p}" maxlength="18"></div>`).join('')}`;
     host.appendChild(d);
     const upd=()=>{$('kp-'+ti).style.background=kitCSS(KITS[$('tk-'+ti).value]);};
@@ -1088,15 +1494,15 @@ function renderForzaEditor(country,era){
     if(country&&(c.country||'Altro')!==country)return;
     if(CUSTOM&&CUSTOM.enabled&&ti===CUSTOM.target){
       const d0=document.createElement('div');d0.className='team-ed';
-      d0.innerHTML=`<label>⭐ ${c.club}</label><div class="rules-note">Squadra inventata: la forza si regola dalla scheda "Inventata".</div>`;
+      d0.innerHTML=`<label>⭐ ${c.club}</label><div class="rules-note">${T.ed_slot2}</div>`;
       host.appendChild(d0);return;
     }
     const f=(c.forza&&c.forza[era])||{att:3,dif:3,vis:3};
     const d=document.createElement('div');d.className='team-ed';
-    d.innerHTML=`<label>${c.club} — ${ERAS[era].label}</label>
-      <div class="frow"><span>⚔️ Attacco</span>${sel('fa-'+ti,f.att)}</div>
-      <div class="frow"><span>🛡️ Difesa</span>${sel('fd-'+ti,f.dif)}</div>
-      <div class="frow"><span>🧠 Lucidità</span>${sel('fv-'+ti,f.vis)}</div>`;
+    d.innerHTML=`<label>${c.club} — ${eraLbl(era)}</label>
+      <div class="frow"><span>${T.f_att}</span>${sel('fa-'+ti,f.att)}</div>
+      <div class="frow"><span>${T.f_dif}</span>${sel('fd-'+ti,f.dif)}</div>
+      <div class="frow"><span>${T.f_vis}</span>${sel('fv-'+ti,f.vis)}</div>`;
     host.appendChild(d);
   });
 }
@@ -1111,21 +1517,21 @@ function renderCustomEditor(){ // scheda SQUADRA INVENTATA (una sola, rosa unica
   if(!CUSTOM)CUSTOM=defaultCustom();
   const d=document.createElement('div');d.className='team-ed';
   const byC={};CLUBS.forEach((c,i)=>{(byC[c.country||'Altro']=byC[c.country||'Altro']||[]).push(i);});
-  const tsel=`<select id="cu-target" ${CUSTOM.enabled?'disabled':''}>`+Object.entries(byC).map(([co,list])=>`<optgroup label="${escHtml(co)}">`+list.map(i=>`<option value="${i}" ${i===CUSTOM.target?'selected':''}>${escHtml(customOriginalName(i))}</option>`).join('')+`</optgroup>`).join('')+`</select>`;
+  const tsel=`<select id="cu-target" ${CUSTOM.enabled?'disabled':''}>`+Object.entries(byC).map(([co,list])=>`<optgroup label="${escHtml(coLbl(co))}">`+list.map(i=>`<option value="${i}" ${i===CUSTOM.target?'selected':''}>${escHtml(customOriginalName(i))}</option>`).join('')+`</optgroup>`).join('')+`</select>`;
   const fsel=(id,cur)=>`<select id="${id}">${[1,2,3,4,5].map(v=>`<option value="${v}" ${v===cur?'selected':''}>${v}</option>`).join('')}</select>`;
-  d.innerHTML=`<label>Nome squadra inventata</label><input type="text" id="cu-name" value="${escHtml(CUSTOM.name)}" maxlength="20">
-    <label>Maglia</label><select id="cu-kit">${Object.keys(KITS).map(id=>`<option value="${id}" ${id===CUSTOM.kit?'selected':''}>${KITS[id].label}</option>`).join('')}</select>
+  d.innerHTML=`<label>${T.cu_name}</label><input type="text" id="cu-name" value="${escHtml(CUSTOM.name)}" maxlength="20">
+    <label>${T.ed_kit}</label><select id="cu-kit">${Object.keys(KITS).map(id=>`<option value="${id}" ${id===CUSTOM.kit?'selected':''}>${kitLbl(id)}</option>`).join('')}</select>
     <div class="kit-prev" id="cu-kp"></div>
-    <label>Giocatori (2–10) — rosa unica, vale per tutte le epoche</label>
+    <label>${T.cu_players}</label>
     ${CUSTOM.players.map((p,i)=>`<div class="prow"><span class="pnum">${i+2}</span><input type="text" id="cu-p-${i}" value="${escHtml(p)}" maxlength="18"></div>`).join('')}
-    <div class="frow"><span>⚔️ Attacco</span>${fsel('cu-att',CUSTOM.forza.att)}</div>
-    <div class="frow"><span>🛡️ Difesa</span>${fsel('cu-dif',CUSTOM.forza.dif)}</div>
-    <div class="frow"><span>🧠 Lucidità</span>${fsel('cu-vis',CUSTOM.forza.vis)}</div>
-    <label>Prende il posto di</label>${tsel}
+    <div class="frow"><span>${T.f_att}</span>${fsel('cu-att',CUSTOM.forza.att)}</div>
+    <div class="frow"><span>${T.f_dif}</span>${fsel('cu-dif',CUSTOM.forza.dif)}</div>
+    <div class="frow"><span>${T.f_vis}</span>${fsel('cu-vis',CUSTOM.forza.vis)}</div>
+    <label>${T.cu_target}</label>${tsel}
     <div class="rules-note">${CUSTOM.enabled
-      ?`ATTIVA: gioca al posto di <b>${escHtml(CUSTOM.backup?CUSTOM.backup.club:'—')}</b> nel suo campionato. Disabilitandola torna l'originale, identico. Le carriere già iniziate non cambiano.`
-      :`SPENTA: i club originali sono tutti al loro posto. Abilitandola prende il posto del club scelto (stesso campionato). Le carriere già iniziate non cambiano.`}</div>
-    <button class="b90 ${CUSTOM.enabled?'c-red':'c-green'} wide" onclick="UI.customToggle()">${CUSTOM.enabled?'Disabilita (torna '+escHtml(CUSTOM.backup?CUSTOM.backup.club:'l\'originale')+')':'Abilita (sostituisce il club scelto)'}</button>`;
+      ?fmt(T.cu_note_on,escHtml(CUSTOM.backup?CUSTOM.backup.club:'—'))
+      :T.cu_note_off}</div>
+    <button class="b90 ${CUSTOM.enabled?'c-red':'c-green'} wide" onclick="UI.customToggle()">${CUSTOM.enabled?fmt(T.cu_btn_off,escHtml(CUSTOM.backup?CUSTOM.backup.club:T.the_orig)):T.cu_btn_on}</button>`;
   host.appendChild(d);
   const upd=()=>{$('cu-kp').style.background=kitCSS(KITS[$('cu-kit').value]);};
   $('cu-kit').onchange=upd;upd();
@@ -1195,7 +1601,7 @@ function simMatchX(A,B,mustDecide,prior){ // IA vs IA istantanea; se serve un vi
 function simMatch(A,B){return simMatchX(A,B,false,0);}
 
 /* ===== Fase finale a eliminazione (coppe) ===== */
-function koRoundNames(q){return q===8?['Quarti di finale','Semifinali','Finale']:q===4?['Semifinali','Finale']:['Finale'];}
+function koRoundNames(q){return q===8?[T.ko_q,T.ko_s,T.ko_f]:q===4?[T.ko_s,T.ko_f]:[T.ko_f];}
 function mkTie(a,b,single){return {a,b,single,l1:{gh:null,ga:null,played:false},l2:single?null:{gh:null,ga:null,played:false}};}
 function tieWinner(t){
   if(t.single){
@@ -1259,20 +1665,20 @@ function archiveTour(){
   }
   const sc=Object.entries(TOUR.scorers).map(([k,g])=>{const p=k.split('|');return {team:p[0],name:p[1],num:p[2],g};}).sort((a,b)=>b.g-a.g);
   const capo=sc.length?sc.filter(s=>s.g===sc[0].g):[];
-  HIST.push({date:new Date().toLocaleDateString('it-IT'),name:TOUR.name||'Torneo',tipo:TOUR.type==='cup'?'Coppa':'Campionato',
-    era:TOUR.era&&ERAS[TOUR.era]?ERAS[TOUR.era].label:'',
+  HIST.push({date:new Date().toLocaleDateString(LANG==='it'?'it-IT':'en-GB'),name:TOUR.name||T.default_tour,tipo:TOUR.type==='cup'?T.tipo_cup:T.tipo_league,
+    era:TOUR.era?eraLbl(TOUR.era):'',
     winner:wT.name,winnerClub:wT.club||wT.name,second:sT?sT.name:'',capo,teams:TOUR.teams.map(t=>t.name)});
   saveHist();saveTour();
 }
 function renderHistory(){
   $('hist-albo').innerHTML=HIST.length?HIST.slice().reverse().map(h=>
-    `<div class="trow">🏆 <b>${h.name}</b> (${h.tipo}${h.era?', '+h.era:''}) — ${h.date}<br>Vincitore: <b style="color:var(--oro)">${h.winner}</b>${h.second?' · finalista/2°: '+h.second:''}${h.capo&&h.capo.length?`<br>⚽ Capocannoniere: ${h.capo.map(c=>`${c.name} (n. ${c.num}, ${c.team}) con ${c.g} gol`).join(' ex aequo ')}`:''}</div>`).join('')
-    :'<div class="trow">Nessun torneo concluso: la storia comincia dalla prossima finale.</div>';
+    `<div class="trow"><b>${h.name}</b> (${h.tipo}${h.era?', '+h.era:''}) — ${h.date}<br>${T.h_winner}: <b style="color:var(--oro)">${h.winner}</b>${h.second?' · '+T.h_second+': '+h.second:''}${h.capo&&h.capo.length?`<br>${T.h_capo}: ${h.capo.map(c=>`${c.name} (n. ${c.num}, ${c.team}) ${fmt(T.h_with,c.g)}`).join(T.h_exaequo)}`:''}</div>`).join('')
+    :'<div class="trow">'+T.h_none+'</div>';
   // bacheca unica per club, attraverso le epoche
   const bac={};HIST.forEach(h=>{const k=h.winnerClub||h.winner;(bac[k]=bac[k]||[]).push(h.name+(h.era?' ('+h.era+')':''));});
   $('hist-bacheca').innerHTML=Object.keys(bac).length?Object.entries(bac).map(([t,l])=>
     `<div class="trow"><b>${t}</b> — ${'🏆'.repeat(l.length)} ${l.join(', ')}</div>`).join('')
-    :'<div class="trow">Bacheche ancora vuote.</div>';
+    :'<div class="trow">'+T.h_empty2+'</div>';
 }
 function tourAddScorers(g,A,B){
   g.scorers.forEach(s=>{
@@ -1297,9 +1703,9 @@ function tourStandings(){
 var pendingPreset=null; // se il torneo nasce da un preset, è una competizione ufficiale di CARRIERA
 function renderTourSetup(){
   const host=$('tour-teams-pick');host.innerHTML='';
-  host.insertAdjacentHTML('beforeend',`<label class="pick" style="border-color:var(--oro); grid-column:1/-1;"><input type="checkbox" id="tt-all" checked> Seleziona tutte</label>`);
+  host.insertAdjacentHTML('beforeend',`<label class="pick" style="border-color:var(--oro); grid-column:1/-1;"><input type="checkbox" id="tt-all" checked> ${T.sel_all}</label>`);
   Object.entries(teamsByCountry()).forEach(([c,list])=>{
-    host.insertAdjacentHTML('beforeend',`<div class="pick-country">${c}</div>`);
+    host.insertAdjacentHTML('beforeend',`<div class="pick-country">${coLbl(c)}</div>`);
     list.forEach(i=>host.insertAdjacentHTML('beforeend',`<label class="pick"><input type="checkbox" id="tt-${i}" checked> ${CLUBS[i].club}</label>`));
   });
   CLUBS.forEach((c,i)=>{const cb=$('tt-'+i);if(cb)cb.onchange=refreshTourUser;});
@@ -1322,7 +1728,7 @@ function brTieBox(r,i){
   if(t){
     if(t.single){ if(t.l1.played){sa=t.l1.gh;sb=t.l1.ga;} }
     else if(t.l1.played&&t.l2&&t.l2.played){ sa=t.l1.gh+t.l2.ga; sb=t.l1.ga+t.l2.gh; }
-    if(t.pen!=null&&t.penScore){ sa=`${sa} (${t.penScore[0]}r)`; sb=`${sb} (${t.penScore[1]}r)`; }
+    if(t.pen!=null&&t.penScore){ sa=`${sa} (${t.penScore[0]}${T.penShort})`; sb=`${sb} (${t.penScore[1]}${T.penShort})`; }
   }
   return `<div class="btie">${brTeamRow(aIdx,sa,w!=null&&w===aIdx,aIdx==null)}${brTeamRow(bIdx,sb,w!=null&&w===bIdx,bIdx==null)}</div>`;
 }
@@ -1333,13 +1739,13 @@ function renderBracket(){
   if(TOUR.phase!=='ko'||!TOUR.ko){
     const st=tourStandings();
     const pair=q===2?[[0,1]]:q===4?[[0,3],[1,2]]:[[0,7],[3,4],[1,6],[2,5]];
-    let h=`<div class="brk-note">Girone in corso: ecco chi è provvisoriamente qualificato (prime ${q}) e come sarebbe accoppiato. Il tabellone definitivo si forma alla fine del girone.</div>`;
-    h+=`<div class="bracket"><div class="bcol"><div class="bcol-h">${names[0]} · provvisorio</div><div class="bcol-body">`;
+    let h=`<div class="brk-note">${fmt(T.brk_note,q)}</div>`;
+    h+=`<div class="bracket"><div class="bcol"><div class="bcol-h">${names[0]}${T.brk_prov}</div><div class="bcol-body">`;
     pair.forEach(([x,y])=>{
       const A=st[x], B=st[y];
       h+=`<div class="btie">`+
-         `<div class="bteam${A?'':' tbd'}"><span class="bnm">${A?A.name+(A.i===TOUR.user?' ⭐':''):'—'}</span><span class="bsc">${x+1}ª</span></div>`+
-         `<div class="bteam${B?'':' tbd'}"><span class="bnm">${B?B.name+(B.i===TOUR.user?' ⭐':''):'—'}</span><span class="bsc">${y+1}ª</span></div>`+
+         `<div class="bteam${A?'':' tbd'}"><span class="bnm">${A?A.name+(A.i===TOUR.user?' ⭐':''):'—'}</span><span class="bsc">${fmt(T.seed_n,x+1)}</span></div>`+
+         `<div class="bteam${B?'':' tbd'}"><span class="bnm">${B?B.name+(B.i===TOUR.user?' ⭐':''):'—'}</span><span class="bsc">${fmt(T.seed_n,y+1)}</span></div>`+
          `</div>`;
     });
     h+=`</div></div></div>`;
@@ -1354,7 +1760,7 @@ function renderBracket(){
     h+=`</div></div>`;
   }
   h+='</div>';
-  if(tourDone())h+=`<div class="bchamp">🏆 Campione: ${tourChampionName()}</div>`;
+  if(tourDone())h+=`<div class="bchamp">${fmt(T.brk_champ,tourChampionName())}</div>`;
   host.innerHTML=h;
 }
 
@@ -1365,44 +1771,44 @@ function renderTour(){
     if(TOUR.career)archiveTour(); // solo la carriera entra in albo d'oro e bacheca
     else{TOUR.archived=true;saveTour();}
   }
-  $('tour-title').textContent=(TOUR.career?'⭐ ':'')+(done?`🏆 CAMPIONE: ${tourChampionName()}!`:`🏆 ${TOUR.name||'Torneo'} — ${TOUR.teams.length} squadre`);
-  const phase=(TOUR.type==='cup')?(TOUR.phase==='ko'?TOUR.ko.rounds[TOUR.ko.stage].name:'Fase a girone'):(TOUR.double?'Campionato, andata e ritorno':'Campionato, solo andata');
-  const eraLbl=TOUR.era&&ERAS[TOUR.era]?' · '+ERAS[TOUR.era].label:'';
-  $('tour-status').textContent=`${phase}${eraLbl} — tu guidi ${TOUR.teams[TOUR.user].name}`;
+  $('tour-title').textContent=(TOUR.career?'⭐ ':'')+(done?fmt(T.tt_done,tourChampionName()):fmt(T.tt_run,TOUR.name||T.default_tour,TOUR.teams.length));
+  const phase=(TOUR.type==='cup')?(TOUR.phase==='ko'?koRoundNames(TOUR.koQual)[TOUR.ko.stage]:T.phase_grp):(TOUR.double?T.phase_ar:T.phase_sa); // nome del turno ricalcolato (segue la lingua, non quello salvato)
+  const eraL=TOUR.era?' · '+eraLbl(TOUR.era):'';
+  $('tour-status').textContent=`${phase}${eraL}${fmt(T.youlead,TOUR.teams[TOUR.user].name)}`;
   // classifica (vista principale)
-  $('tour-table').innerHTML=`<tr><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th>GF</th><th>GS</th><th>DR</th></tr>`+
+  $('tour-table').innerHTML=`<tr><th class="tn">${T.tblh[0]}</th>${T.tblh.slice(1).map(x=>`<th>${x}</th>`).join('')}</tr>`+
     st.map(s=>`<tr class="${s.i===TOUR.user?'me':''}"><td class="tn">${s.name}</td><td><b>${s.Pt}</b></td><td>${s.P}</td><td>${s.V}</td><td>${s.N}</td><td>${s.S}</td><td>${s.GF}</td><td>${s.GS}</td><td>${s.GF-s.GS}</td></tr>`).join('');
   // marcatori (vista su richiesta): gol + nome, con (squadra, n.maglia) accanto al nome
   const sc=Object.entries(TOUR.scorers).map(([k,g])=>{const p=k.split('|');return {team:p[0],name:p[1],num:p[2],g};}).sort((a,b)=>b.g-a.g).slice(0,10);
-  $('tour-scorers').innerHTML=sc.length?sc.map(s=>`<div class="scr-row"><span class="scr-g">${s.g}</span><span class="scr-n">${s.name}<span class="scr-sub">(${s.team}, n.${s.num})</span></span></div>`).join(''):'<div class="trow">Ancora nessun gol</div>';
+  $('tour-scorers').innerHTML=sc.length?sc.map(s=>`<div class="scr-row"><span class="scr-g">${s.g}</span><span class="scr-n">${s.name}<span class="scr-sub">(${s.team}, n.${s.num})</span></span></div>`).join(''):'<div class="trow">'+T.nogoals+'</div>';
   // tabellone della fase a eliminazione (solo coppe)
   $('tab-brk').style.display=(TOUR.type==='cup')?'':'none';
   if(TOUR.type==='cup')renderBracket(); else if(currentTourTab==='brk')currentTourTab='class';
   // risultati e prossime partite: girone per giornata + tabellone della fase finale
   let ris='',lastG=0;
   TOUR.schedule.forEach(mt=>{
-    if(mt.g!==lastG){lastG=mt.g;ris+=`<div class="trow gday">${mt.g}ª giornata</div>`;}
+    if(mt.g!==lastG){lastG=mt.g;ris+=`<div class="trow gday">${fmt(T.day_n,mt.g)}</div>`;}
     const star=(mt.h===TOUR.user||mt.a===TOUR.user)?' ⭐':'';
     ris+=mt.played
       ?`<div class="trow">${TOUR.teams[mt.h].name} <b>${mt.gh} - ${mt.ga}</b> ${TOUR.teams[mt.a].name}${star}</div>`
-      :`<div class="trow" style="opacity:.6;">${TOUR.teams[mt.h].name} - ${TOUR.teams[mt.a].name}${star} <i>(da giocare)</i></div>`;
+      :`<div class="trow" style="opacity:.6;">${TOUR.teams[mt.h].name} - ${TOUR.teams[mt.a].name}${star} <i>${T.toplay_p}</i></div>`;
   });
   if(TOUR.type==='cup'&&TOUR.ko){
     TOUR.ko.rounds.forEach((r,ri)=>{
       if(ri>TOUR.ko.stage||!r.ties.length)return;
-      ris+=`<div class="trow gday">🏆 ${r.name}</div>`;
+      ris+=`<div class="trow gday">${koRoundNames(TOUR.koQual)[ri]}</div>`;
       r.ties.forEach(t=>{
         const A=TOUR.teams[t.a].name, B=TOUR.teams[t.b].name;
         const star=(t.a===TOUR.user||t.b===TOUR.user)?' ⭐':'';
         ris+=t.l1.played
-          ?`<div class="trow">${A} <b>${t.l1.gh} - ${t.l1.ga}</b> ${B}${t.single?'':' <i>(andata)</i>'}${star}</div>`
-          :`<div class="trow" style="opacity:.6;">${A} - ${B}${star} <i>(da giocare)</i></div>`;
+          ?`<div class="trow">${A} <b>${t.l1.gh} - ${t.l1.ga}</b> ${B}${t.single?'':' <i>'+T.leg1+'</i>'}${star}</div>`
+          :`<div class="trow" style="opacity:.6;">${A} - ${B}${star} <i>${T.toplay_p}</i></div>`;
         if(t.l2)ris+=t.l2.played
-          ?`<div class="trow">${B} <b>${t.l2.gh} - ${t.l2.ga}</b> ${A} <i>(ritorno)</i></div>`
-          :`<div class="trow" style="opacity:.6;">${B} - ${A} <i>(ritorno, da giocare)</i></div>`;
-        if(t.pen!=null&&t.penScore)ris+=`<div class="trow"><i>calci di rigore: ${t.penScore[0]} - ${t.penScore[1]}</i></div>`;
+          ?`<div class="trow">${B} <b>${t.l2.gh} - ${t.l2.ga}</b> ${A} <i>${T.leg2}</i></div>`
+          :`<div class="trow" style="opacity:.6;">${B} - ${A} <i>${T.leg2tp}</i></div>`;
+        if(t.pen!=null&&t.penScore)ris+=`<div class="trow"><i>${fmt(T.pensline,t.penScore[0],t.penScore[1])}</i></div>`;
         const w=tieWinner(t);
-        if(w!==null)ris+=`<div class="trow" style="color:var(--oro);">→ passa ${TOUR.teams[w].name}</div>`;
+        if(w!==null)ris+=`<div class="trow" style="color:var(--oro);">${fmt(T.advances,TOUR.teams[w].name)}</div>`;
       });
     });
   }
@@ -1419,11 +1825,11 @@ function injectPaper(){
   const htmlFor=id=>`<div class="pb-head">★ SOCCER <span class="tred">CARDS</span> ★</div>
     <div class="pb-sub">★ summer edition 2026 ★</div>
     <div class="pb-rule"></div>
-    ${id==='scr-menu'?`<div class="pb-headline">Clamoroso al Cibali!</div>`:''}
+    ${id==='scr-menu'?`<div class="pb-headline" data-i18n="headline">Clamoroso al Cibali!</div>`:''}
     <div class="pb-cols"><div class="pb-col"></div><div class="pb-col"></div><div class="pb-col"></div><div class="pb-col"></div></div>
     <div class="pb-photo"><div class="pb-scene"><div class="pb-spr" style="left:16%;top:12%;"></div><div class="pb-ball" style="left:48%;top:56%;"></div><div class="pb-spr" style="left:64%;top:26%;"></div></div></div>
     <div class="pb-photo2"><div class="pb-scene"><div class="pb-spr big" style="left:30%;top:8%;"></div><div class="pb-ball" style="left:22%;top:78%;"></div></div></div>`;
-  ['scr-menu','scr-setup','scr-options','scr-teams','scr-interval','scr-final','scr-tour-pick','scr-tour-setup','scr-tour','scr-rules','scr-history','scr-saves','scr-career-list','scr-career-new','scr-career'].forEach(id=>{
+  ['scr-menu','scr-setup','scr-options','scr-teams','scr-interval','scr-final','scr-tour-pick','scr-tour-setup','scr-tour','scr-rules','scr-history','scr-saves','scr-settings','scr-lang','scr-career-list','scr-career-new','scr-career'].forEach(id=>{
     const el=document.getElementById(id);if(!el)return;
     const d=document.createElement('div');d.className='paper-bg';d.innerHTML=htmlFor(id);
     el.prepend(d);
@@ -1472,7 +1878,7 @@ function cardHTML(c,extra,pname,mine){
   const asso=c.v===1?(rig?' asso rigore':' asso'):'';
   const val=c.v===1?'A':c.v;
   let strip='';
-  if(c.v===1)strip=`<div class="strip">${rig?'⚽ RIGORE':'PUNIZIONE'}</div>`;
+  if(c.v===1)strip=`<div class="strip">${rig?T.strip_pen:T.strip_fk}</div>`;
   else if(pname)strip=`<div class="strip"><span class="nm">${pname}</span></div>`;
   return `<div class="card${asso}${mine?' mine':''} ${extra||''}">
     <div class="corner">${val}</div>
@@ -1485,8 +1891,8 @@ function renderAll(lastLaid){
   $('sb-ai-name').textContent=G.names.ai;
   $('sb-score').textContent=`${G.score.me} - ${G.score.ai}`;
   const minute=(G.half-1)*45+Math.min(45,Math.max(0,Math.ceil(G.playsInHalf/36*45)));
-  const fase=G.shootMode?'RIGORI':(G.half<=2?G.half+'° TEMPO':'SUPPLEMENTARI')+' — '+minute+"'";
-  $('sb-info').innerHTML=`${fase}<br>mazzo: ${G.deck.length} carte`;
+  const fase=G.shootMode?T.ph_pens:(G.half<=2?T['ph_half'+G.half]:T.ph_extra)+' — '+minute+"'";
+  $('sb-info').innerHTML=`${fase}<br>${fmt(T.deckinfo,G.deck.length)}`;
   // avversario (dorsi con stemma)
   const za=$('zone-ai');za.querySelectorAll('.card').forEach(e=>e.remove());
   const init=G.names.ai[0].toUpperCase();
@@ -1517,9 +1923,13 @@ function addLog(txt){
 function logMove(r){
   const who=r.side==='me'?G.names.me:G.names.ai;
   let txt;
-  if(r.laid)txt=`<b>${who}</b> mette il ${r.card.v} sul tavolo`;
-  else if(r.card.v===1)txt=(r.card.kind==='rigore'?`<b style="color:#ff5a5a">RIGORE!</b> `:``)+`<b>${who}</b> batte ${r.card.kind==='rigore'?'il rigore':'la punizione'}: `+(r.captured.length?`l'asso piglia tutto (${fmtCards(r.captured)})`:`a tavolo vuoto — l'asso esce dal gioco`);
-  else txt=`<b>${who}</b> gioca il ${r.card.v} e prende ${fmtCards(r.captured)}`+(r.scopa?' — <b style="color:var(--oro)">SCOPA! GOL!</b>':'');
+  if(r.laid)txt=fmt(T.log_lay,who,r.card.v);
+  else if(r.card.v===1){
+    const kind=r.card.kind==='rigore'?T.ace_pen:T.ace_fk;
+    txt=(r.card.kind==='rigore'?`<b style="color:#ff5a5a">${T.pen_flash}</b> `:``)+
+      (r.captured.length?fmt(T.log_ace_take,who,kind,fmtCards(r.captured)):fmt(T.log_ace_empty,who,kind));
+  }
+  else txt=fmt(T.log_take,who,r.card.v,fmtCards(r.captured))+(r.scopa?T.log_scopa:'');
   addLog(txt);
 }
 
@@ -1528,9 +1938,10 @@ function showFieldNote(a,b){
   $('kickoff-note').classList.remove('hidden');
 }
 async function showGoal(r){
+  sfxGoal(); // boato della curva
   const team=r.side==='me'?G.names.me:G.names.ai;
   const sc=G.scorers[G.scorers.length-1];
-  $('goal-big').textContent='⚽ GOL!';
+  $('goal-big').textContent=T.goalBig;
   $('goal-who').textContent=`${sc.name} (n. ${sc.num}) — ${team} — ${sc.minute}'`;
   $('goal-score').textContent=`${G.names.me} ${G.score.me} - ${G.score.ai} ${G.names.ai}`;
   $('goal-overlay').classList.add('show');
@@ -1553,15 +1964,15 @@ function onMyCard(i){
   if(uniq.length<=1){doPlay('me',i,uniq.length?uniq[0].oi:0);return;}
   // più prese DAVVERO diverse: scegli guardando le carte
   const mini=(c,played)=>`<span class="mini-card${played?' played':''}"><span class="mv">${c.v===1?'A':c.v}</span></span>`;
-  $('chooser-title').textContent=`Giochi il ${card.v===1?'A':card.v}${card.v===1?'':' ('+G.players.me[card.v-2]+')'}`;
-  $('chooser-played').innerHTML=`${mini(card,true)} <span>può prendere in più modi: scegli.</span>`;
+  $('chooser-title').textContent=fmt(T.ch_title,card.v===1?'A':card.v,card.v===1?'':' ('+G.players.me[card.v-2]+')');
+  $('chooser-played').innerHTML=`${mini(card,true)} <span>${T.ch_multi}</span>`;
   const box=$('chooser-opts');box.innerHTML='';
   uniq.forEach(({opt,oi})=>{
     const cards=opt.map(x=>G.table[x]);
     const clears=opt.length===G.table.length&&card.v!==1;
     const b=document.createElement('button');
     b.className='opt-btn'+(clears?' scopa-hint':'');
-    b.innerHTML=cards.map(c=>mini(c)).join('<span class="plus">+</span>')+(clears?'<span class="scopa-tag">⚽ SCOPA!</span>':'');
+    b.innerHTML=cards.map(c=>mini(c)).join('<span class="plus">+</span>')+(clears?'<span class="scopa-tag">'+T.ch_scopa+'</span>':'');
     b.onclick=()=>{UI.closeChooser();doPlay('me',i,oi);};
     box.appendChild(b);
   });
@@ -1580,9 +1991,11 @@ async function doPlay(side,handIdx,optIdx){
   busy=true;
   if(side==='ai')await revealAiCard(G.hands.ai[handIdx]);
   const r=playCard(G,side,handIdx,optIdx);
+  sfxCard(); // toc della carta sul panno
+  crowdMood(r); // la folla si scalda su asso o tavolo quasi vuoto
   renderAll(r.laid);
   logMove(r);
-  if(r.newRound)addLog(`<span class="evt">— Fine giro: il mazzo distribuisce 3 nuove carte a testa (quelle sul tavolo restano) —</span>`);
+  if(r.newRound)addLog(`<span class="evt">${T.log_newround}</span>`);
   if(r.scopa)await showGoal(r);
   if(r.endOfHalf){endHalf();return;}
   if(G.turn==='ai'){
@@ -1593,7 +2006,7 @@ async function doPlay(side,handIdx,optIdx){
 }
 
 function marcatoriHTML(){
-  if(!G.scorers.length)return'<div class="m-row" style="color:#64748b;">Nessun marcatore</div>';
+  if(!G.scorers.length)return'<div class="m-row" style="color:#64748b;">'+T.no_scorers+'</div>';
   return G.scorers.map(s=>`<div class="m-row"><span class="min">${s.minute}'</span> ${s.name} (n. ${s.num}) — ${s.side==='me'?G.names.me:G.names.ai}</div>`).join('');
 }
 
@@ -1601,6 +2014,7 @@ function endHalf(){
   busy=false;
   $('kickoff-note').classList.add('hidden');
   if(G.half===1){
+    sfxWhistle(2);crowdStop(); // duplice fischio: intervallo
     $('int-teams').textContent=`${G.names.me} vs ${G.names.ai}`;
     $('int-score').textContent=`${G.score.me} - ${G.score.ai}`;
     $('int-marcatori').innerHTML=marcatoriHTML();
@@ -1619,16 +2033,17 @@ function endHalf(){
       beginShootout();return;                                            // poi calci di rigore
     }
     $('fin-teams').textContent=`${G.names.me} vs ${G.names.ai}`;
-    $('fin-score').textContent=`${G.score.me} - ${G.score.ai}`+(G.shootResult?` (${G.shootResult.me}-${G.shootResult.ai} dcr)`:'');
+    $('fin-score').textContent=`${G.score.me} - ${G.score.ai}`+(G.shootResult?` (${G.shootResult.me}-${G.shootResult.ai} ${T.dcr})`:'');
     const noPts=(G.career&&G.career.euro&&G.career.euro!=='group')||(G.tour&&G.tour.ko); // partite secche/eliminazione: niente punti
-    let e=G.score.me>G.score.ai?`Vittoria ${G.names.me}!${noPts?'':' (3 punti)'}`:G.score.me<G.score.ai?`Vittoria ${G.names.ai}!${noPts?'':' (3 punti)'}`:`Pareggio${noPts?'':' (1 punto a testa)'}`;
-    if(G.shootResult)e=`${G.shootWinner==='me'?G.names.me:G.names.ai} passa ai rigori!`;
+    let e=G.score.me>G.score.ai?fmt(T.res_win,G.names.me)+(noPts?'':T.res_pts3):G.score.me<G.score.ai?fmt(T.res_win,G.names.ai)+(noPts?'':T.res_pts3):T.res_draw+(noPts?'':T.res_pts1);
+    if(G.shootResult)e=fmt(T.res_pens,G.shootWinner==='me'?G.names.me:G.names.ai);
     $('fin-esito').textContent=e;
     $('fin-marcatori').innerHTML=marcatoriHTML();
     // in torneo/carriera: si torna alla competizione, niente "Rigioca"
     $('btn-rigioca').style.display=(G.tour||G.career)?'none':'';
     $('btn-tour-back').style.display=G.tour?'':'none';
     $('btn-career-back').style.display=G.career?'':'none';
+    sfxWhistle(3);crowdStop(); // triplice fischio: è finita
     show('scr-final');
   }
 }
@@ -1646,29 +2061,80 @@ async function shootRound(){
   drawSprites();
   renderAll();
   logLines=[];
-  addLog(`⚽ Calci di rigore — 10 carte a testa su tavolo vuoto: ogni scopa è un rigore trasformato. Se finisce pari, si ribatte.`);
+  addLog(T.log_shootout);
   const aiStarts=G.turn==='ai';
-  showFieldNote('⚽ RIGORI!','10 carte a testa, una a turno: ogni scopa è un rigore segnato'+(aiStarts?' — tocca il campo per iniziare':''));
+  showFieldNote(T.fn_pens,fmt(T.fn_pens2,aiStarts?T.fn_touch:''));
   if(aiStarts){
     busy=true;
     pendingStart=async()=>{await sleep(400);const ch=aiChoose(G,'ai');await doPlay('ai',ch.handIdx,ch.optIdx);};
   }else busy=false;
 }
+/* ===== AUDIO STADIO (retrò, generato dal codice: nessun file, nessun diritto) ===== */
+var AUDIO={on:(localStorage.getItem('soccercard_audio')||'1')==='1', ctx:null, crowd:null};
+function aCtx(){if(!AUDIO.ctx){const C=window.AudioContext||window.webkitAudioContext;if(C)AUDIO.ctx=new C();}return AUDIO.ctx;}
+function noiseBuf(ctx,sec){const b=ctx.createBuffer(1,Math.floor(ctx.sampleRate*sec),ctx.sampleRate);const d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;return b;}
+function crowdStart(){ // brusio continuo della folla, molto leggero
+  if(!AUDIO.on)return;const ctx=aCtx();if(!ctx||AUDIO.crowd)return;
+  const src=ctx.createBufferSource();src.buffer=noiseBuf(ctx,2);src.loop=true;
+  const f=ctx.createBiquadFilter();f.type='bandpass';f.frequency.value=850;f.Q.value=.5;
+  const g=ctx.createGain();g.gain.value=.007; // base molto leggera: sale nei momenti caldi
+  src.connect(f);f.connect(g);g.connect(ctx.destination);src.start();
+  AUDIO.crowd={src,g};
+}
+function crowdStop(){if(AUDIO.crowd){try{AUDIO.crowd.src.stop();}catch(e){}AUDIO.crowd=null;}}
+function crowdMood(r){ // la folla sente il pericolo: asso appena giocato o una sola carta sul tavolo
+  if(!AUDIO.crowd||!AUDIO.ctx)return;
+  const hot=(r&&r.card&&r.card.v===1)||(G&&!G.shootMode&&G.table.length<=1);
+  const g=AUDIO.crowd.g.gain, t=AUDIO.ctx.currentTime;
+  g.cancelScheduledValues(t);g.setValueAtTime(g.value,t);
+  g.linearRampToValueAtTime(hot?.055:.007, t+.6);
+}
+function sfxWhistle(n){ // fischio dell'arbitro (n fischi)
+  if(!AUDIO.on)return;const ctx=aCtx();if(!ctx)return;
+  for(let i=0;i<(n||1);i++){
+    const t=ctx.currentTime+i*.38;
+    const o=ctx.createOscillator();o.type='square';o.frequency.setValueAtTime(2350,t);o.frequency.linearRampToValueAtTime(2650,t+.1);
+    const g=ctx.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.28,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.32);
+    o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+.34);
+  }
+}
+function sfxGoal(){ // boato della curva: due strati (rombo + voci), ben udibile
+  if(!AUDIO.on)return;const ctx=aCtx();if(!ctx)return;
+  const t=ctx.currentTime;
+  [[600,.9,.4],[1400,.45,.8]].forEach(([fq,vol,q])=>{
+    const src=ctx.createBufferSource();src.buffer=noiseBuf(ctx,2.4);
+    const f=ctx.createBiquadFilter();f.type='bandpass';f.frequency.value=fq;f.Q.value=q;
+    const g=ctx.createGain();
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.15);g.gain.exponentialRampToValueAtTime(.0001,t+2.3);
+    src.connect(f);f.connect(g);g.connect(ctx.destination);src.start();
+  });
+}
+function sfxCard(){ // toc della carta sul panno
+  if(!AUDIO.on)return;const ctx=aCtx();if(!ctx)return;
+  const src=ctx.createBufferSource();src.buffer=noiseBuf(ctx,.06);
+  const f=ctx.createBiquadFilter();f.type='highpass';f.frequency.value=1600;
+  const g=ctx.createGain();const t=ctx.currentTime;
+  g.gain.setValueAtTime(.08,t);g.gain.exponentialRampToValueAtTime(.0001,t+.06);
+  src.connect(f);f.connect(g);g.connect(ctx.destination);src.start();
+}
 async function beginHalf(h){
   startHalf(G,h);
   pendingStart=null;
   show('scr-match');
+  $('sb-audio').style.display=AUDIO.on?'':'none'; // il pulsante in partita esiste solo se l'audio è attivo in Opzioni
+  $('sb-audio').textContent='🔊';
+  sfxWhistle(1);crowdStart();
   drawSprites();
   renderAll();
   const first=G.turn==='me'?G.names.me:G.names.ai;
   logLines=[];
-  addLog(`${h<=2?h+'° tempo':'Supplementari'} — 4 carte in campo, 3 a testa, ${G.deck.length} nel mazzo. Batte il calcio d'inizio <b>${first}</b>`);
+  addLog(fmt(T.log_start,h<=2?T['half'+h]:T.extra,G.deck.length,first));
   // annuncio leggero direttamente sul campo: si gioca subito, la scritta sparisce al primo clic
   const aiStarts=G.turn==='ai';
-  const hint=aiStarts?' — tocca il campo per iniziare':'';
-  if(h===1)showFieldNote("🪙 CALCIO D'INIZIO",`${G.names.me} vs ${G.names.ai} — monetina: inizia ${first}${hint}`);
-  else if(h===2)showFieldNote('2° TEMPO',`Inizia ${first} — ${G.names.me} ${G.score.me} - ${G.score.ai} ${G.names.ai}${hint}`);
-  else showFieldNote('SUPPLEMENTARI!',`Se resta pari, calci di rigore — inizia ${first}${hint}`);
+  const hint=aiStarts?T.fn_touch:'';
+  if(h===1)showFieldNote(T.fn_kickoff,fmt(T.fn_kick2,G.names.me,G.names.ai,first,hint));
+  else if(h===2)showFieldNote(T.fn_2half,fmt(T.fn_2half2,first,`${G.names.me} ${G.score.me} - ${G.score.ai} ${G.names.ai}`)+hint);
+  else showFieldNote(T.fn_extra,fmt(T.fn_extra2,first,hint));
   if(aiStarts){
     busy=true; // l'IA che batte NON muove finché non tocchi il campo (vedi click handler)
     pendingStart=async()=>{await sleep(400);const ch=aiChoose(G,'ai');await doPlay('ai',ch.handIdx,ch.optIdx);};
@@ -1688,7 +2154,9 @@ const RULES=[
  {t:'Le squadre',h:`<h5>I marcatori</h5>
    <p>Ogni squadra ha 9 marcatori, numerati dal 2 al 10: il 10 è il fuoriclasse. Le carte non hanno semi: due carte uguali sono due azioni dello stesso giocatore. Carte, denari, settebello e primiera non assegnano punti: qui conta solo il gol.</p>
    <h5>Le epoche</h5>
-   <p>Ogni club ha due rose: <b>Anni 90</b> e <b>Oggi</b>. Nelle amichevoli puoi far sfidare anche epoche diverse (es. Milan '90 contro Milan Oggi). I calciatori e le maglie si modificano in Opzioni → Squadre → scheda Rosa; <b>i nomi dei club originali non si cambiano</b>.</p>
+   <p>Ogni club ha due rose: <b>Anni 90</b> e <b>Oggi</b>. Nelle amichevoli puoi far sfidare anche epoche diverse (la stessa squadra di ieri contro quella di oggi). I calciatori e le maglie si modificano in Opzioni → Squadre → scheda Rosa.</p>
+   <h5>Le rose via CSV</h5>
+   <p>Il gioco arriva con <b>squadre e giocatori di fantasia</b>: per dare i nomi che preferisci a tutto il campionato in un colpo solo, in Opzioni → Squadre premi <b>"Scarica rose (CSV)"</b>, apri il file in Excel, cambia nomi di club, giocatori e forza, salvalo come <b>"CSV UTF-8"</b> e premi <b>"Importa rose (CSV)"</b>. Regole del foglio: non toccare le colonne CODICE ed EPOCA, nome del club uguale sulle sue due righe, 9 giocatori per riga, forza da 1 a 5, nomi di club tutti diversi.</p>
    <h5>La squadra inventata</h5>
    <p>In Opzioni → Squadre → scheda <b>Inventata</b> puoi creare una squadra tutta tua: nome, maglia, 9 giocatori (rosa unica per tutte le epoche) e forza. Abilitandola <b>prende il posto di un club a tua scelta</b> nel suo campionato; disabilitandola torna l'originale, identico. Le carriere già iniziate non vengono toccate.</p>`},
  {t:'Forza e AI',h:`<h5>La forza della squadra</h5>
@@ -1706,7 +2174,7 @@ const RULES=[
    <h5>Trofei e amichevoli</h5>
    <p>Le competizioni preconfigurate assegnano trofei che finiscono in bacheca (Opzioni → Storico). I tornei che inventi tu sono amichevoli: nessun trofeo.</p>`},
  {t:'La Stagione',h:`<h5>La carriera</h5>
-   <p>Dal menu Torneo → <b>Stagione</b> crei una carriera col tuo nome: scegli l'epoca (vale per tutte le squadre, per sempre) e la tua squadra. Si giocano <b>4 campionati nazionali</b> — Italia, Inghilterra, Spagna, Germania, 8 squadre ciascuno, andata e ritorno — tu disputi il tuo, gli altri li simula l'IA. Classifiche, risultati e marcatori di ogni lega sono sempre consultabili. Col pulsante <b>⏩ Simula</b> puoi far giocare all'IA anche la tua partita: giornata istantanea, stile allenatore-manager.</p>
+   <p>Dal menu Torneo → <b>Stagione</b> crei una carriera col tuo nome: scegli l'epoca (vale per tutte le squadre, per sempre) e la tua squadra. Si giocano <b>4 campionati nazionali</b> — Italia, Inghilterra, Spagna, Germania, 8 squadre ciascuno, andata e ritorno — tu disputi il tuo, gli altri li simula l'IA. Classifiche, risultati e marcatori di ogni lega sono sempre consultabili. Col pulsante <b>Simula</b> puoi far giocare all'IA anche la tua partita: giornata istantanea, stile allenatore-manager.</p>
    <h5>La Euro SuperCup</h5>
    <p>Chiusi i campionati (scudetti e capocannonieri in bacheca), <b>le prime 2 di ogni lega</b> giocano subito la Euro SuperCup, gran finale della stagione: 2 gironi da 4 di sola andata (mai due squadre della stessa lega insieme), poi semifinali di andata e ritorno e finale secca, col tabellone in stile giornale. Vinta la coppa, parte la stagione successiva.</p>
    <h5>Il Pallone d'oro</h5>
@@ -1720,10 +2188,58 @@ const RULES=[
    <h5>Calci di rigore</h5>
    <p>Se resta ancora pari si va ai <b>rigori</b>: 10 carte a testa da un mazzo nuovo su tavolo vuoto, si cala una carta a turno e ogni scopa è un rigore trasformato; se la serie finisce pari, si ribatte. Il risultato ufficiale resta quello del campo (indicato con "dcr") e i gol dei rigori non contano per il capocannoniere.</p>`}
 ];
+I18N.it.rules=RULES; // il regolamento italiano resta la copia master qui sopra
+I18N.en.rules=[
+ {t:'How to play',h:`<h5>The match</h5>
+   <p>The game follows classic Scopa rules, with a 40-card deck. <b>Every sweep is a goal</b>: the number on the card that clears the table identifies the scorer (from 2 to 10). A match has two halves, each a full deal: 4 cards on the table and 6 rounds of 3 cards each. Everything is reshuffled between halves.</p>
+   <h5>Kick-off</h5>
+   <p>A coin toss decides who kicks off the 1st half; the other team starts the 2nd. If the opponent kicks off, touch the pitch to start the action. The last card of each half never counts as a sweep.</p>
+   <h5>Captures</h5>
+   <p>If a card equal to yours is on the table, you must capture that single card (sums are not allowed). Otherwise you capture any combination of cards adding up to your card's value; if several captures are possible, you choose. If you cannot capture, your card stays on the table.</p>`},
+ {t:'The ace',h:`<h5>The ace: the set piece</h5>
+   <p>The ace is not a player: it is a <b>free kick</b> (7 aces out of 8) or a <b>penalty</b> (1 out of 8, assigned at random). It always takes everything on the table — and you can play it even when the table is empty: in that case the card simply leaves the game and never stays on the table (a legitimate tactical choice). The ace never scores though: goals only come from a real sweep.</p>`},
+ {t:'The teams',h:`<h5>The scorers</h5>
+   <p>Each team has 9 scorers, numbered 2 to 10: number 10 is the star player. Cards have no suits: two equal cards are two actions by the same player. Cards, coins, settebello and primiera award no points: here only goals count.</p>
+   <h5>The eras</h5>
+   <p>Each club has two squads: <b>'90s</b> and <b>Today</b>. In friendlies you can even match different eras (yesterday's team against today's). Players and kits are edited in Options → Teams → Squad tab.</p>
+   <h5>Squads via CSV</h5>
+   <p>The game ships with <b>fictional teams and players</b>: to rename the whole league in one go, in Options → Teams press <b>"Download squads (CSV)"</b>, open the file in Excel, change club names, players and strength, save it as <b>"CSV UTF-8"</b> and press <b>"Import squads (CSV)"</b>. Sheet rules: do not touch the CODICE and EPOCA columns, same club name on both of its rows, 9 players per row, strength from 1 to 5, all club names different.</p>
+   <h5>The custom team</h5>
+   <p>In Options → Teams → <b>Custom</b> tab you can create a team of your own: name, kit, 9 players (one squad for every era) and strength. Enable it and it <b>takes the place of a club of your choice</b> in its league; disable it and the original returns, untouched. Careers already started are not affected.</p>`},
+ {t:'Strength & AI',h:`<h5>Team strength</h5>
+   <p>Each team has three values from 1 to 5 that set how strong the opponent (the AI) is:</p>
+   <ul><li><b>Attack</b> — how well it spots and completes sweeps and picks the right captures.</li>
+   <li><b>Defence</b> — how well it avoids serving you the table for a sweep.</li>
+   <li><b>Composure</b> — memory of the cards already played, to judge the real risks.</li></ul>
+   <p>So the '90s side of a club can play better than today's. Set them in Options → Teams → Strength tab, per club and era; they also apply to every simulated match: cups, Season leagues and the Euro Cup.</p>
+   <h5>The wildcard</h5>
+   <p>A pinch of unpredictability always remains: every now and then, completely at random, even a weak team can beat a great one.</p>`},
+ {t:'The Cup',h:`<h5>The format</h5>
+   <p>From the Tournament menu choose the <b>Cup</b>: pick the teams, play a round-robin group and then a knockout stage (home-and-away quarterfinals and semifinals, single-match final), with the bracket always visible. The schedule is generated automatically and the matches you don't play are handled by the AI under the same rules.</p>
+   <h5>Table and titles</h5>
+   <p>3 points for a win, 1 for a draw, 0 for a loss. Ranking by points, then goal difference, then goals scored. The top scorer award goes to the best scorer, shared if tied.</p>
+   <h5>Trophies and friendlies</h5>
+   <p>Preset competitions award trophies that go into the cabinet (Options → History). Tournaments you invent are friendlies: no trophy.</p>`},
+ {t:'The Season',h:`<h5>The career</h5>
+   <p>From the Tournament menu → <b>Season</b> you create a named career: choose the era (applies to every team, forever) and your club. There are <b>4 national leagues</b> — Italy, England, Spain, Germany, 8 teams each, home and away — you play yours, the AI simulates the others. Tables, results and scorers of every league are always available. With the <b>Simulate</b> button the AI can play your match too: an instant matchday, manager style.</p>
+   <h5>The Euro SuperCup</h5>
+   <p>Once the leagues are over (titles and top scorers go into the cabinet), <b>the top 2 of every league</b> immediately play the Euro SuperCup, the grand finale of the season: 2 groups of 4, single round (never two teams from the same league together), then home-and-away semifinals and a single-match final, with a newspaper-style bracket. Once the cup is won, the next season begins.</p>
+   <h5>The Golden Ball</h5>
+   <p>At the end of the season the <b>Golden Ball</b> goes to the player with the most points: <b>goals scored in all competitions</b> (league + Euro Cup), <b>plus 3 if his team won the league and plus 4 if it won the Euro Cup</b>. If tied, the player with more goals wins. One winner only, like in real life.</p>
+   <h5>Hall of fame and saving</h5>
+   <p>The <b>hall of fame</b> is shared and collects everything: at the top the all-time table of teams with one symbol per trophy (shield = league title, cup = Euro Cup), below the season-by-season history — the 4 champions, the cup winner and the Golden Ball. The career <b>saves itself</b>: leave whenever you want and you'll find it in the list exactly where it was. And from Options → <b>Saves</b> you can export everything to a file and restore it anytime, even on another device.</p>`},
+ {t:'Tie-breaks',h:`<h5>In leagues and groups</h5>
+   <p>A draw is a valid result (1 point each). If teams finish level on points, <b>goal difference and then goals scored</b> decide, like in real life: no play-off.</p>
+   <h5>Extra time</h5>
+   <p>In do-or-die matches (Cup knockout stage, Euro Cup semifinals and final), if the score is level you play <b>one period of extra time</b> (a full deal).</p>
+   <h5>Penalty shootout</h5>
+   <p>If it is still level you go to <b>penalties</b>: 10 cards each from a fresh deck on an empty table, one card per turn, and every sweep is a converted penalty; if the round ends level, another one is played. The official result remains the one from the pitch (marked "pens") and shootout goals do not count for the top scorer award.</p>`}
+];
 var currentRule=0;
 function renderRules(){
-  $('rules-tabs').innerHTML=RULES.map((r,i)=>`<button class="rule-tab${i===currentRule?' active':''}" onclick="UI.rulesTab(${i})">${r.t}</button>`).join('');
-  $('rules-content').innerHTML=RULES[currentRule].h;
+  const RL=T.rules||RULES;
+  $('rules-tabs').innerHTML=RL.map((r,i)=>`<button class="rule-tab${i===currentRule?' active':''}" onclick="UI.rulesTab(${i})">${r.t}</button>`).join('');
+  $('rules-content').innerHTML=RL[currentRule].h;
 }
 /* ================= CARRIERA (Fase 1: creazione, salva/riprendi, hub leghe) ================= */
 function escHtml(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
@@ -1812,14 +2328,14 @@ function careerFinalizeSeason(){ // fine CAMPIONATI: bacheca scudetti/capocannon
   const qByCo={};CAREER.pendingEuro.teams.forEach(t=>{(qByCo[t.co]=qByCo[t.co]||[]).push(CAREER.leagues[t.co].teams[t.i].name);});
   const secH=t=>`<div style="font-family:var(--px); font-size:.58rem; color:#e8a020; letter-spacing:1px; margin:16px 0 6px;">${t}</div>`;
   const row=(l,v)=>`<div style="font-size:1.1rem; line-height:1.95;"><span style="opacity:.65;">${escHtml(l)}:</span> <span style="font-weight:600;">${v}</span></div>`;
-  let html=`<div style="font-family:var(--px); font-size:.68rem; letter-spacing:1px; line-height:1.8;">CAMPIONATI CONCLUSI<br>STAGIONE ${s}</div>`;
-  html+=secH('SCUDETTI')+Object.entries(chp).map(([co,n])=>row(co,escHtml(n))).join('');
-  html+=secH('QUALIFICATE EURO CUP')+Object.entries(qByCo).map(([co,ns])=>row(co,ns.map(escHtml).join(' e '))).join('');
+  let html=`<div style="font-family:var(--px); font-size:.68rem; letter-spacing:1px; line-height:1.8;">${fmt(T.fz_head,s)}</div>`;
+  html+=secH(T.fz_scud)+Object.entries(chp).map(([co,n])=>row(coLbl(co),escHtml(n))).join('');
+  html+=secH(T.fz_qual)+Object.entries(qByCo).map(([co,ns])=>row(coLbl(co),ns.map(escHtml).join(T.and_word))).join('');
   if(CAREER.euro){
     CAREER.euroPhase=true;careerTab='__euro';careerView='ris';
     CAREER.saved=Date.now();CAREERS[CAREER.name]=CAREER;saveCareers();
     renderCareerHub();show('scr-career');
-    html+=`<div style="font-family:var(--px); font-size:.58rem; color:#7fd486; letter-spacing:1px; line-height:2; margin-top:16px;">ORA SI GIOCA LA EURO SUPERCUP<br>POI AL VIA LA STAGIONE ${s+1}!</div>`;
+    html+=`<div style="font-family:var(--px); font-size:.58rem; color:#7fd486; letter-spacing:1px; line-height:2; margin-top:16px;">${fmt(T.fz_now,s+1)}</div>`;
     askConfirmHtml(html,()=>{});
     return;
   }
@@ -1829,18 +2345,18 @@ function careerNewSeason(){ // chiusura stagione: la Euro va in bacheca, si ripa
   const s=CAREER.season;
   const secH=t=>`<div style="font-family:var(--px); font-size:.58rem; color:#e8a020; letter-spacing:1px; margin:16px 0 6px;">${t}</div>`;
   const row=(l,v)=>`<div style="font-size:1.1rem; line-height:1.95;"><span style="opacity:.65;">${escHtml(l)}:</span> <span style="font-weight:600;">${v}</span></div>`;
-  let html=`<div style="font-family:var(--px); font-size:.68rem; letter-spacing:1px;">STAGIONE ${s} CONCLUSA!</div>`;
+  let html=`<div style="font-family:var(--px); font-size:.68rem; letter-spacing:1px;">${fmt(T.ns_head,s)}</div>`;
   // riepilogo completo: anche i campioni nazionali della stagione
   const scud=CAREER.bacheca.filter(b=>b.s===s&&b.tipo==='scudetto');
-  if(scud.length)html+=secH('SCUDETTI')+scud.map(b=>row(b.co,escHtml(b.team))).join('');
+  if(scud.length)html+=secH(T.fz_scud)+scud.map(b=>row(coLbl(b.co),escHtml(b.team))).join('');
   if(CAREER.euro&&CAREER.euro.done){
     const E=CAREER.euro, w=E.fin.winner==='a'?E.fin.a:E.fin.b, champ=euroTeam(w);
     CAREER.bacheca.push({s,co:E.teams[w].co,tipo:'eurocup',team:champ.name});
-    html+=`<div style="margin:16px 0;"><span style="font-family:var(--px); font-size:.58rem; color:#e8a020; letter-spacing:1px;">🏆 EURO CUP</span><br><b style="font-size:1.15rem;">${escHtml(champ.name)}</b></div>`;
+    html+=`<div style="margin:16px 0;"><span style="font-family:var(--px); font-size:.58rem; color:#e8a020; letter-spacing:1px;">${T.ns_euro}</span><br><b style="font-size:1.15rem;">${escHtml(champ.name)}</b></div>`;
     const bd=careerPallone(); // PALLONE D'ORO: gol in tutte le competizioni + successi della squadra
     if(bd){
       CAREER.bacheca.push({s,tipo:'pallone',name:bd.name,team:bd.team,g:bd.g});
-      html+=`<div style="margin:16px 0;"><span style="font-family:var(--px); font-size:.58rem; color:#e8a020; letter-spacing:1px;">⚽ PALLONE D'ORO</span><br><b style="font-size:1.15rem;">${escHtml(bd.name)}</b> <span style="opacity:.75;">(${escHtml(bd.team)}, ${bd.g} gol)</span></div>`;
+      html+=`<div style="margin:16px 0;"><span style="font-family:var(--px); font-size:.58rem; color:#e8a020; letter-spacing:1px;">${T.ns_bd}</span><br><b style="font-size:1.15rem;">${escHtml(bd.name)}</b> <span style="opacity:.75;">(${escHtml(bd.team)}, ${bd.g} ${T.goals_w})</span></div>`;
     }
   }
   CAREER.euro=null;CAREER.euroPhase=false;
@@ -1848,7 +2364,7 @@ function careerNewSeason(){ // chiusura stagione: la Euro va in bacheca, si ripa
   Object.values(CAREER.leagues).forEach(L=>{L.schedule=genCalendar(L.teams.length,true);L.scorers={};});
   CAREER.saved=Date.now();CAREERS[CAREER.name]=CAREER;saveCareers();
   careerTab=CAREER.userLeague;careerView='ris';renderCareerHub();show('scr-career');
-  html+=`<div style="margin-top:8px; opacity:.85; font-size:.98rem;">Tutto in bacheca (scheda Albo d'oro).</div><div style="font-family:var(--px); font-size:.58rem; color:#7fd486; letter-spacing:1px; margin-top:14px;">AL VIA LA STAGIONE ${s+1}!</div>`;
+  html+=`<div style="margin-top:8px; opacity:.85; font-size:.98rem;">${T.ns_all}</div><div style="font-family:var(--px); font-size:.58rem; color:#7fd486; letter-spacing:1px; margin-top:14px;">${fmt(T.ns_next,s+1)}</div>`;
   askConfirmHtml(html,()=>{});
 }
 /* ===== Euro SuperCup (Fase 4) ===== */
@@ -1865,7 +2381,7 @@ function euroL(g){ // pseudo-lega di un girone (per riusare classifiche)
   return {teams:idx.map(euroTeam), schedule:E.sched[g], scorers:E.scorers, _idx:idx};
 }
 function euroUserSlot(){const E=CAREER.euro;if(!E)return -1;return E.teams.findIndex(r=>r.co===CAREER.userLeague&&r.i===CAREER.userIdx);}
-function euroDayLabel(d){return d<=3?`giornata ${d} di 3`:d===4?'semifinali · andata':d===5?'semifinali · ritorno':'FINALE';}
+function euroDayLabel(d){return d<=3?fmt(T.ed_g,d):d===4?T.ed_sa:d===5?T.ed_sr:T.ed_f;}
 function euroTieWinner(t){ // 'a' o 'b' (andata: a in casa; ritorno: b in casa)
   const aggA=t.l1.gh+t.l2.ga, aggB=t.l1.ga+t.l2.gh;
   if(aggA!==aggB)return aggA>aggB?'a':'b';
@@ -1964,12 +2480,12 @@ function careerPallone(){ // gol totali (campionato+Euro) + bonus trofei di squa
 }
 function renderCareerList(){
   const host=$('career-saves'), names=Object.keys(CAREERS);
-  if(!names.length){host.innerHTML='<div class="trow" style="opacity:.7;">Nessuna carriera salvata. Creane una nuova.</div>';return;}
+  if(!names.length){host.innerHTML='<div class="trow" style="opacity:.7;">'+T.cl_empty+'</div>';return;}
   host.innerHTML=names.map((n,ix)=>{
     const c=CAREERS[n], L=c.leagues[c.userLeague];
     const team=L&&L.teams[c.userIdx]?L.teams[c.userIdx].name:'—';
-    return `<div class="career-row" data-n="${ix}" title="Riprendi la carriera"><b class="cn">${escHtml(n)}</b><span class="cinfo">${escHtml(team)} · Stag. ${c.season}</span>`+
-      `<button class="cbtn cdel" data-n="${ix}" title="Elimina carriera">X</button></div>`;
+    return `<div class="career-row" data-n="${ix}" title="${T.cl_res}"><b class="cn">${escHtml(n)}</b><span class="cinfo">${escHtml(team)} · ${fmt(T.st_abbr,c.season)}</span>`+
+      `<button class="cbtn cdel" data-n="${ix}" title="${T.cl_del}">X</button></div>`;
   }).join('');
   host.querySelectorAll('.career-row').forEach(r=>r.onclick=()=>UI.careerResume(names[+r.dataset.n]));
   host.querySelectorAll('.cdel').forEach(b=>b.onclick=(e)=>{e.stopPropagation();UI.careerDelete(names[+b.dataset.n]);});
@@ -1977,7 +2493,7 @@ function renderCareerList(){
 function careerResultsHTML(L,country){
   let h='', lastG=0;
   L.schedule.forEach(mt=>{
-    if(mt.g!==lastG){lastG=mt.g;h+=`<div class="trow gday">${mt.g}ª giornata</div>`;}
+    if(mt.g!==lastG){lastG=mt.g;h+=`<div class="trow gday">${fmt(T.day_n,mt.g)}</div>`;}
     const you=country===CAREER.userLeague&&(mt.h===CAREER.userIdx||mt.a===CAREER.userIdx);
     h+=`<div class="rrow${you?' you':''}${mt.played?'':' notplayed'}"><span class="rh">${L.teams[mt.h].name}</span><span class="rs">${mt.played?mt.gh+' - '+mt.ga:'–'}</span><span class="ra">${L.teams[mt.a].name}</span></div>`;
   });
@@ -1988,32 +2504,32 @@ function euroBracketHTML(){ // tabellone classico: semifinali → finale → cam
   const nm=k=>escHtml(euroTeam(k).name)+((k===us)?' ⭐':'');
   const sA=careerStandings(euroL('A')), sB=careerStandings(euroL('B'));
   const pos=(gr,p)=>(gr==='A'?E.gA:E.gB)[(gr==='A'?sA:sB)[p].i];
-  let h=`<div class="trow" style="margin-top:8px;"><b>🏆 TABELLONE</b>${E.semis?'':' <span style="opacity:.6;">(provvisorio: 1ª e 2ª di ogni girone)</span>'}</div>`;
+  let h=`<div class="trow" style="margin-top:8px;"><b>${T.brk_h}</b>${E.semis?'':' <span style="opacity:.6;">'+T.brk_prov2+'</span>'}</div>`;
   const semi=(t,i,pa,pb)=>{
     const a=t?t.a:pa, b=t?t.b:pb;
     let line=`${nm(a)} - ${nm(b)}`;
-    if(t&&t.l1.played)line+=` &nbsp;and. <b>${t.l1.gh}-${t.l1.ga}</b>`;
-    if(t&&t.l2.played)line+=` · rit. <b>${t.l2.ga}-${t.l2.gh}</b>`;
-    if(t&&t.l1.played&&t.l2.played){const w=euroTieWinner(t);line+=` → <b style="color:${gold};">${nm(w==='a'?t.a:t.b)} ✓</b>${t.pen?' (dcr)':''}`;}
-    return `<div class="trow" style="opacity:.95;">Semifinale ${i}: ${line}</div>`;
+    if(t&&t.l1.played)line+=` &nbsp;${T.and_lbl} <b>${t.l1.gh}-${t.l1.ga}</b>`;
+    if(t&&t.l2.played)line+=` · ${T.rit_lbl} <b>${t.l2.ga}-${t.l2.gh}</b>`;
+    if(t&&t.l1.played&&t.l2.played){const w=euroTieWinner(t);line+=` → <b style="color:${gold};">${nm(w==='a'?t.a:t.b)} ✓</b>${t.pen?' '+T.dcr_p:''}`;}
+    return `<div class="trow" style="opacity:.95;">${fmt(T.semi_i,i)}${line}</div>`;
   };
   h+=semi(E.semis&&E.semis[0],1,pos('A',0),pos('B',1));
   h+=semi(E.semis&&E.semis[1],2,pos('B',0),pos('A',1));
   if(E.fin){
     const f=E.fin;
     let line=`${nm(f.a)} - ${nm(f.b)}`;
-    if(f.played)line+=` &nbsp;<b>${f.gh}-${f.ga}</b>${f.pen?` (${f.pen[0]}-${f.pen[1]} dcr)`:''}`;
-    h+=`<div class="trow">Finale: ${line}</div>`;
-    if(f.played)h+=`<div class="trow"><b style="color:${gold};">CAMPIONE: ${nm(f.winner==='a'?f.a:f.b)} ✓</b></div>`;
+    if(f.played)line+=` &nbsp;<b>${f.gh}-${f.ga}</b>${f.pen?` (${f.pen[0]}-${f.pen[1]} ${T.dcr})`:''}`;
+    h+=`<div class="trow">${T.fin_lbl}${line}</div>`;
+    if(f.played)h+=`<div class="trow"><b style="color:${gold};">${T.champ_is}${nm(f.winner==='a'?f.a:f.b)} ✓</b></div>`;
   }else{
-    h+=`<div class="trow" style="opacity:.6;">Finale: vincente Semifinale 1 - vincente Semifinale 2</div>`;
+    h+=`<div class="trow" style="opacity:.6;">${T.fin_tbd}</div>`;
   }
   return h;
 }
 function euroBracketSVG(){ // TABELLONE stile giornale: nomi grandi (font delle classifiche), punteggi a DESTRA di ogni squadra
   const E=CAREER.euro, us=euroUserSlot(), gold='#e8a020', ln='#c8d0dc', wh='#f2f2f2', ff="'Segoe UI',system-ui,sans-serif";
   const name=k=>escHtml(euroTeam(k).name)+(k===us?' ⭐':'');
-  const T=(x,y,txt,col,fs,bold,anchor)=>`<text x="${x}" y="${y}" fill="${col}" font-size="${fs||14}" font-family="${ff}"${bold?' font-weight="600"':''}${anchor?` text-anchor="${anchor}"`:''}>${txt}</text>`;
+  const TX=(x,y,txt,col,fs,bold,anchor)=>`<text x="${x}" y="${y}" fill="${col}" font-size="${fs||14}" font-family="${ff}"${bold?' font-weight="600"':''}${anchor?` text-anchor="${anchor}"`:''}>${txt}</text>`;
   const L=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${ln}" stroke-width="3" stroke-linecap="square"/>`;
   const w=t=>(t.l1.played&&t.l2.played)?(euroTieWinner(t)==='a'?t.a:t.b):null;
   const gg=(t,side)=>{ // i gol di QUELLA squadra nelle due gare: "and · rit"
@@ -2025,20 +2541,20 @@ function euroBracketSVG(){ // TABELLONE stile giornale: nomi grandi (font delle 
   const champ=f&&f.played?(f.winner==='a'?f.a:f.b):null;
   let s='<svg viewBox="0 0 700 200" style="width:100%;" xmlns="http://www.w3.org/2000/svg">';
   const semiRows=(t,y1,y2,wt)=>
-    T(8,y1,name(t.a),wt===t.a?gold:wh,14,wt===t.a)+T(240,y1,gg(t,'a'),ln,13,false,'end')+
-    T(8,y2,name(t.b),wt===t.b?gold:wh,14,wt===t.b)+T(240,y2,gg(t,'b'),ln,13,false,'end');
+    TX(8,y1,name(t.a),wt===t.a?gold:wh,14,wt===t.a)+TX(240,y1,gg(t,'a'),ln,13,false,'end')+
+    TX(8,y2,name(t.b),wt===t.b?gold:wh,14,wt===t.b)+TX(240,y2,gg(t,'b'),ln,13,false,'end');
   s+=semiRows(s1,34,70,w1);
   s+=L(252,29,262,29)+L(252,65,262,65)+L(262,29,262,65)+L(262,47,276,47);
-  s+=T(282,52,w1!=null?name(w1)+(s1.pen?' (dcr)':''):'—',w1!=null?gold:ln,15,true);
+  s+=TX(282,52,w1!=null?name(w1)+(s1.pen?' '+T.dcr_p:''):'—',w1!=null?gold:ln,15,true);
   s+=semiRows(s2,134,170,w2);
   s+=L(252,129,262,129)+L(252,165,262,165)+L(262,129,262,165)+L(262,147,276,147);
-  s+=T(282,152,w2!=null?name(w2)+(s2.pen?' (dcr)':''):'—',w2!=null?gold:ln,15,true);
+  s+=TX(282,152,w2!=null?name(w2)+(s2.pen?' '+T.dcr_p:''):'—',w2!=null?gold:ln,15,true);
   s+=L(468,43,478,43)+L(468,143,478,143)+L(478,43,478,143)+L(478,93,492,93);
-  s+=T(498,82,'FINALE'+(f&&f.played?` ${f.gh}-${f.ga}${f.pen?' (dcr)':''}`:''),ln,13);
-  s+=T(498,104,champ!=null?name(champ):'—',champ!=null?gold:ln,15,true);
-  if(champ!=null)s+=T(498,126,'CAMPIONE ✓',gold,13);
+  s+=TX(498,82,T.svg_fin+(f&&f.played?` ${f.gh}-${f.ga}${f.pen?' '+T.dcr_p:''}`:''),ln,13);
+  s+=TX(498,104,champ!=null?name(champ):'—',champ!=null?gold:ln,15,true);
+  if(champ!=null)s+=TX(498,126,T.svg_champ,gold,13);
   s+='</svg>';
-  return `<div class="trow gday">🏆 Tabellone</div>`+s;
+  return `<div class="trow gday">${T.svg_brk}</div>`+s;
 }
 function renderEuroView(){ // scheda EURO: gironi finché si giocano, poi TABELLONE al loro posto (navigabile)
   const E=CAREER.euro, host=$('career-view'), us=euroUserSlot();
@@ -2048,7 +2564,7 @@ function renderEuroView(){ // scheda EURO: gironi finché si giocano, poi TABELL
     let t='';
     ['A','B'].forEach(g=>{
       const pl=euroL(g), st=careerStandings(pl);
-      t+=`<div class="trow"><b>Girone ${g}</b></div><table class="ttab" style="table-layout:fixed;"><tr><th class="tn" style="width:34%;">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th>GF</th><th>GS</th></tr>`+
+      t+=`<div class="trow"><b>${fmt(T.grp,g)}</b></div><table class="ttab" style="table-layout:fixed;"><tr><th class="tn" style="width:34%;">${T.tblh[0]}</th>${T.tblh.slice(1,8).map(x=>`<th>${x}</th>`).join('')}</tr>`+
         st.map(s=>`<tr class="${pl._idx[s.i]===us?'me':''}"><td class="tn">${escHtml(s.name)}</td><td><b>${s.Pt}</b></td><td>${s.P}</td><td>${s.V}</td><td>${s.N}</td><td>${s.S}</td><td>${s.GF}</td><td>${s.GS}</td></tr>`).join('')+`</table>`;
     });
     return t;
@@ -2056,12 +2572,12 @@ function renderEuroView(){ // scheda EURO: gironi finché si giocano, poi TABELL
   const groupResults=()=>{
     let t='';const star=(H,A2)=>(H===us||A2===us)?' ⭐':'';
     for(let d=1;d<=3;d++){
-      t+=`<div class="trow"><b>Giornata ${d}</b></div>`;
+      t+=`<div class="trow"><b>${fmt(T.gday,d)}</b></div>`;
       ['A','B'].forEach(g=>{
         const idx=g==='A'?E.gA:E.gB;
         E.sched[g].filter(m=>m.g===d).forEach(m=>{
           const H=idx[m.h],A2=idx[m.a];
-          t+=`<div class="trow" style="opacity:.9;">${nm(H)} ${m.played?`<b>${m.gh}-${m.ga}</b>`:'<span style="opacity:.6;">da giocare</span>'} ${nm(A2)}${star(H,A2)}</div>`;
+          t+=`<div class="trow" style="opacity:.9;">${nm(H)} ${m.played?`<b>${m.gh}-${m.ga}</b>`:'<span style="opacity:.6;">'+T.toplay2+'</span>'} ${nm(A2)}${star(H,A2)}</div>`;
         });
       });
     }
@@ -2069,18 +2585,18 @@ function renderEuroView(){ // scheda EURO: gironi finché si giocano, poi TABELL
   };
   const scorers=()=>{
     const sc=careerScorers(E,10);
-    return sc.length? sc.map(s=>`<div class="scr-row"><span class="scr-g">${s.g}</span><span class="scr-n">${escHtml(s.name)}<span class="scr-sub">(${escHtml(s.team)}, n.${s.num})</span></span></div>`).join('')+'<div class="trow" style="opacity:.55; font-size:.5rem; text-align:center;">— primi 10 —</div>' : '<div class="trow" style="opacity:.7;">Ancora nessun gol</div>';
+    return sc.length? sc.map(s=>`<div class="scr-row"><span class="scr-g">${s.g}</span><span class="scr-n">${escHtml(s.name)}<span class="scr-sub">(${escHtml(s.team)}, n.${s.num})</span></span></div>`).join('')+'<div class="trow" style="opacity:.55; font-size:.5rem; text-align:center;">'+T.top10+'</div>' : '<div class="trow" style="opacity:.7;">'+T.nogoals+'</div>';
   };
   let h='';
   if(!ko){ // GIRONI in corso: classifiche in alto, sotto Risultati/Marcatori
     h+=groupTables();
     const view=careerView==='marc'?'marc':'ris';
-    h+=`<div class="subtabs"><button class="subtab${view==='ris'?' active':''}" data-v="ris">Risultati</button><button class="subtab${view==='marc'?' active':''}" data-v="marc">Marcatori</button></div>`;
+    h+=`<div class="subtabs"><button class="subtab${view==='ris'?' active':''}" data-v="ris">${T.sub_ris}</button><button class="subtab${view==='marc'?' active':''}" data-v="marc">${T.sub_marc}</button></div>`;
     h+= view==='marc'?scorers():groupResults()+euroBracketHTML();
   }else{ // ELIMINAZIONE: il tabellone prende il posto dei gironi; sotto puoi rivederli
     h+=euroBracketSVG();
     const view=careerView==='marc'?'marc':'gironi';
-    h+=`<div class="subtabs"><button class="subtab${view==='gironi'?' active':''}" data-v="gironi">Gironi</button><button class="subtab${view==='marc'?' active':''}" data-v="marc">Marcatori</button></div>`;
+    h+=`<div class="subtabs"><button class="subtab${view==='gironi'?' active':''}" data-v="gironi">${T.sub_gironi}</button><button class="subtab${view==='marc'?' active':''}" data-v="marc">${T.sub_marc}</button></div>`;
     h+= view==='marc'?scorers():groupTables()+groupResults();
   }
   host.innerHTML=h;
@@ -2092,23 +2608,23 @@ function renderCareerView(country){
   const view=(careerView==='marc'||careerView==='albo')?careerView:'ris'; // la CLASSIFICA sta sempre in alto; sotto scegli Risultati, Marcatori o Albo
   const isYou=i=>country===CAREER.userLeague&&i===CAREER.userIdx;
   const st=careerStandings(L);
-  let h=`<table class="ttab" style="table-layout:fixed;"><tr><th class="tn" style="width:32%;">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th>GF</th><th>GS</th><th>DR</th></tr>`+
+  let h=`<table class="ttab" style="table-layout:fixed;"><tr><th class="tn" style="width:32%;">${T.tblh[0]}</th>${T.tblh.slice(1).map(x=>`<th>${x}</th>`).join('')}</tr>`+
     st.map(s=>`<tr class="${isYou(s.i)?'me':''}"><td class="tn">${s.name}</td><td><b>${s.Pt}</b></td><td>${s.P}</td><td>${s.V}</td><td>${s.N}</td><td>${s.S}</td><td>${s.GF}</td><td>${s.GS}</td><td>${s.GF-s.GS}</td></tr>`).join('')+`</table>`;
-  h+=`<div class="subtabs"><button class="subtab${view==='ris'?' active':''}" data-v="ris">Risultati</button><button class="subtab${view==='marc'?' active':''}" data-v="marc">Marcatori</button><button class="subtab${view==='albo'?' active':''}" data-v="albo">Albo d'oro</button></div>`;
+  h+=`<div class="subtabs"><button class="subtab${view==='ris'?' active':''}" data-v="ris">${T.sub_ris}</button><button class="subtab${view==='marc'?' active':''}" data-v="marc">${T.sub_marc}</button><button class="subtab${view==='albo'?' active':''}" data-v="albo">${T.sub_albo}</button></div>`;
   if(view==='marc'){
     const sc=careerScorers(L,10); // classifica marcatori: PRIMI 10 (taglio voluto)
-    h+= sc.length? sc.map(s=>`<div class="scr-row"><span class="scr-g">${s.g}</span><span class="scr-n">${s.name}<span class="scr-sub">(${s.team}, n.${s.num})</span></span></div>`).join('')+'<div class="trow" style="opacity:.55; font-size:.5rem; text-align:center;">— primi 10 —</div>' : '<div class="trow" style="opacity:.7;">Ancora nessun gol</div>';
+    h+= sc.length? sc.map(s=>`<div class="scr-row"><span class="scr-g">${s.g}</span><span class="scr-n">${s.name}<span class="scr-sub">(${s.team}, n.${s.num})</span></span></div>`).join('')+'<div class="trow" style="opacity:.55; font-size:.5rem; text-align:center;">'+T.top10+'</div>' : '<div class="trow" style="opacity:.7;">'+T.nogoals+'</div>';
   }else if(view==='albo'){ // ALBO D'ORO GLOBALE: identico in ogni lega — classifica generale per trofei + una riga per stagione
     const rows=CAREER.bacheca||[];
     const SCUD='<svg width="11" height="13" viewBox="0 0 12 14" style="vertical-align:-2px;"><path d="M6 0L12 2V8Q12 12 6 14Q0 12 0 8V2Z" fill="#e8a020"/></svg>'; // scudetto PIENO (l'emoji su Windows è bicolore)
     const COPPA='<svg width="12" height="13" viewBox="0 0 12 13" style="vertical-align:-2px;"><path d="M2 0H10V1H12V3Q12 6 9.6 6.6Q8.8 8.4 7 8.9V10H9V13H3V10H5V8.9Q3.2 8.4 2.4 6.6Q0 6 0 3V1H2Z" fill="#e8a020"/></svg>'; // Euro Cup
     const PALLA='<svg width="11" height="11" viewBox="0 0 12 12" style="vertical-align:-1px;"><circle cx="6" cy="6" r="5.4" fill="#e8a020"/><path d="M6 3.1L8.7 5.1L7.7 8.3H4.3L3.3 5.1Z" fill="#141414"/></svg>'; // Pallone d'oro
-    if(!rows.some(r=>r.tipo==='scudetto'||r.tipo==='eurocup')) h+='<div class="trow" style="opacity:.7;">L\'albo d\'oro si riempie a fine stagione.</div>';
+    if(!rows.some(r=>r.tipo==='scudetto'||r.tipo==='eurocup')) h+='<div class="trow" style="opacity:.7;">'+T.albo_empty+'</div>';
     else{
       // CLASSIFICA GENERALE: tutte le squadre con trofei, un simbolo per titolo, ordinate per totale
-      const T={}, t0=n=>T[n]||(T[n]={sc:0,eu:0});
+      const TT={}, t0=n=>TT[n]||(TT[n]={sc:0,eu:0});
       rows.forEach(r=>{if(r.tipo==='scudetto')t0(r.team).sc++;else if(r.tipo==='eurocup')t0(r.team).eu++;});
-      h+=Object.entries(T).sort((a,b)=>((b[1].sc+b[1].eu)-(a[1].sc+a[1].eu))||(b[1].sc-a[1].sc)||a[0].localeCompare(b[0]))
+      h+=Object.entries(TT).sort((a,b)=>((b[1].sc+b[1].eu)-(a[1].sc+a[1].eu))||(b[1].sc-a[1].sc)||a[0].localeCompare(b[0]))
         .map(([n,k])=>`<div class="trow" style="display:flex; align-items:center;"><b style="flex:0 0 230px;">${escHtml(n)}</b><span>${SCUD.repeat(k.sc)}${COPPA.repeat(k.eu)}</span></div>`).join('');
       h+='<div style="border-top:2px solid rgba(255,255,255,.14); margin:8px 0;"></div>';
       // CRONOLOGIA: una riga per stagione — i 4 campioni + vincitrice Euro Cup
@@ -2116,7 +2632,7 @@ function renderCareerView(country){
         const champs=rows.filter(r=>r.s===s&&r.tipo==='scudetto').map(r=>escHtml(r.team));
         const eu=rows.find(r=>r.s===s&&r.tipo==='eurocup');
         const bd=rows.find(r=>r.s===s&&r.tipo==='pallone');
-        return `<div class="trow" style="opacity:.85;">Stagione ${s} — ${champs.join(' · ')}${eu?` — ${COPPA} <b>${escHtml(eu.team)}</b>`:''}${bd?` — ${PALLA} <b>${escHtml(bd.name)}</b>`:''}</div>`;
+        return `<div class="trow" style="opacity:.85;">${fmt(T.season_row,s)} — ${champs.join(' · ')}${eu?` — ${COPPA} <b>${escHtml(eu.team)}</b>`:''}${bd?` — ${PALLA} <b>${escHtml(bd.name)}</b>`:''}</div>`;
       }).join('');
     }
   }else{
@@ -2126,22 +2642,21 @@ function renderCareerView(country){
   host.querySelectorAll('.subtab').forEach(b=>b.onclick=()=>{careerView=b.dataset.v;renderCareerView(country);});
 }
 function renderCareerHub(){
-  const c=CAREER, eraLbl=ERAS[c.era]?ERAS[c.era].label:'';
-  const L0=c.leagues[c.userLeague], you=L0&&L0.teams[c.userIdx]?L0.teams[c.userIdx].name:'—';
+  const c=CAREER;
   const day=c.matchday||1, total=careerTotalDays(), done=day>total;
   const euroOn=!!c.euroPhase, E=c.euro;
-  $('career-title').textContent=`📅 ${c.name}`;
-  $('career-status').textContent=euroOn?`Stagione ${c.season} · Euro SuperCup — ${E.done?'conclusa':euroDayLabel(E.day)}`:`Stagione ${c.season} · ${done?'campionato finito':'giornata '+day+' di '+total}`;
+  $('career-title').textContent=c.name;
+  $('career-status').textContent=euroOn?fmt(T.hub_euro,c.season,E.done?T.euro_done:euroDayLabel(E.day)):fmt(T.hub_league,c.season,done?T.league_done:fmt(T.day_of,day,total));
   const countries=Object.keys(c.leagues).sort((a,b)=>(a===c.userLeague?-1:b===c.userLeague?1:a.localeCompare(b)));
   if(euroOn)countries.push('__euro');
   $('career-tabs').style.gridTemplateColumns=euroOn?'repeat(5,1fr)':'';
   if(!careerTab||(careerTab==='__euro'&&!euroOn)||(careerTab!=='__euro'&&!c.leagues[careerTab]))careerTab=euroOn?'__euro':c.userLeague;
-  $('career-tabs').innerHTML=countries.map(co=>`<button class="b90 ${co==='__euro'?'c-orange':co===c.userLeague?'c-blue':'c-gray'} ttag${co===careerTab?' active':''}" data-co="${escHtml(co)}">${co==='__euro'?'EURO CUP':co}</button>`).join('');
+  $('career-tabs').innerHTML=countries.map(co=>`<button class="b90 ${co==='__euro'?'c-orange':co===c.userLeague?'c-blue':'c-gray'} ttag${co===careerTab?' active':''}" data-co="${escHtml(co)}">${co==='__euro'?'EURO CUP':escHtml(coLbl(co))}</button>`).join('');
   $('career-tabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{careerTab=b.dataset.co;renderCareerHub();});
   renderCareerView(careerTab);
   const pb=$('career-play');pb.style.display='';
   const finished=euroOn?E.done:done;
-  pb.textContent=euroOn?(E.done?'Chiudi la stagione':(euroUserSlot()>=0?`▶ Gioca Euro · ${euroDayLabel(E.day)}`:`▶ Prosegui · ${euroDayLabel(E.day)}`)):(done?'Chiudi i campionati':`▶ Gioca giornata ${day}`);
+  pb.textContent=euroOn?(E.done?T.btn_close_season:(euroUserSlot()>=0?fmt(T.btn_play_euro,euroDayLabel(E.day)):fmt(T.btn_proceed_euro,euroDayLabel(E.day)))):(done?T.btn_close_leagues:fmt(T.btn_play_day,day));
   $('career-sim').style.display=finished?'none':''; // Simula: funzione permanente (deciso 2026-07-15), discreta accanto a Gioca
 }
 
@@ -2155,8 +2670,8 @@ window.UI={
   },
   secondHalf(){beginHalf(2);},
   quitMatch(){ // esci dal match in corso: l'incontro viene annullato (non registrato)
-    askConfirm("Vuoi annullare l'incontro?\nIl risultato attuale andrà perso.",()=>{
-      busy=false;pendingStart=null;
+    askConfirm(T.q_quit,()=>{
+      busy=false;pendingStart=null;crowdStop();
       const inTour=!!(G&&G.tour), inCareer=!!(G&&G.career);
       G=null;
       if(inTour){renderTour();show('scr-tour');} // torna al torneo: la partita resta "da giocare"
@@ -2170,17 +2685,42 @@ window.UI={
   rematch(){startFriendly(G.teamA,G.teamB);},
   toSetup(){fillTeamSelects();show('scr-setup');},
   toOptions(){show('scr-options');},
+  toSettings(){
+    $('opt-audio-state').textContent=AUDIO.on?T.yes:T.no;
+    $('opt-audio-ico').textContent=AUDIO.on?'🔊':'🔇';
+    $('opt-lang-state').textContent=T.langBadge;
+    show('scr-settings');
+  },
+  audioOptToggle(){ // interruttore MASTER dell'audio: se spento, in partita non compare nemmeno il pulsante
+    AUDIO.on=!AUDIO.on;localStorage.setItem('soccercard_audio',AUDIO.on?'1':'0');
+    if(!AUDIO.on)crowdStop();
+    $('opt-audio-state').textContent=AUDIO.on?T.yes:T.no;
+    $('opt-audio-ico').textContent=AUDIO.on?'🔊':'🔇';
+  },
+  toLang(){ // menu lingue: spunta sulla lingua attiva; de/es sono predisposte ma non attive
+    LANGS.forEach(k=>{const b=$('lang-on-'+k);if(b)b.textContent=(k===LANG)?'✓':'';});
+    show('scr-lang');
+  },
+  setLang(code){ // scelta lingua: riscrive TUTTA l'interfaccia al volo, senza reload
+    if(LANGS.indexOf(code)>=0&&code!==LANG){LANG=code;applyLang();}
+    UI.toLang();
+  },
   toSaves(){show('scr-saves');},
+  audioToggle(){ // interruttore stadio (ricordato tra le partite)
+    AUDIO.on=!AUDIO.on;localStorage.setItem('soccercard_audio',AUDIO.on?'1':'0');
+    if(!AUDIO.on)crowdStop();else if(G&&document.getElementById('scr-match').classList.contains('active'))crowdStart();
+    $('sb-audio').textContent=AUDIO.on?'🔊':'🔇';
+  },
   /* ===== Salvataggio globale: esporta/importa TUTTO in un file ===== */
   exportData(){ // squadre, inventata, carriere, storico e coppa in corso → file .json nei Download
     const d={app:'soccercards',v:1,exported:new Date().toISOString(),
       clubs:CLUBS,custom:CUSTOM,careers:CAREERS,history:HIST,tour:TOUR};
     const a=document.createElement('a');
     a.href=URL.createObjectURL(new Blob([JSON.stringify(d)],{type:'application/json'}));
-    a.download='SoccerCards_salvataggio_'+new Date().toISOString().slice(0,10)+'.json';
+    a.download=T.save_file+new Date().toISOString().slice(0,10)+'.json';
     document.body.appendChild(a);a.click();
     setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);
-    askConfirm('Salvataggio esportato!\nIl file è nella cartella Download: conservalo dove vuoi (Drive, chiavetta...). Per ripristinare tutto, anche su un altro computer, usa "Importa".',()=>{});
+    askConfirm(T.msg_export,()=>{});
   },
   importData(){$('imp-file').value='';$('imp-file').click();},
   importFile(inp){
@@ -2189,9 +2729,9 @@ window.UI={
     r.onload=()=>{
       let d=null;try{d=JSON.parse(r.result);}catch(e){}
       if(!d||d.app!=='soccercards'||!Array.isArray(d.clubs)||d.clubs.length<2){
-        askConfirm('File non valido: non sembra un salvataggio di Soccer Cards.',()=>{});return;
+        askConfirm(T.msg_bad,()=>{});return;
       }
-      askConfirm('Importare questo salvataggio?\nSquadre, carriere e storico ATTUALI verranno sostituiti da quelli del file.',()=>{
+      askConfirm(T.q_import,()=>{
         try{
           localStorage.setItem('soccercard_clubs_v5',JSON.stringify(d.clubs));
           if(d.custom)localStorage.setItem('soccercard_custom_v1',JSON.stringify(d.custom));else localStorage.removeItem('soccercard_custom_v1');
@@ -2209,7 +2749,7 @@ window.UI={
   toTeams(){
     teamsMode='rosa';
     const sc=$('team-country');sc.innerHTML='';
-    Object.keys(teamsByCountry()).forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sc.appendChild(o);});
+    Object.keys(teamsByCountry()).forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=coLbl(c);sc.appendChild(o);});
     fillEraSelect($('team-era'),false);
     $('tab-rosa').classList.add('active');$('tab-forza').classList.remove('active');$('tab-custom').classList.remove('active');
     renderTeamsTab();
@@ -2230,7 +2770,12 @@ window.UI={
     else{UI.toTourPick();}
   },
   toTourPick(){show('scr-tour-pick');},
-  toTourSetup(){pendingPreset=null;renderTourSetup();show('scr-tour-setup');},
+  toTourSetup(){
+    pendingPreset=null;renderTourSetup();
+    const tn=$('tour-name'); // il nome di default segue la lingua (ma non tocca un nome scritto dall'utente)
+    if(!tn.value||Object.keys(I18N).some(k=>I18N[k].myCup===tn.value))tn.value=T.myCup;
+    show('scr-tour-setup');
+  },
   tourTab(t){
     currentTourTab=t;
     ['class','brk','marc','ris'].forEach(x=>{
@@ -2245,17 +2790,17 @@ window.UI={
     $('tour-era').value='e90';
     refreshTourUser();
     pendingPreset=p;
-    $('tour-msg').textContent='✔ Competizione ufficiale di CARRIERA caricata (epoca modificabile): vale per bacheca e albo d\'oro. Scegli la tua squadra e premi "Crea coppa".';
+    $('tour-msg').textContent=T.msg_preset;
   },
   tourCreate(){
     const sel=CLUBS.map((c,i)=>$('tt-'+i).checked?i:-1).filter(i=>i>=0);
     const user=+$('tour-user').value;
     if(!sel.includes(user))sel.push(user);
-    if(sel.length<2){$('tour-msg').textContent='⚠ Servono almeno 2 squadre.';return;}
+    if(sel.length<2){$('tour-msg').textContent=T.warn_2;return;}
     const type='cup', qual=+$('tour-qual').value, era=$('tour-era').value;
-    if(sel.length<qual){$('tour-msg').textContent=`⚠ Con la fase finale a ${qual} servono almeno ${qual} squadre.`;return;}
+    if(sel.length<qual){$('tour-msg').textContent=fmt(T.warn_q,qual);return;}
     const teams=sel.map(i=>mkTeam(i,era)); // tutte della stessa epoca
-    TOUR={name:$('tour-name').value.trim()||'Torneo',type,koQual:qual,phase:'group',ko:null,era,
+    TOUR={name:$('tour-name').value.trim()||T.default_tour,type,koQual:qual,phase:'group',ko:null,era,
       career:pendingPreset!=null, // solo le competizioni ufficiali (preset) valgono per bacheca e albo d'oro
       teams,user:sel.indexOf(user),double:$('tour-formula').value==='2',
       schedule:genCalendar(teams.length,$('tour-formula').value==='2'),scorers:{},archived:false,created:Date.now()};
@@ -2335,14 +2880,12 @@ window.UI={
   },
   toHistory(){renderHistory();show('scr-history');},
   tourAbandon(){
-    askConfirm('Annullare il torneo?\nClassifica e risultati andranno persi.',()=>{
+    askConfirm(T.q_abandon,()=>{
       TOUR=null;saveTour();show('scr-menu');
     });
   },
   tourFinish(){ // torneo concluso: chiudi e torna alla scelta della competizione
-    const msg=TOUR.career
-      ? 'Torneo concluso e salvato in Storico (albo d\'oro e bacheca).\nAprire la scelta di una nuova competizione?'
-      : 'Chiudere questo torneo amichevole?\nLe amichevoli non vengono salvate.\nAprire la scelta di una nuova competizione?';
+    const msg=TOUR.career?T.q_finish_car:T.q_finish_fr;
     askConfirm(msg,()=>{ TOUR=null;saveTour();UI.toTourPick(); });
   },
   saveTeams(){
@@ -2352,8 +2895,8 @@ window.UI={
       if(!CUSTOM)CUSTOM=defaultCustom();
       collectCustom();saveCustom();
       if(CUSTOM.enabled)customApply(); // ri-applica le modifiche al club sostituito
-      $('teams-msg').textContent='✔ Salvato! Vale da subito per le prossime partite.';
-      $('teams-msg-top').textContent='✔ Salvato!';
+      $('teams-msg').textContent=T.msg_saved;
+      $('teams-msg-top').textContent=T.msg_saved2;
       fillTeamSelects();renderTeamsTab();return;
     }
     if(teamsMode==='forza'){
@@ -2375,20 +2918,53 @@ window.UI={
       });
     }
     try{localStorage.setItem('soccercard_clubs_v5',JSON.stringify(CLUBS));}catch(e){}
-    $('teams-msg').textContent='✔ Salvato! Vale da subito per le prossime partite.';
-    $('teams-msg-top').textContent='✔ Salvato!';
+    $('teams-msg').textContent=T.msg_saved;
+    $('teams-msg-top').textContent=T.msg_saved2;
     fillTeamSelects();
+  },
+  /* ===== rose via CSV ===== */
+  csvExport(){ // scarica il modello con le squadre ATTUALI: si edita in Excel e si reimporta
+    const ERALBL={e90:'ANNI 90',oggi:'OGGI'};
+    const rows=[['CODICE','CLUB','EPOCA','N2','N3','N4','N5','N6','N7','N8','N9','N10','ATTACCO','DIFESA','LUCIDITA']];
+    CLUBS.forEach((c,i)=>{
+      ['e90','oggi'].forEach(e=>{
+        const f=(c.forza&&c.forza[e])||{att:3,dif:3,vis:3};
+        rows.push([csvCode(i),c.club,ERALBL[e]].concat(c.rosters[e]).concat([f.att,f.dif,f.vis]));
+      });
+    });
+    const txt='﻿'+rows.map(r=>r.map(x=>String(x).indexOf(';')>=0?'"'+x+'"':x).join(';')).join('\r\n');
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([txt],{type:'text/csv;charset=utf-8'}));
+    a.download=T.csv_file;document.body.appendChild(a);a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);
+    $('teams-msg').textContent=T.msg_csvdl;
+  },
+  csvImport(){$('csv-file').value='';$('csv-file').click();},
+  csvFile(inp){
+    const f=inp.files&&inp.files[0];if(!f)return;
+    const r=new FileReader();
+    r.onload=()=>{
+      const res=parseRoseCSV(r.result);
+      if(res.err){askConfirm(fmt(T.err_csv,res.err),()=>{});return;}
+      askConfirm(T.q_csv+((CUSTOM&&CUSTOM.enabled)?T.csv_deact:''),()=>{
+        if(CUSTOM&&CUSTOM.enabled)customDisable();
+        res.data.forEach((d,i)=>{const c=CLUBS[i];c.club=d.club;c.rosters={e90:d.e90.slice(),oggi:d.oggi.slice()};c.forza={e90:d.f90,oggi:d.foggi};});
+        saveClubs();fillTeamSelects();renderTeamsTab();
+        $('teams-msg').textContent=T.msg_csvok;
+      });
+    };
+    r.readAsText(f); // per gli accenti: salvare da Excel come "CSV UTF-8"
   },
   customToggle(){ // abilita/disabilita la squadra inventata (sostituzione reversibile)
     if(!CUSTOM)CUSTOM=defaultCustom();
     collectCustom();
     if(CUSTOM.enabled){
-      const back=CUSTOM.backup?CUSTOM.backup.club:'l\'originale';
+      const back=CUSTOM.backup?CUSTOM.backup.club:T.the_orig;
       customDisable();
-      $('teams-msg').textContent=`✔ Squadra inventata disabilitata: è tornato ${back}.`;
+      $('teams-msg').textContent=fmt(T.msg_cu_off,back);
     }else{
       CUSTOM.enabled=true;customApply();
-      $('teams-msg').textContent=`✔ ${CUSTOM.name} è in gioco al posto di ${CUSTOM.backup?CUSTOM.backup.club:'—'}. Vale per le prossime partite, coppe e carriere nuove.`;
+      $('teams-msg').textContent=fmt(T.msg_cu_on,CUSTOM.name,CUSTOM.backup?CUSTOM.backup.club:'—');
     }
     saveCustom();fillTeamSelects();renderTeamsTab();
   },
@@ -2397,22 +2973,22 @@ window.UI={
   careerNew(){
     fillEraSelect($('career-era'),false);
     fillGrouped($('career-team'),0);
-    $('career-name').value='La mia carriera';
-    $('career-msg').textContent='La squadra scelta giocherà il campionato della sua nazione. Gli altri campionati li simula l\'IA. L\'epoca vale per tutte le squadre e non cambia fino a fine carriera.';
+    $('career-name').value=T.myCareer;
+    $('career-msg').textContent=T.career_new_note;
     show('scr-career-new');
   },
   careerCreate(){
-    const name=($('career-name').value||'').trim()||'Carriera';
-    if(CAREERS[name]){$('career-msg').textContent='⚠ Esiste già una carriera con questo nome: scegline un altro.';return;}
+    const name=($('career-name').value||'').trim()||T.default_career;
+    if(CAREERS[name]){$('career-msg').textContent=T.warn_dup;return;}
     const era=$('career-era').value, clubIdx=+$('career-team').value, players=+$('career-players').value||1;
     CAREER=buildCareer(name,era,clubIdx,players);
     CAREERS[name]=CAREER;saveCareers();
     careerTab=null;renderCareerHub();show('scr-career');
   },
   careerResume(n){CAREER=CAREERS[n];if(!CAREER)return;careerTab=null;renderCareerHub();show('scr-career');},
-  careerDelete(n){askConfirm(`Eliminare la carriera "${n}"?`,()=>{delete CAREERS[n];saveCareers();renderCareerList();});},
+  careerDelete(n){askConfirm(fmt(T.q_del,n),()=>{delete CAREERS[n];saveCareers();renderCareerList();});},
   careerSaveExit(){
-    askConfirm('Vuoi uscire dalla carriera?\nTutto è salvato automaticamente: la ritroverai nell\'elenco esattamente da dove hai lasciato.',()=>{
+    askConfirm(T.q_exit,()=>{
       if(CAREER){CAREER.saved=Date.now();CAREERS[CAREER.name]=CAREER;saveCareers();}
       renderCareerList();show('scr-career-list');
     });
@@ -2420,13 +2996,13 @@ window.UI={
   careerPlay(){
     if(CAREER.euroPhase){ // fase Euro SuperCup
       const E=CAREER.euro;
-      if(E.done){askConfirm(`Chiudere la Stagione ${CAREER.season}?\nLa Euro Cup va in bacheca, poi parte la nuova stagione.`,()=>careerNewSeason());return;}
+      if(E.done){askConfirm(fmt(T.q_close_season,CAREER.season),()=>careerNewSeason());return;}
       if(euroPlayDay(false))return; // partita utente aperta
       CAREER.saved=Date.now();CAREERS[CAREER.name]=CAREER;saveCareers();renderCareerHub();return;
     }
     const day=CAREER.matchday||1, total=careerTotalDays();
     if(day>total){ // campionati finiti: titoli nazionali (Fase 3), poi Euro o nuova stagione
-      askConfirm(`Chiudere i campionati della Stagione ${CAREER.season}?\nVengono assegnati scudetti e capocannonieri (a pari punti decidono differenza reti e gol fatti).`,()=>careerSeasonEnd());
+      askConfirm(fmt(T.q_close_leagues,CAREER.season),()=>careerSeasonEnd());
       return;
     }
     careerSimDayExceptMine(day); // le altre partite della giornata (tutte le leghe) le simula l'IA
@@ -2493,6 +3069,7 @@ window.UI={
   toMenu(){show('scr-menu');}
 };
 injectPaper();
+applyLang(); // applica la lingua scelta (statico + titolo + didascalie) prima del primo render
 fillTeamSelects();
 // la scritta sul campo (monetina, rigori...) scompare al primo clic
 $('scr-match').addEventListener('click',()=>{
