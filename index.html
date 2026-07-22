@@ -832,6 +832,10 @@ window.onerror=function(msg,src,line){
     d.textContent='⚠ '+msg+'  (riga '+line+')';
   }catch(e){}
 };
+/* storage a prova di Safari: con "Blocca tutti i cookie" attivo, toccare localStorage LANCIA UN ERRORE
+   e ucciderebbe il gioco all'avvio (menu visibile ma pulsanti morti) — successo sull'iPad di Enrico */
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
 var G=null,busy=false,pendingStart=null;
 const $=id=>document.getElementById(id);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -2070,7 +2074,7 @@ async function shootRound(){
   }else busy=false;
 }
 /* ===== AUDIO STADIO (retrò, generato dal codice: nessun file, nessun diritto) ===== */
-var AUDIO={on:(localStorage.getItem('soccercard_audio')||'1')==='1', ctx:null, crowd:null};
+var AUDIO={on:(lsGet('soccercard_audio')||'1')==='1', ctx:null, crowd:null};
 function aCtx(){if(!AUDIO.ctx){const C=window.AudioContext||window.webkitAudioContext;if(C)AUDIO.ctx=new C();}return AUDIO.ctx;}
 function noiseBuf(ctx,sec){const b=ctx.createBuffer(1,Math.floor(ctx.sampleRate*sec),ctx.sampleRate);const d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;return b;}
 function crowdStart(){ // brusio continuo della folla, molto leggero
@@ -2692,7 +2696,7 @@ window.UI={
     show('scr-settings');
   },
   audioOptToggle(){ // interruttore MASTER dell'audio: se spento, in partita non compare nemmeno il pulsante
-    AUDIO.on=!AUDIO.on;localStorage.setItem('soccercard_audio',AUDIO.on?'1':'0');
+    AUDIO.on=!AUDIO.on;lsSet('soccercard_audio',AUDIO.on?'1':'0');
     if(!AUDIO.on)crowdStop();
     $('opt-audio-state').textContent=AUDIO.on?T.yes:T.no;
     $('opt-audio-ico').textContent=AUDIO.on?'🔊':'🔇';
@@ -2707,7 +2711,7 @@ window.UI={
   },
   toSaves(){show('scr-saves');},
   audioToggle(){ // interruttore stadio (ricordato tra le partite)
-    AUDIO.on=!AUDIO.on;localStorage.setItem('soccercard_audio',AUDIO.on?'1':'0');
+    AUDIO.on=!AUDIO.on;lsSet('soccercard_audio',AUDIO.on?'1':'0');
     if(!AUDIO.on)crowdStop();else if(G&&document.getElementById('scr-match').classList.contains('active'))crowdStart();
     $('sb-audio').textContent=AUDIO.on?'🔊':'🔇';
   },
