@@ -560,7 +560,7 @@
       <button id="btn-rigioca" class="b90 c-green wide" onclick="UI.rematch()" data-i18n="btn_rematch">Rigioca</button>
       <button id="btn-tour-back" class="b90 c-orange wide" style="display:none;" onclick="UI.tourAfterMatch()" data-i18n="btn_tourback">🏆 Torneo</button>
       <button id="btn-career-back" class="b90 c-orange wide" style="display:none;" onclick="UI.careerAfterMatch()" data-i18n="btn_careerback">📅 Carriera</button>
-      <button class="b90 c-gray wide" onclick="UI.toMenu()" data-i18n="btn_menu">Menu</button>
+      <button class="b90 c-gray wide" onclick="UI.finMenu()" data-i18n="btn_menu">Menu</button>
     </div>
   </div>
 </div>
@@ -759,7 +759,7 @@ function playCard(G,side,handIdx,optIdx){
     const opt=opts[Math.min(optIdx||0,opts.length-1)];
     [...opt].sort((a,b)=>b-a).forEach(i=>r.captured.push(G.table.splice(i,1)[0]));
     G.lastCapturer=side;
-    if(G.table.length===0&&card.v!==1&&!isLastPlay(G)){
+    if(G.table.length===0&&card.v!==1){ // GOL AL 99': la scopa vale anche sull'ultima carta (deciso 2026-07-22, prima era esclusa come nella Scopa classica)
       r.scopa=true;G.score[side]++;
       const minute=(G.half-1)*45+Math.max(1,Math.ceil((G.playsInHalf+1)/36*45));
       G.scorers.push({side,num:card.v,name:G.players[side][card.v-2],minute,half:G.half});
@@ -919,7 +919,7 @@ I18N.it={
  z_opp:'Avversario', z_table:'Tavolo', z_hand:'La tua mano — clicca una carta', btn_exit:'Esci',
  goalBig:'⚽ GOL!', chooser_cancel:'Annulla', c_yes:'Sì', c_no:'No',
  int_head:'Intervallo', h_marcatori:'Marcatori', btn_2nd:'Inizia il 2° tempo',
- fin_head:'Fine partita', h_tabellino:'Tabellino marcatori', btn_rematch:'Rigioca', btn_tourback:'Torneo', btn_careerback:'Carriera', btn_menu:'Menu',
+ fin_head:'Fine partita', h_tabellino:'Tabellino marcatori', btn_rematch:'Rigioca', btn_tourback:'Continua', btn_careerback:'Continua', btn_menu:'Menu',
  strip_pen:'⚽ RIGORE', strip_fk:'PUNIZIONE',
  ph_pens:'RIGORI', ph_half1:'1° TEMPO', ph_half2:'2° TEMPO', ph_extra:'SUPPLEMENTARI', deckinfo:'mazzo: {0} carte',
  half1:'1° tempo', half2:'2° tempo', extra:'Supplementari',
@@ -1064,7 +1064,7 @@ I18N.en={
  z_opp:'Opponent', z_table:'Table', z_hand:'Your hand — click a card', btn_exit:'Quit',
  goalBig:'⚽ GOAL!', chooser_cancel:'Cancel', c_yes:'Yes', c_no:'No',
  int_head:'Half-time', h_marcatori:'Scorers', btn_2nd:'Start the 2nd half',
- fin_head:'Full time', h_tabellino:'Scoresheet', btn_rematch:'Rematch', btn_tourback:'Tournament', btn_careerback:'Career', btn_menu:'Menu',
+ fin_head:'Full time', h_tabellino:'Scoresheet', btn_rematch:'Rematch', btn_tourback:'Continue', btn_careerback:'Continue', btn_menu:'Menu',
  strip_pen:'⚽ PENALTY', strip_fk:'FREE KICK',
  ph_pens:'PENALTIES', ph_half1:'1ST HALF', ph_half2:'2ND HALF', ph_extra:'EXTRA TIME', deckinfo:'deck: {0} cards',
  half1:'1st half', half2:'2nd half', extra:'Extra time',
@@ -2154,7 +2154,7 @@ const RULES=[
  {t:'Come si gioca',h:`<h5>La partita</h5>
    <p>Si gioca con le regole classiche della Scopa, mazzo da 40 carte. <b>Ogni scopa vale un gol</b>: il numero della carta che svuota il tavolo identifica il marcatore (dal 2 al 10). La partita è in due tempi, ciascuno una smazzata completa: 4 carte in campo e 6 giri da 3 carte a testa. Tra un tempo e l'altro si rimescola tutto.</p>
    <h5>Il via</h5>
-   <p>La monetina decide chi batte il calcio d'inizio del 1° tempo; il 2° lo inizia l'altra squadra. Se batte l'avversario, tocca il campo per far partire l'azione. L'ultima carta di ogni tempo non vale mai scopa.</p>
+   <p>La monetina decide chi batte il calcio d'inizio del 1° tempo; il 2° lo inizia l'altra squadra. Se batte l'avversario, tocca il campo per far partire l'azione. E la scopa vale anche sull'ultima carta del tempo: <b>il gol al 90' esiste</b>, come nel calcio vero.</p>
    <h5>Le prese</h5>
    <p>Se sul tavolo c'è una carta uguale alla tua, la presa è obbligatoria su quella (le somme non valgono). Altrimenti prendi qualsiasi combinazione di carte che sommi al valore della tua; se ci sono più prese possibili, scegli tu. Se non puoi prendere, la carta resta sul tavolo.</p>`},
  {t:"L'asso",h:`<h5>L'asso: il calcio piazzato</h5>
@@ -2201,7 +2201,7 @@ I18N.en.rules=[
  {t:'How to play',h:`<h5>The match</h5>
    <p>The game follows classic Scopa rules, with a 40-card deck. <b>Every sweep is a goal</b>: the number on the card that clears the table identifies the scorer (from 2 to 10). A match has two halves, each a full deal: 4 cards on the table and 6 rounds of 3 cards each. Everything is reshuffled between halves.</p>
    <h5>Kick-off</h5>
-   <p>A coin toss decides who kicks off the 1st half; the other team starts the 2nd. If the opponent kicks off, touch the pitch to start the action. The last card of each half never counts as a sweep.</p>
+   <p>A coin toss decides who kicks off the 1st half; the other team starts the 2nd. If the opponent kicks off, touch the pitch to start the action. And a sweep counts even on the very last card of the half: <b>the 90th-minute goal is real</b>, just like in football.</p>
    <h5>Captures</h5>
    <p>If a card equal to yours is on the table, you must capture that single card (sums are not allowed). Otherwise you capture any combination of cards adding up to your card's value; if several captures are possible, you choose. If you cannot capture, your card stays on the table.</p>`},
  {t:'The ace',h:`<h5>The ace: the set piece</h5>
@@ -2668,6 +2668,60 @@ function renderCareerHub(){
   $('career-sim').style.display=finished?'none':''; // Simula: funzione permanente (deciso 2026-07-15), discreta accanto a Gioca
 }
 
+/* Registra la TUA partita GIOCATA FINO IN FONDO (torneo o carriera) senza cambiare schermata.
+   Usata sia da "Continua" sia dall'uscita al Menu: una partita finita non va MAI persa. */
+function tourRecordMatch(){
+  if(G.tour.ko){
+    const t=G.tour.tie;
+    const L=G.tour.leg===1?t.l1:t.l2;
+    L.gh=G.tour.meIsHome?G.score.me:G.score.ai;
+    L.ga=G.tour.meIsHome?G.score.ai:G.score.me;
+    L.played=true;
+    if(G.shootResult){ // deciso ai rigori
+      const hIdx=G.tour.leg===1?t.a:t.b, aIdx=G.tour.leg===1?t.b:t.a;
+      const myIdx=G.tour.meIsHome?hIdx:aIdx, otherIdx=G.tour.meIsHome?aIdx:hIdx;
+      t.pen=G.shootWinner==='me'?myIdx:otherIdx;
+      t.penScore=G.tour.meIsHome?[G.shootResult.me,G.shootResult.ai]:[G.shootResult.ai,G.shootResult.me];
+    }
+    koAdvance();
+  }else{
+    const mt=TOUR.schedule[G.tour.mi];
+    mt.gh=G.tour.meIsHome?G.score.me:G.score.ai;
+    mt.ga=G.tour.meIsHome?G.score.ai:G.score.me;
+    mt.played=true;
+  }
+  tourAddScorers(G,G.teamA,G.teamB);
+  saveTour();
+}
+function careerRecordMatch(){
+  if(G.career&&G.career.euro){ // partita EURO CUP: registra e avanza il calendario Euro
+    const E=CAREER.euro, k=G.career, meG=G.score.me, aiG=G.score.ai;
+    if(k.euro==='group'){
+      const m=E.sched[k.eg][k.mi];
+      m.gh=k.meIsHome?meG:aiG;m.ga=k.meIsHome?aiG:meG;m.played=true;
+    }else if(k.euro==='semi'){
+      const t=E.semis[k.si], l=k.leg===1?t.l1:t.l2;
+      l.gh=k.meIsHome?meG:aiG;l.ga=k.meIsHome?aiG:meG;l.played=true;
+      if(k.leg===2&&G.shootResult)t.pen=(G.shootWinner==='me')===k.iAmA?'a':'b';
+    }else{ // finale secca
+      const f=E.fin;
+      f.gh=k.iAmA?meG:aiG;f.ga=k.iAmA?aiG:meG;f.played=true;
+      if(G.shootResult){f.winner=(G.shootWinner==='me')===k.iAmA?'a':'b';f.pen=k.iAmA?[G.shootResult.me,G.shootResult.ai]:[G.shootResult.ai,G.shootResult.me];}
+      else f.winner=f.gh>f.ga?'a':'b';
+    }
+    careerAddScorers(E,G,G.teamA,G.teamB);
+    euroAdvance();
+    CAREER.saved=Date.now();CAREERS[CAREER.name]=CAREER;saveCareers();
+    return;
+  }
+  const L=CAREER.leagues[CAREER.userLeague], mt=L.schedule[G.career.mi];
+  mt.gh=G.career.meIsHome?G.score.me:G.score.ai;
+  mt.ga=G.career.meIsHome?G.score.ai:G.score.me;
+  mt.played=true;
+  careerAddScorers(L,G,G.teamA,G.teamB);
+  CAREER.matchday=(CAREER.matchday||1)+1;
+  CAREER.saved=Date.now();CAREERS[CAREER.name]=CAREER;saveCareers();
+}
 window.UI={
   setup(){ // dritti in partita: monetina e calcio d'inizio annunciati in campo
     let i=+$('sel-me').value, j=+$('sel-ai').value;
@@ -2863,28 +2917,9 @@ window.UI={
       saveTour();renderTour();
     }
   },
-  tourAfterMatch(){ // registra la tua partita e torna al torneo
-    if(G.tour.ko){
-      const t=G.tour.tie;
-      const L=G.tour.leg===1?t.l1:t.l2;
-      L.gh=G.tour.meIsHome?G.score.me:G.score.ai;
-      L.ga=G.tour.meIsHome?G.score.ai:G.score.me;
-      L.played=true;
-      if(G.shootResult){ // deciso ai rigori
-        const hIdx=G.tour.leg===1?t.a:t.b, aIdx=G.tour.leg===1?t.b:t.a;
-        const myIdx=G.tour.meIsHome?hIdx:aIdx, otherIdx=G.tour.meIsHome?aIdx:hIdx;
-        t.pen=G.shootWinner==='me'?myIdx:otherIdx;
-        t.penScore=G.tour.meIsHome?[G.shootResult.me,G.shootResult.ai]:[G.shootResult.ai,G.shootResult.me];
-      }
-      koAdvance();
-    }else{
-      const mt=TOUR.schedule[G.tour.mi];
-      mt.gh=G.tour.meIsHome?G.score.me:G.score.ai;
-      mt.ga=G.tour.meIsHome?G.score.ai:G.score.me;
-      mt.played=true;
-    }
-    tourAddScorers(G,G.teamA,G.teamB);
-    saveTour();renderTour();show('scr-tour');
+  tourAfterMatch(){ // "Continua": registra la tua partita e torna al torneo
+    tourRecordMatch();
+    renderTour();show('scr-tour');
   },
   toHistory(){renderHistory();show('scr-history');},
   tourAbandon(){
@@ -3043,36 +3078,15 @@ window.UI={
     CAREER.saved=Date.now();CAREERS[CAREER.name]=CAREER;saveCareers();
     renderCareerHub();
   },
-  careerAfterMatch(){ // registra la tua partita nel calendario della lega e avanza di giornata
-    if(G.career&&G.career.euro){ // partita EURO CUP: registra e avanza il calendario Euro
-      const E=CAREER.euro, k=G.career, meG=G.score.me, aiG=G.score.ai;
-      if(k.euro==='group'){
-        const m=E.sched[k.eg][k.mi];
-        m.gh=k.meIsHome?meG:aiG;m.ga=k.meIsHome?aiG:meG;m.played=true;
-      }else if(k.euro==='semi'){
-        const t=E.semis[k.si], l=k.leg===1?t.l1:t.l2;
-        l.gh=k.meIsHome?meG:aiG;l.ga=k.meIsHome?aiG:meG;l.played=true;
-        if(k.leg===2&&G.shootResult)t.pen=(G.shootWinner==='me')===k.iAmA?'a':'b';
-      }else{ // finale secca
-        const f=E.fin;
-        f.gh=k.iAmA?meG:aiG;f.ga=k.iAmA?aiG:meG;f.played=true;
-        if(G.shootResult){f.winner=(G.shootWinner==='me')===k.iAmA?'a':'b';f.pen=k.iAmA?[G.shootResult.me,G.shootResult.ai]:[G.shootResult.ai,G.shootResult.me];}
-        else f.winner=f.gh>f.ga?'a':'b';
-      }
-      careerAddScorers(E,G,G.teamA,G.teamB);
-      euroAdvance();
-      CAREER.saved=Date.now();CAREERS[CAREER.name]=CAREER;saveCareers();
-      renderCareerHub();show('scr-career');
-      return;
-    }
-    const L=CAREER.leagues[CAREER.userLeague], mt=L.schedule[G.career.mi];
-    mt.gh=G.career.meIsHome?G.score.me:G.score.ai;
-    mt.ga=G.career.meIsHome?G.score.ai:G.score.me;
-    mt.played=true;
-    careerAddScorers(L,G,G.teamA,G.teamB);
-    CAREER.matchday=(CAREER.matchday||1)+1;
-    CAREER.saved=Date.now();CAREERS[CAREER.name]=CAREER;saveCareers();
+  careerAfterMatch(){ // "Continua": registra la tua partita e torna all'hub della carriera
+    careerRecordMatch();
     renderCareerHub();show('scr-career');
+  },
+  finMenu(){ // Menu dal tabellino di fine partita: il risultato NON va mai perso — si registra da solo, poi si esce
+    if(G&&G.career)careerRecordMatch();
+    else if(G&&G.tour)tourRecordMatch();
+    G=null;
+    show('scr-menu');
   },
   toMenu(){show('scr-menu');}
 };
