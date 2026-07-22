@@ -820,7 +820,10 @@ function aiChoose(G,side){
 }
 
 /* ================= UI ================= */
-if(typeof document!=='undefined'){
+/* Tutta la UI vive in una FUNZIONE (IIFE), non in un semplice blocco { }: i Safari vecchi (es. iPadOS 15)
+   "sollevano" le funzioni fuori dai blocchi e da lì non vedono più le const interne (ReferenceError
+   DEFAULT_CLUBS sull'iPad Air 2 di Enrico). Dentro una funzione il problema non esiste. */
+if(typeof document!=='undefined')(function(){
 /* SPIA ERRORI: su iPad/telefono non c'è la console — se lo script si rompe, una striscia rossa
    in basso dice l'errore e la riga. Se il gioco "si vede ma non risponde", leggere qui. */
 window.onerror=function(msg,src,line,col,err){
@@ -3081,7 +3084,7 @@ $('scr-match').addEventListener('click',()=>{
   $('kickoff-note').classList.add('hidden');
   if(pendingStart){const f=pendingStart;pendingStart=null;f();} // l'IA che batte parte solo dopo il tuo primo tocco
 });
-}
+})();
 /* export per test in Node */
 if(typeof module!=='undefined')module.exports={buildDeck,shuffle,captureOptions,newMatch,startHalf,startShootout,playCard,aiChoose,isLastPlay};
 </script>
