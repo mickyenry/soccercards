@@ -269,7 +269,8 @@
   /* niente evidenza sulle carte che possono prendere: zero aiuti, tutto semplice */
   .card.back{background:repeating-linear-gradient(90deg,var(--kitB1) 0 9px,var(--kitB2) 9px 18px); border:2px solid #000; box-shadow:0 5px 12px rgba(0,0,0,.4); padding-bottom:0;}
   .card.back .crest-mini{width:36px; height:36px; border-radius:50%; background:var(--kitB2); border:2px solid #fff; color:#fff; font-weight:900; font-size:1.15rem; display:flex; align-items:center; justify-content:center;}
-  .card.just-played{outline:3px solid #ffffff; outline-offset:-1px;}
+  /* niente evidenza sull'ultima carta posata: sul tavolo le carte sono TUTTE uguali (richiesta Enrico dal collaudo iPad —
+     il bordo bianco "just-played" sembrava una carta di dimensioni diverse; a segnalare la giocata bastano lancio e telecronaca) */
   /* carte sul tavolo leggermente ruotate, effetto "posate" */
   #zone-table div.card:nth-of-type(3n){transform:rotate(2.5deg);}
   #zone-table div.card:nth-of-type(3n+1){transform:rotate(-2deg);}
