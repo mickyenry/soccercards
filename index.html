@@ -340,11 +340,17 @@
   .news-sheet .pb-headline{margin-top:8px; line-height:1.15;}
   .news-score{font-family:var(--px); font-size:2rem; text-align:center; color:#141414; margin:12px 0 2px;}
   .news-sub{text-align:center; color:#5a5648; font-size:.95rem; margin-bottom:8px;}
-  .news-photo{position:relative; width:min(320px,86%); height:150px; margin:10px auto; border:4px solid #141414; box-shadow:5px 5px 0 rgba(0,0,0,.28); overflow:hidden;
+  /* due foto da collage di redazione, leggermente storte; didascalie legate ai FATTI della partita */
+  .news-photos{display:flex; gap:14px; justify-content:center; align-items:flex-start; margin:14px auto 6px; width:96%;}
+  .news-photo{position:relative; height:150px; border:4px solid #141414; box-shadow:5px 5px 0 rgba(0,0,0,.28); overflow:hidden;
     background-color:#8a8a8a;
     background-image:radial-gradient(rgba(0,0,0,.25) 1px, transparent 1.4px), repeating-linear-gradient(0deg,#9a9a9a 0 22px,#858585 22px 44px);
     background-size:4px 4px, auto;}
-  .news-cap{position:absolute; left:0; right:0; bottom:0; background:#141414; color:#e9e5d8; font-family:var(--px); font-size:.5rem; padding:5px 4px; text-align:center; letter-spacing:1px;}
+  .news-photo.ph1{width:55%; transform:rotate(-1.5deg);}
+  .news-photo.ph2{width:41%; transform:rotate(2deg);
+    background-image:radial-gradient(rgba(0,0,0,.28) 1px, transparent 1.4px), radial-gradient(circle at 50% 42%, #999 0 34%, #707070 35% 100%);
+    background-size:4px 4px, auto;}
+  .news-cap{position:absolute; left:0; right:0; bottom:0; background:#141414; color:#e9e5d8; font-family:var(--px); font-size:.45rem; padding:5px 4px; text-align:center; letter-spacing:.5px;}
   .news-marc{margin-top:10px; border-top:2px solid #141414; padding-top:8px;}
   .news-row{font-size:.95rem; padding:3px 0; color:#1a1a1a;}
   .news-row b{font-family:var(--px); font-size:.6rem; color:#c00d0d; margin-right:8px;}
@@ -590,7 +596,10 @@
     <div class="pb-headline" id="news-headline"></div>
     <div class="news-score" id="news-score"></div>
     <div class="news-sub" id="news-sub"></div>
-    <div class="news-photo"><div class="pb-scene" id="news-scene"></div><div class="news-cap" id="news-cap"></div></div>
+    <div class="news-photos">
+      <div class="news-photo ph1"><div class="pb-scene" id="news-scene"></div><div class="news-cap" id="news-cap"></div></div>
+      <div class="news-photo ph2"><div class="pb-scene" id="news-scene2"></div><div class="news-cap" id="news-cap2"></div></div>
+    </div>
     <div class="news-marc" id="news-marc"></div>
     <div class="btn-row">
       <button id="news-rigioca" class="b90 c-green wide" onclick="UI.rematch()" data-i18n="btn_rematch">Rigioca</button>
@@ -1036,11 +1045,13 @@ I18N.it={
  ns_all:"Tutto in bacheca (scheda Albo d'oro).", ns_next:'AL VIA LA STAGIONE {0}!',
  // prima pagina (edizione straordinaria)
  news_edition:'★ EDIZIONE STRAORDINARIA ★',
- news_cap:'IL PALLONE È SUL TAVOLO: {0}',
  hl_final:'{0} ALZA LA COPPA!', hl_dcr:'DAL DISCHETTO: TRIONFA {0}!',
  hl_rimonta:'RIMONTA PAZZESCA: {0}!', hl_gol90:"CLAMOROSO AL 90': {0}!",
  hl_tris:'TRIPLETTA! {0} SHOW', hl_upset:'IMPRESA {0}: CADE {1}',
- hl_goleada:'{0} A VALANGA: {1}', hl_festival:'SPETTACOLO PURO: {0}'
+ hl_goleada:'{0} A VALANGA: {1}', hl_festival:'SPETTACOLO PURO: {0}',
+ cap_final:'{0} CAMPIONE!', cap_dcr:'DECIDE IL DISCHETTO', cap_rimonta:'DA -2 ALLA GLORIA',
+ cap_gol90:"{0} AL 90'", cap_tris:'TRE VOLTE {0}!', cap_upset:'DAVIDE BATTE GOLIA',
+ cap_goleada:'PIOGGIA DI GOL: {0}', cap_mvp:'{0}: MIGLIORE IN CAMPO', cap_nogoals:'RETI BIANCHE, CHE BATTAGLIA'
 };
 I18N.en={
  langName:'English', langBadge:'ENG',
@@ -1188,11 +1199,13 @@ I18N.en={
  ns_all:'Everything is in the cabinet (Hall of fame tab).', ns_next:'SEASON {0} KICKS OFF!',
  // front page (special edition)
  news_edition:'★ SPECIAL EDITION ★',
- news_cap:'THE TABLE NEVER LIES: {0}',
  hl_final:'{0} LIFT THE CUP!', hl_dcr:'SHOOTOUT DRAMA: {0} HOLD THEIR NERVE!',
  hl_rimonta:'THE GREAT COMEBACK: {0}!', hl_gol90:"IT IS NOW! {0} AT 90'!",
  hl_tris:'HAT-TRICK HERO: {0}', hl_upset:'GIANT-KILLING! {0} STUN {1}',
- hl_goleada:'{0} RUN RIOT: {1}', hl_festival:'GOAL FEAST: {0}'
+ hl_goleada:'{0} RUN RIOT: {1}', hl_festival:'GOAL FEAST: {0}',
+ cap_final:'{0} ARE CHAMPIONS!', cap_dcr:'SETTLED FROM THE SPOT', cap_rimonta:'FROM -2 TO GLORY',
+ cap_gol90:"{0} AT 90'", cap_tris:'{0} TIMES THREE!', cap_upset:'DAVID BEATS GOLIATH',
+ cap_goleada:'RAINING GOALS: {0}', cap_mvp:'{0}: MAN OF THE MATCH', cap_nogoals:'NO GOALS, WHAT A BATTLE'
 };
 function applyLang(){
   T=I18N[LANG]||I18N.it;
@@ -2089,27 +2102,37 @@ function newsStory(){
   if(winner&&G.forza){const sum=f=>f.att+f.dif+f.vis;upset=sum(G.forza[winner==='me'?'ai':'me'])-sum(G.forza[winner])>=5&&Math.abs(sMe-sAi)>=2;}
   const isFinal=(G.career&&G.career.euro==='final')||(G.tour&&G.tour.ko&&G.tour.tie&&G.tour.tie.single);
   const dcr=!!G.shootResult, dcrW=dcr?(G.shootWinner==='me'?G.names.me:G.names.ai):null;
-  if(isFinal&&(winner||dcr))return {hl:fmt(T.hl_final,dcr?dcrW:wName)};
-  if(dcr)return {hl:fmt(T.hl_dcr,dcrW)};
-  if(comeback)return {hl:fmt(T.hl_rimonta,wName)};
-  if(g90)return {hl:fmt(T.hl_gol90,g90.name)};
-  if(tris)return {hl:fmt(T.hl_tris,tris)};
-  if(upset)return {hl:fmt(T.hl_upset,wName,lName)};
-  if(winner&&Math.max(sMe,sAi)>=5)return {hl:fmt(T.hl_goleada,wName,score)}; // 5+ gol di una squadra: manita
-  if(sMe+sAi>=7)return {hl:fmt(T.hl_festival,score)};                          // 7+ gol totali: partita folle
+  if(isFinal&&(winner||dcr))return {hl:fmt(T.hl_final,dcr?dcrW:wName),cap1:fmt(T.cap_final,dcr?dcrW:wName)};
+  if(dcr)return {hl:fmt(T.hl_dcr,dcrW),cap1:T.cap_dcr};
+  if(comeback)return {hl:fmt(T.hl_rimonta,wName),cap1:T.cap_rimonta};
+  if(g90)return {hl:fmt(T.hl_gol90,g90.name),cap1:fmt(T.cap_gol90,g90.name)};
+  if(tris)return {hl:fmt(T.hl_tris,tris),cap1:fmt(T.cap_tris,tris)};
+  if(upset)return {hl:fmt(T.hl_upset,wName,lName),cap1:T.cap_upset};
+  if(winner&&Math.max(sMe,sAi)>=5)return {hl:fmt(T.hl_goleada,wName,score),cap1:fmt(T.cap_goleada,score)}; // 5+ gol di una squadra: manita
+  if(sMe+sAi>=7)return {hl:fmt(T.hl_festival,score),cap1:fmt(T.cap_goleada,score)};                          // 7+ gol totali: partita folle
   return null;
 }
 function renderNews(story){
   $('news-headline').textContent=story.hl;
   $('news-score').textContent=`${G.score.me} - ${G.score.ai}`+(G.shootResult?` (${G.shootResult.me}-${G.shootResult.ai} ${T.dcr})`:'');
   $('news-sub').textContent=`${G.names.me} vs ${G.names.ai}`;
-  $('news-cap').textContent=fmt(T.news_cap,G.score.me+' - '+G.score.ai);
-  // "foto" pixel in bianco e nero coi due omini nelle maglie della partita
+  // FOTO 1 (azione, i due omini nelle maglie della partita): didascalia = il fatto del giorno
+  $('news-cap').textContent=story.cap1||'';
   const sc=$('news-scene');
-  sc.innerHTML='<div class="pb-spr" style="left:16%;top:6%;"></div><div class="pb-ball" style="left:50%;top:62%;"></div><div class="pb-spr" style="left:60%;top:18%;"></div>';
+  sc.innerHTML='<div class="pb-spr" style="left:14%;top:6%;"></div><div class="pb-ball" style="left:48%;top:62%;"></div><div class="pb-spr" style="left:58%;top:18%;"></div>';
   const ka=G.kitA||{c1:'#e8e8e8',c2:'#2e2e2e',shorts:'#cfcfcf'}, kb=G.kitB||{c1:'#777777',c2:'#222222',shorts:'#cfcfcf'};
   const sprs=sc.querySelectorAll('.pb-spr');
   [ka,kb].forEach((k,i)=>{const sp=sprs[i];if(!sp)return;const px=document.createElement('div');px.className='px';px.style.boxShadow=spriteShadow(k.c1,k.c2,k.shorts);sp.appendChild(px);});
+  // FOTO 2 (il protagonista, primo piano nella SUA maglia): didascalia = migliore in campo
+  const cnt2={};G.scorers.forEach(s=>{const k=s.side+'|'+s.num;cnt2[k]=(cnt2[k]||0)+1;});
+  let mvp=null,best=0;
+  Object.entries(cnt2).forEach(([k,n])=>{if(n>best){best=n;const p=k.split('|');mvp={side:p[0],name:G.players[p[0]][+p[1]-2]};}});
+  $('news-cap2').textContent=mvp?fmt(T.cap_mvp,mvp.name):T.cap_nogoals;
+  const sc2=$('news-scene2');
+  sc2.innerHTML='<div class="pb-spr big" style="left:26%;top:4%;"></div><div class="pb-ball" style="left:18%;top:74%;"></div>';
+  const km=mvp?(mvp.side==='me'?ka:kb):ka;
+  const sp2=sc2.querySelector('.pb-spr');
+  if(sp2){const px2=document.createElement('div');px2.className='px';px2.style.boxShadow=spriteShadow(km.c1,km.c2,km.shorts);sp2.appendChild(px2);}
   $('news-marc').innerHTML=G.scorers.map(s=>`<div class="news-row"><b>${s.minute}'</b>${s.name} (n. ${s.num}) — ${s.side==='me'?G.names.me:G.names.ai}</div>`).join('');
   // stessi pulsanti del tabellino classico: Rigioca solo in amichevole, Continua in torneo/carriera
   $('news-rigioca').style.display=(G.tour||G.career)?'none':'';
