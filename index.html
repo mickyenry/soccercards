@@ -194,7 +194,7 @@
   .toss{background:#0b1220; border-radius:10px; padding:12px 18px; margin-top:8px; font-size:.95rem; color:#cbd5e1;}
 
   /* Match */
-  #scr-match{padding:0; justify-content:flex-start; background:#0f2413;}
+  #scr-match{padding:0; justify-content:flex-start; background:#12220f;}
   #scoreboard{width:100%; background:#14181c; display:flex; align-items:center; justify-content:center; gap:18px; padding:12px 16px; font-family:var(--px); font-size:.62rem; position:sticky; top:0; z-index:5; border-bottom:3px solid #2b3328;}
   #sb-score{font-size:1.9rem; color:var(--oro);}
   #sb-me-name,#sb-ai-name{font-size:.82rem;}
@@ -203,12 +203,14 @@
   .sb-team{display:flex; align-items:center; gap:8px;}
   .dot{width:14px; height:14px; display:inline-block; border:2px solid #fff;}
   #sb-info{font-size:.55rem; font-family:var(--px); color:#7fd18b; margin-left:14px; text-align:center; line-height:1.9;}
+  /* terreno UNICO, gradazione DEFINITIVA (2026-07-23, scelta di Enrico dopo 6 varianti provate e scartate
+     per semplicità): l'originale spinto ~40% verso l'estivo — verde pieno ma ammorbidito */
   #field{width:100%; max-width:900px; flex:1; display:flex; flex-direction:column; position:relative;
-    background-color:#4e9e2c;
+    background-color:#5fa133;
     background-image:
       repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0 2px, transparent 2px 4px),
-      repeating-linear-gradient(0deg, #4f9e2d 0 48px, #459127 48px 96px);
-    border-left:6px solid #0f2413; border-right:6px solid #0f2413;
+      repeating-linear-gradient(0deg, #60a234 0 48px, #56952d 48px 96px);
+    border-left:6px solid #12220f; border-right:6px solid #12220f;
     min-height:0;}
   /* segnaletica del campo */
   #marks{position:absolute; inset:12px; pointer-events:none; z-index:0;}
@@ -246,7 +248,9 @@
   #zone-ai{min-height:96px;}
   #zone-table{flex:1; min-height:140px; align-content:center;}
   #zone-me{min-height:150px;}
-  .zone-label{position:absolute; left:10px; font-size:.68rem; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.75); text-shadow:0 1px 2px #0007; z-index:2;}
+  /* le scritte-guida (Avversario/Tavolo/La tua mano) si vedono a inizio partita e SVANISCONO al primo tocco */
+  .zone-label{position:absolute; left:10px; font-size:.68rem; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.75); text-shadow:0 1px 2px #0007; z-index:2; transition:opacity .8s;}
+  .zone-label.zl-hide{opacity:0;}
 
   .card{width:78px; height:112px; border-radius:10px; position:relative; user-select:none;
     background:linear-gradient(160deg,#fffef7 0%,#f2eddb 100%); color:#1f2937;
@@ -907,6 +911,7 @@ var LANG=(function(){try{const s=localStorage.getItem('soccercard_lang');if(s&&L
 const I18N={};
 var T=null; // tabella della lingua corrente (T=I18N[LANG])
 function fmt(s){const a=arguments;return String(s).replace(/\{(\d)\}/g,function(m,i){return a[+i+1];});}
+function pick(a){return Array.isArray(a)?a[Math.floor(Math.random()*a.length)]:a;} // pesca una variante (per i titoli del giornale)
 I18N.it={
  langName:'Italiano', langBadge:'ITA',
  title:'Soccer Cards — Prototipo',
@@ -981,8 +986,8 @@ I18N.it={
  log_scopa:' — <b style="color:var(--oro)">SCOPA! GOL!</b>',
  log_newround:'— Fine giro: il mazzo distribuisce 3 nuove carte a testa (quelle sul tavolo restano) —',
  log_shootout:'⚽ Calci di rigore — 10 carte a testa su tavolo vuoto: ogni scopa è un rigore trasformato. Se finisce pari, si ribatte.',
- fn_kickoff:"🪙 CALCIO D'INIZIO", fn_kick2:'{0} vs {1} — monetina: inizia {2}{3}',
- fn_2half:'2° TEMPO', fn_2half2:'Inizia {0} — {1}',
+ fn_kickoff:"🪙 CALCIO D'INIZIO", fn_kick2:'Monetina: inizia {0}{1}',
+ fn_2half:'2° TEMPO', fn_2half2:'Inizia {0}{1}',
  fn_extra:'SUPPLEMENTARI!', fn_extra2:'Se resta pari, calci di rigore — inizia {0}{1}',
  fn_pens:'⚽ RIGORI!', fn_pens2:'10 carte a testa, una a turno: ogni scopa è un rigore segnato{0}',
  fn_touch:' — tocca il campo per iniziare',
@@ -1050,13 +1055,20 @@ I18N.it={
  ns_all:"Tutto in bacheca (scheda Albo d'oro).", ns_next:'AL VIA LA STAGIONE {0}!',
  // prima pagina (edizione straordinaria)
  news_edition:'★ EDIZIONE STRAORDINARIA ★',
- hl_final:'{0} ALZA LA COPPA!', hl_dcr:'DAL DISCHETTO: TRIONFA {0}!',
- hl_rimonta:'RIMONTA PAZZESCA: {0}!', hl_gol90:"CLAMOROSO AL 90': {0}!",
- hl_tris:'TRIPLETTA! {0} SHOW', hl_upset:'IMPRESA {0}: CADE {1}',
- hl_goleada:'{0} A VALANGA: {1}', hl_festival:'SPETTACOLO PURO: {0}',
+ hl_final:['{0} ALZA LA COPPA!','TRIONFO {0}: LA COPPA È TUA!','{0} SUL TETTO DEL TORNEO!','NOTTE MAGICA: {0} CAMPIONE!','{0}, LA COPPA È REALTÀ!'],
+ hl_dcr:['DAL DISCHETTO: TRIONFA {0}!','RIGORI INFINITI, GODE {0}!','{0} DI RIGORE!','CUORE E DISCHETTO: PASSA {0}!','LOTTERIA DEI RIGORI: VINCE {0}!'],
+ hl_rimonta:['RIMONTA PAZZESCA: {0}!','{0}, CHE RIMONTA!','DA SOTTO DI DUE: {0} NON MUORE MAI!','INCREDIBILE {0}: RIBALTA TUTTO!','{0} RISORGE DALL\'INFERNO!'],
+ hl_gol90:["CLAMOROSO AL 90': {0}!","{0} AL 90': APOTEOSI!","ALL'ULTIMO RESPIRO: {0}!","ZONA CESARINI: COLPO DI {0}!","{0} GELA TUTTI AL 90'!"],
+ hl_tris:['TRIPLETTA! {0} SHOW','{0}: TRE GOL, UN SOLO PADRONE','NOTTE DA FUORICLASSE: TRIS DI {0}','{0} SI PORTA A CASA IL PALLONE','UNO, DUE, TRE: {0}!'],
+ hl_upset:['IMPRESA {0}: CADE {1}','DAVIDE BATTE GOLIA: {0}!','{0} FA LO SGAMBETTO A {1}','CLAMOROSO: {0} PIEGA {1}','LEZIONE DI CORAGGIO: {0}!'],
+ hl_goleada:['{0} A VALANGA: {1}','{0} DILAGA: {1}!','CHE MANITA, {0}!','{0} SENZA PIETÀ: {1}','UN URAGANO CHIAMATO {0}: {1}'],
+ hl_festival:['SPETTACOLO PURO: {0}','FESTIVAL DEL GOL: {0}','PARTITA FOLLE: FINISCE {0}!','EMOZIONI A GRAPPOLI: {0}','CHE PARTITA! {0} E TUTTI IN PIEDI'],
+ hl_derby_w:['IL DERBY È DI {0}!','DERBY: {0} SI PRENDE LA CITTÀ!','FESTA {0}: IL DERBY È TUO!','DERBY DA RICORDARE: VINCE {0}!','LA CITTÀ HA UN SOLO COLORE: {0}!'],
+ hl_derby_x:['DERBY SENZA PADRONE: {0}','IL DERBY FINISCE {0}: TUTTO COME PRIMA','PARI NEL DERBY: {0}','DERBY DI NERVI: {0}','ONORE DIVISO: IL DERBY FA {0}'],
  cap_final:'{0} CAMPIONE!', cap_dcr:'DECIDE IL DISCHETTO', cap_rimonta:'DA -2 ALLA GLORIA',
  cap_gol90:"{0} AL 90'", cap_tris:'TRE VOLTE {0}!', cap_upset:'DAVIDE BATTE GOLIA',
- cap_goleada:'PIOGGIA DI GOL: {0}', cap_mvp:'{0}: MIGLIORE IN CAMPO', cap_nogoals:'RETI BIANCHE, CHE BATTAGLIA'
+ cap_goleada:'PIOGGIA DI GOL: {0}', cap_mvp:'{0}: MIGLIORE IN CAMPO', cap_nogoals:'RETI BIANCHE, CHE BATTAGLIA',
+ cap_derby:'IL GIORNO DEL DERBY'
 };
 I18N.en={
  langName:'English', langBadge:'ENG',
@@ -1135,8 +1147,8 @@ I18N.en={
  log_scopa:' — <b style="color:var(--oro)">SWEEP! GOAL!</b>',
  log_newround:'— End of round: the deck deals 3 new cards each (table cards stay) —',
  log_shootout:'⚽ Penalty shootout — 10 cards each on an empty table: every sweep is a converted penalty. If it ends level, another round is played.',
- fn_kickoff:'🪙 KICK-OFF', fn_kick2:'{0} vs {1} — coin toss: {2} starts{3}',
- fn_2half:'2ND HALF', fn_2half2:'{0} starts — {1}',
+ fn_kickoff:'🪙 KICK-OFF', fn_kick2:'Coin toss: {0} starts{1}',
+ fn_2half:'2ND HALF', fn_2half2:'{0} starts{1}',
  fn_extra:'EXTRA TIME!', fn_extra2:'If still level, penalty shootout — {0} starts{1}',
  fn_pens:'⚽ PENALTIES!', fn_pens2:'10 cards each, one per turn: every sweep is a scored penalty{0}',
  fn_touch:' — touch the pitch to start',
@@ -1204,13 +1216,20 @@ I18N.en={
  ns_all:'Everything is in the cabinet (Hall of fame tab).', ns_next:'SEASON {0} KICKS OFF!',
  // front page (special edition)
  news_edition:'★ SPECIAL EDITION ★',
- hl_final:'{0} LIFT THE CUP!', hl_dcr:'SHOOTOUT DRAMA: {0} HOLD THEIR NERVE!',
- hl_rimonta:'THE GREAT COMEBACK: {0}!', hl_gol90:"IT IS NOW! {0} AT 90'!",
- hl_tris:'HAT-TRICK HERO: {0}', hl_upset:'GIANT-KILLING! {0} STUN {1}',
- hl_goleada:'{0} RUN RIOT: {1}', hl_festival:'GOAL FEAST: {0}',
+ hl_final:['{0} LIFT THE CUP!','GLORY FOR {0}!','{0} ON TOP OF THE WORLD!','CUP KINGS: {0}!','THE TROPHY GOES TO {0}!'],
+ hl_dcr:['SHOOTOUT DRAMA: {0} HOLD THEIR NERVE!','SPOT-KICK GLORY FOR {0}!','{0} WIN THE LOTTERY!','NERVES OF STEEL: {0}!','PENALTIES DECIDE IT: {0}!'],
+ hl_rimonta:['THE GREAT COMEBACK: {0}!','{0} BACK FROM THE DEAD!','TWO DOWN, NEVER OUT: {0}!','WHAT A TURNAROUND BY {0}!','{0} FLIP THE SCRIPT!'],
+ hl_gol90:["IT IS NOW! {0} AT 90'!","LAST-GASP {0}!","{0} BREAKS HEARTS AT 90'!","STOPPAGE-TIME STUNNER: {0}!","THE LAST KICK BELONGS TO {0}!"],
+ hl_tris:['HAT-TRICK HERO: {0}','{0} TAKES THE MATCH BALL HOME','THREE AND EASY: {0}!','TREBLE TROUBLE: {0}!','ONE MAN SHOW: {0}!'],
+ hl_upset:['GIANT-KILLING! {0} STUN {1}','DAVID BEATS GOLIATH: {0}!','{0} SHOCK MIGHTY {1}!','UPSET OF THE SEASON: {0}!','{0} TOPPLE {1}!'],
+ hl_goleada:['{0} RUN RIOT: {1}','{0} HIT {1}: DEMOLITION!','GOALS GALORE FOR {0}: {1}','{0} SHOW NO MERCY: {1}','A HURRICANE CALLED {0}: {1}'],
+ hl_festival:['GOAL FEAST: {0}','FOOTBALL MADNESS: {0}!','WHAT A GAME: {0}!','THRILLS AND SPILLS: {0}','THEY SCORED FOR FUN: {0}'],
+ hl_derby_w:['THE DERBY BELONGS TO {0}!','DERBY DAY DELIGHT FOR {0}!','{0} OWN THE CITY!','BRAGGING RIGHTS: {0}!','ONE CITY, ONE COLOUR: {0}!'],
+ hl_derby_x:['DERBY HONOURS SHARED: {0}','NO MASTER IN THE DERBY: {0}','DERBY STALEMATE: {0}','ALL SQUARE IN THE DERBY: {0}','THE CITY HOLDS ITS BREATH: {0}'],
  cap_final:'{0} ARE CHAMPIONS!', cap_dcr:'SETTLED FROM THE SPOT', cap_rimonta:'FROM -2 TO GLORY',
  cap_gol90:"{0} AT 90'", cap_tris:'{0} TIMES THREE!', cap_upset:'DAVID BEATS GOLIATH',
- cap_goleada:'RAINING GOALS: {0}', cap_mvp:'{0}: MAN OF THE MATCH', cap_nogoals:'NO GOALS, WHAT A BATTLE'
+ cap_goleada:'RAINING GOALS: {0}', cap_mvp:'{0}: MAN OF THE MATCH', cap_nogoals:'NO GOALS, WHAT A BATTLE',
+ cap_derby:'DERBY DAY'
 };
 function applyLang(){
   T=I18N[LANG]||I18N.it;
@@ -1619,8 +1638,24 @@ function collectCustom(){ // legge i campi della scheda Inventata dentro CUSTOM
   CUSTOM.forza={att:+$('cu-att').value,dif:+$('cu-dif').value,vis:+$('cu-vis').value};
   if(!CUSTOM.enabled)CUSTOM.target=+$('cu-target').value;
 }
+/* ===== DERBY: stracittadine per POSIZIONE in rosa (reggono anche coi nomi cambiati via CSV) + derby delle epoche ===== */
+const DERBY_PAIRS=[['IT1','IT3'],['IT4','IT7'],['ES1','ES3'],['EN1','EN8'],['DE1','DE6']]; // Milano, Roma, Madrid, Manchester, Ruhr
+function clubSlot(name){const i=CLUBS.findIndex(c=>c.club===name);return i<0?null:csvCode(i);}
+function isDerby(A,B){
+  if(!A||!B||!A.club||!B.club)return false;
+  if(A.club===B.club)return true; // derby delle epoche ('90 vs Oggi)
+  const a=clubSlot(A.club), b=clubSlot(B.club);
+  return !!(a&&b&&DERBY_PAIRS.some(p=>(p[0]===a&&p[1]===b)||(p[0]===b&&p[1]===a)));
+}
+function derbyMood(G,A,B){ // "il derby non ha pronostico": ±1 a caso su ogni parametro, SOLO per questa partita
+  if(!isDerby(A,B))return;
+  G.forza={me:Object.assign({},G.forza.me),ai:Object.assign({},G.forza.ai)}; // CLONE: mai toccare la forza vera delle squadre
+  ['me','ai'].forEach(s=>{const f=G.forza[s];['att','dif','vis'].forEach(k=>{f[k]=Math.max(1,Math.min(5,f[k]+Math.floor(Math.random()*3)-1));});});
+  G.derby=true;
+}
 function startFriendly(A,B){
   G=newMatch(A,B);G.teamA=A;G.teamB=B;
+  derbyMood(G,A,B);
   applyKits(A,B);
   beginHalf(1);
 }
@@ -1663,6 +1698,7 @@ function simShootout(g){ // rigori simulati: si ribatte finché non c'è un vinc
 }
 function simMatchX(A,B,mustDecide,prior){ // IA vs IA istantanea; se serve un vincitore: 1 supplementare, poi rigori
   const g=newMatch(A,B);let h=1;
+  derbyMood(g,A,B); // il derby balla anche nelle partite simulate
   const playHalf=()=>{startHalf(g,h);while(true){const ch=aiChoose(g,g.turn);const r=playCard(g,g.turn,ch.handIdx,ch.optIdx);if(r.endOfHalf)break;}h++;};
   playHalf();playHalf();
   g.pen=null;
@@ -2107,14 +2143,15 @@ function newsStory(){
   if(winner&&G.forza){const sum=f=>f.att+f.dif+f.vis;upset=sum(G.forza[winner==='me'?'ai':'me'])-sum(G.forza[winner])>=5&&Math.abs(sMe-sAi)>=2;}
   const isFinal=(G.career&&G.career.euro==='final')||(G.tour&&G.tour.ko&&G.tour.tie&&G.tour.tie.single);
   const dcr=!!G.shootResult, dcrW=dcr?(G.shootWinner==='me'?G.names.me:G.names.ai):null;
-  if(isFinal&&(winner||dcr))return {hl:fmt(T.hl_final,dcr?dcrW:wName),cap1:fmt(T.cap_final,dcr?dcrW:wName)};
-  if(dcr)return {hl:fmt(T.hl_dcr,dcrW),cap1:T.cap_dcr};
-  if(comeback)return {hl:fmt(T.hl_rimonta,wName),cap1:T.cap_rimonta};
-  if(g90)return {hl:fmt(T.hl_gol90,g90.name),cap1:fmt(T.cap_gol90,g90.name)};
-  if(tris)return {hl:fmt(T.hl_tris,tris),cap1:fmt(T.cap_tris,tris)};
-  if(upset)return {hl:fmt(T.hl_upset,wName,lName),cap1:T.cap_upset};
-  if(winner&&Math.max(sMe,sAi)>=5)return {hl:fmt(T.hl_goleada,wName,score),cap1:fmt(T.cap_goleada,score)}; // 5+ gol di una squadra: manita
-  if(sMe+sAi>=7)return {hl:fmt(T.hl_festival,score),cap1:fmt(T.cap_goleada,score)};                          // 7+ gol totali: partita folle
+  if(isFinal&&(winner||dcr))return {hl:fmt(pick(T.hl_final),dcr?dcrW:wName),cap1:fmt(T.cap_final,dcr?dcrW:wName)};
+  if(dcr)return {hl:fmt(pick(T.hl_dcr),dcrW),cap1:T.cap_dcr};
+  if(comeback)return {hl:fmt(pick(T.hl_rimonta),wName),cap1:T.cap_rimonta};
+  if(g90)return {hl:fmt(pick(T.hl_gol90),g90.name),cap1:fmt(T.cap_gol90,g90.name)};
+  if(tris)return {hl:fmt(pick(T.hl_tris),tris),cap1:fmt(T.cap_tris,tris)};
+  if(upset)return {hl:fmt(pick(T.hl_upset),wName,lName),cap1:T.cap_upset};
+  if(winner&&Math.max(sMe,sAi)>=5)return {hl:fmt(pick(T.hl_goleada),wName,score),cap1:fmt(T.cap_goleada,score)}; // 5+ gol di una squadra: manita
+  if(sMe+sAi>=7)return {hl:fmt(pick(T.hl_festival),score),cap1:fmt(T.cap_goleada,score)};                          // 7+ gol totali: partita folle
+  if(G.derby)return winner?{hl:fmt(pick(T.hl_derby_w),wName),cap1:T.cap_derby}:{hl:fmt(pick(T.hl_derby_x),score),cap1:T.cap_derby}; // il DERBY va SEMPRE in prima pagina
   return null;
 }
 function renderNews(story){
@@ -2256,6 +2293,7 @@ async function beginHalf(h){
   startHalf(G,h);
   pendingStart=null;
   show('scr-match');
+  if(h===1)document.querySelectorAll('.zone-label').forEach(e=>e.classList.remove('zl-hide')); // scritte-guida di nuovo visibili (svaniranno al primo tocco)
   $('sb-audio').style.display=AUDIO.on?'':'none'; // il pulsante in partita esiste solo se l'audio è attivo in Opzioni
   $('sb-audio').textContent='🔊';
   sfxWhistle(1);crowdStart();
@@ -2267,8 +2305,8 @@ async function beginHalf(h){
   // annuncio leggero direttamente sul campo: si gioca subito, la scritta sparisce al primo clic
   const aiStarts=G.turn==='ai';
   const hint=aiStarts?T.fn_touch:'';
-  if(h===1)showFieldNote(T.fn_kickoff,fmt(T.fn_kick2,G.names.me,G.names.ai,first,hint));
-  else if(h===2)showFieldNote(T.fn_2half,fmt(T.fn_2half2,first,`${G.names.me} ${G.score.me} - ${G.score.ai} ${G.names.ai}`)+hint);
+  if(h===1)showFieldNote(T.fn_kickoff,fmt(T.fn_kick2,first,hint)); // sobria: niente nomi ripetuti, sono già sul tabellone
+  else if(h===2)showFieldNote(T.fn_2half,fmt(T.fn_2half2,first,hint));
   else showFieldNote(T.fn_extra,fmt(T.fn_extra2,first,hint));
   if(aiStarts){
     busy=true; // l'IA che batte NON muove finché non tocchi il campo (vedi click handler)
@@ -2559,7 +2597,7 @@ function euroPlayDay(sim){ // gioca/simula la giornata Euro corrente; true se ha
     });
     if(um){
       const meIsHome=um.H===us, A=euroTeam(us), B=euroTeam(meIsHome?um.A2:um.H);
-      G=newMatch(A,B);G.teamA=A;G.teamB=B;
+      G=newMatch(A,B);G.teamA=A;G.teamB=B;derbyMood(G,A,B);
       G.career={euro:'group',eg:um.g,mi:E.sched[um.g].indexOf(um.m),meIsHome};
       applyKits(A,B);beginHalf(1);return true;
     }
@@ -2577,7 +2615,7 @@ function euroPlayDay(sim){ // gioca/simula la giornata Euro corrente; true se ha
       const t=ut.t, iAmA=t.a===us, meIsHome=leg===1?iAmA:!iAmA;
       const me=euroTeam(us), opp=euroTeam(iAmA?t.b:t.a);
       const md=leg===2, prior=md?(iAmA?(t.l1.gh-t.l1.ga):(t.l1.ga-t.l1.gh)):0;
-      G=newMatch(me,opp);G.teamA=me;G.teamB=opp;
+      G=newMatch(me,opp);G.teamA=me;G.teamB=opp;derbyMood(G,me,opp);
       G.career={euro:'semi',si:ut.si,leg,meIsHome,iAmA,mustDecide:md,prior};
       applyKits(me,opp);beginHalf(1);return true;
     }
@@ -2588,7 +2626,7 @@ function euroPlayDay(sim){ // gioca/simula la giornata Euro corrente; true se ha
   if(f&&!f.played){
     if(!sim&&(f.a===us||f.b===us)){
       const iAmA=f.a===us, me=euroTeam(us), opp=euroTeam(iAmA?f.b:f.a);
-      G=newMatch(me,opp);G.teamA=me;G.teamB=opp;
+      G=newMatch(me,opp);G.teamA=me;G.teamB=opp;derbyMood(G,me,opp);
       G.career={euro:'final',iAmA,meIsHome:iAmA,mustDecide:true,prior:0};
       applyKits(me,opp);beginHalf(1);return true;
     }
@@ -3021,7 +3059,7 @@ window.UI={
           const home=TOUR.teams[hIdx], away=TOUR.teams[aIdx];
           const meIsHome=hIdx===TOUR.user;
           const A=meIsHome?home:away, B=meIsHome?away:home;
-          G=newMatch(A,B);G.teamA=A;G.teamB=B;
+          G=newMatch(A,B);G.teamA=A;G.teamB=B;derbyMood(G,A,B);
           G.tour={ko:true,tie:t,leg,meIsHome,mustDecide,prior:meIsHome?prior:-prior};
           applyKits(A,B);beginHalf(1);return;
         }
@@ -3042,7 +3080,7 @@ window.UI={
         const home=TOUR.teams[mt.h], away=TOUR.teams[mt.a];
         const meIsHome=mt.h===TOUR.user;
         const A=meIsHome?home:away, B=meIsHome?away:home;
-        G=newMatch(A,B);G.teamA=A;G.teamB=B;G.tour={mi,meIsHome};
+        G=newMatch(A,B);G.teamA=A;G.teamB=B;derbyMood(G,A,B);G.tour={mi,meIsHome};
         applyKits(A,B);beginHalf(1);
         return;
       }
@@ -3190,7 +3228,7 @@ window.UI={
     if(!mt){CAREER.matchday=day+1;saveCareers();renderCareerHub();return;} // riposo (non capita con 8 squadre)
     const meIsHome=mt.h===CAREER.userIdx;
     const A=meIsHome?L.teams[mt.h]:L.teams[mt.a], B=meIsHome?L.teams[mt.a]:L.teams[mt.h];
-    G=newMatch(A,B);G.teamA=A;G.teamB=B;
+    G=newMatch(A,B);G.teamA=A;G.teamB=B;derbyMood(G,A,B);
     G.career={mi:L.schedule.indexOf(mt),meIsHome,day};
     applyKits(A,B);beginHalf(1);
   },
@@ -3237,6 +3275,7 @@ fillTeamSelects();
 // la scritta sul campo (monetina, rigori...) scompare al primo clic
 $('scr-match').addEventListener('click',()=>{
   $('kickoff-note').classList.add('hidden');
+  document.querySelectorAll('.zone-label').forEach(e=>e.classList.add('zl-hide')); // le scritte-guida svaniscono al primo tocco
   if(pendingStart){const f=pendingStart;pendingStart=null;f();} // l'IA che batte parte solo dopo il tuo primo tocco
 });
 })();
