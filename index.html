@@ -291,7 +291,7 @@
   #zone-table{position:relative;}
   #aiplay-spot{position:absolute; inset:0; display:none; align-items:center; justify-content:center; z-index:6; pointer-events:none;}
   #aiplay-spot.show{display:flex;}
-  #aiplay-spot .aip-tag{position:absolute; top:6px; left:50%; transform:translateX(-50%); font-family:var(--px); font-size:.45rem; background:rgba(0,0,0,.78); color:#fff; padding:4px 10px; letter-spacing:.5px; white-space:nowrap;}
+  /* targhetta nome sopra la carta rivelata RIMOSSA (2026-07-23): il nome è già sulla striscia della carta */
   #aiplay-spot .card{transform:rotate(-6deg); box-shadow:0 5px 12px rgba(0,0,0,.5); animation:aipslide .5s cubic-bezier(.2,.8,.3,1);}
   #aiplay-spot .card.theirs:not(.asso) .strip{background:repeating-linear-gradient(90deg,var(--kitB1) 0 7px,var(--kitB2) 7px 14px);}
   @keyframes aipslide{
@@ -399,7 +399,7 @@
     <div class="btn-row2">
       <button class="b90 c-green wide" onclick="UI.setup()" data-i18n="btn_play">⚽ Gioca</button>
     </div>
-    <div class="rules-note" data-i18n-html="setup_note">Regole Scopa &bull; Ogni SCOPA = GOL &bull; Asso = punizione (7 su 8) o rigore (1 su 8): piglia tutto, ma il gol arriva solo con la scopa<br>Le squadre si modificano in Opzioni → Squadre</div>
+    <div class="rules-note" data-i18n-html="setup_note">Regole Scopa &bull; Ogni SCOPA = GOL &bull; Asso = ASSIST: piglia tutto e apparecchia il gol, ma segna solo la scopa<br>Le squadre si modificano in Opzioni → Squadre</div>
   </div>
 </div>
 
@@ -768,9 +768,11 @@ function newMatch(tm,ta,rnd){
 }
 function startHalf(G,half){
   const deck=shuffle(buildDeck(),G.rnd);
-  // ogni asso è una PUNIZIONE (7 su 8) o un RIGORE (1 su 8): solo significato, l'effetto resta "piglia tutto"
-  const rnd=G.rnd||Math.random;
-  deck.forEach(c=>{if(c.v===1)c.kind=rnd()<0.125?'rigore':'punizione';});
+  // ogni asso è l'ASSIST: un nome, un effetto ("piglia tutto e apparecchia il gol"). Il RIGORE esiste solo ai calci di rigore.
+  // (Unificato il 2026-07-23: rigore/punizione con effetto identico confondevano i tester. "Assist" è il nome
+  //  ORIGINALE del gioco di Enrico e del cugino da piccoli — e descrive esattamente cosa fa l'asso.
+  //  Il valore interno kind resta 'punizione' per compatibilità: cambia solo l'etichetta.)
+  deck.forEach(c=>{if(c.v===1)c.kind='punizione';});
   G.half=half;G.deck=deck;
   G.table=deck.splice(0,4);
   G.hands={me:deck.splice(0,3),ai:deck.splice(0,3)};
@@ -917,7 +919,7 @@ I18N.it={
  // amichevole
  setup_head:'Amichevole', lbl_era:'Epoca', lbl_yourteam:'La tua squadra', lbl_oppteam:'Squadra avversaria (IA)',
  lbl_oppera:'Epoca avversario (per sfide tra epoche)', btn_play:'Gioca',
- setup_note:'Regole Scopa &bull; Ogni SCOPA = GOL &bull; Asso = punizione (7 su 8) o rigore (1 su 8): piglia tutto, ma il gol arriva solo con la scopa<br>Le squadre si modificano in Opzioni &rarr; Squadre',
+ setup_note:'Regole Scopa &bull; Ogni SCOPA = GOL &bull; Asso = ASSIST: piglia tutto e apparecchia il gol, ma segna solo la scopa<br>Le squadre si modificano in Opzioni &rarr; Squadre',
  // opzioni e impostazioni
  opt_teams:'Squadre', opt_rules:'Regole', opt_history:'Storico Coppe', opt_settings:'Impostazioni',
  set_saves:'Salvataggi', set_audio:'Audio', set_lang:'Lingua',
@@ -964,14 +966,14 @@ I18N.it={
  goalBig:'⚽ GOL!', chooser_cancel:'Annulla', c_yes:'Sì', c_no:'No',
  int_head:'Intervallo', h_marcatori:'Marcatori', btn_2nd:'Inizia il 2° tempo',
  fin_head:'Fine partita', h_tabellino:'Tabellino marcatori', btn_rematch:'Rigioca', btn_tourback:'Continua', btn_careerback:'Continua', btn_menu:'Menu',
- strip_pen:'⚽ RIGORE', strip_fk:'PUNIZIONE',
+ strip_pen:'⚽ RIGORE', strip_fk:'ASSIST',
  ph_pens:'RIGORI', ph_half1:'1° TEMPO', ph_half2:'2° TEMPO', ph_extra:'SUPPLEMENTARI', deckinfo:'mazzo: {0} carte',
  half1:'1° tempo', half2:'2° tempo', extra:'Supplementari',
  log_start:"{0} — 4 carte in campo, 3 a testa, {1} nel mazzo. Batte il calcio d'inizio <b>{2}</b>",
  log_lay:'<b>{0}</b> mette il {1} sul tavolo',
- pen_flash:'RIGORE!', ace_pen:'il rigore', ace_fk:'la punizione',
- log_ace_take:"<b>{0}</b> batte {1}: l'asso piglia tutto ({2})",
- log_ace_empty:"<b>{0}</b> batte {1}: a tavolo vuoto — l'asso esce dal gioco",
+ pen_flash:'RIGORE!', ace_pen:'il rigore', ace_fk:"l'assist",
+ log_ace_take:"<b>{0}</b> gioca {1}: l'asso piglia tutto ({2})",
+ log_ace_empty:"<b>{0}</b> gioca {1} a tavolo vuoto — l'asso esce dal gioco",
  log_take:'<b>{0}</b> gioca il {1} e prende {2}',
  log_scopa:' — <b style="color:var(--oro)">SCOPA! GOL!</b>',
  log_newround:'— Fine giro: il mazzo distribuisce 3 nuove carte a testa (quelle sul tavolo restano) —',
@@ -1071,7 +1073,7 @@ I18N.en={
  // friendly
  setup_head:'Friendly', lbl_era:'Era', lbl_yourteam:'Your team', lbl_oppteam:'Opponent (AI)',
  lbl_oppera:'Opponent era (for cross-era matches)', btn_play:'Play',
- setup_note:'Scopa rules &bull; Every SWEEP = GOAL &bull; Ace = free kick (7 in 8) or penalty (1 in 8): it takes everything, but goals only come from a sweep<br>Teams can be edited in Options &rarr; Teams',
+ setup_note:'Scopa rules &bull; Every SWEEP = GOAL &bull; Ace = ASSIST: it takes everything and sets up the goal, but only a sweep scores<br>Teams can be edited in Options &rarr; Teams',
  // options & settings
  opt_teams:'Teams', opt_rules:'Rules', opt_history:'Cup History', opt_settings:'Settings',
  set_saves:'Saves', set_audio:'Sound', set_lang:'Language',
@@ -1118,14 +1120,14 @@ I18N.en={
  goalBig:'⚽ GOAL!', chooser_cancel:'Cancel', c_yes:'Yes', c_no:'No',
  int_head:'Half-time', h_marcatori:'Scorers', btn_2nd:'Start the 2nd half',
  fin_head:'Full time', h_tabellino:'Scoresheet', btn_rematch:'Rematch', btn_tourback:'Continue', btn_careerback:'Continue', btn_menu:'Menu',
- strip_pen:'⚽ PENALTY', strip_fk:'FREE KICK',
+ strip_pen:'⚽ PENALTY', strip_fk:'ASSIST',
  ph_pens:'PENALTIES', ph_half1:'1ST HALF', ph_half2:'2ND HALF', ph_extra:'EXTRA TIME', deckinfo:'deck: {0} cards',
  half1:'1st half', half2:'2nd half', extra:'Extra time',
  log_start:'{0} — 4 cards on the table, 3 each, {1} in the deck. <b>{2}</b> kicks off',
  log_lay:'<b>{0}</b> lays the {1} on the table',
- pen_flash:'PENALTY!', ace_pen:'the penalty', ace_fk:'the free kick',
- log_ace_take:'<b>{0}</b> takes {1}: the ace sweeps up everything ({2})',
- log_ace_empty:'<b>{0}</b> takes {1} on an empty table — the ace leaves the game',
+ pen_flash:'PENALTY!', ace_pen:'the penalty', ace_fk:'the assist',
+ log_ace_take:'<b>{0}</b> plays {1}: the ace sweeps up everything ({2})',
+ log_ace_empty:'<b>{0}</b> plays {1} on an empty table — the ace leaves the game',
  log_take:'<b>{0}</b> plays the {1} and captures {2}',
  log_scopa:' — <b style="color:var(--oro)">SWEEP! GOAL!</b>',
  log_newround:'— End of round: the deck deals 3 new cards each (table cards stay) —',
@@ -2052,7 +2054,7 @@ function onMyCard(i){
 async function revealAiCard(c){ // la carta dell'avversario scivola SUL tavolo, tra le altre, come una carta vera
   const pname=c.v===1?null:G.players.ai[c.v-2];
   const spot=$('aiplay-spot');
-  spot.innerHTML=`<div class="aip-tag">${G.names.ai}${pname?' — '+pname:''}</div>`+cardHTML(c,'theirs',pname);
+  spot.innerHTML=cardHTML(c,'theirs',pname); // niente targhetta nome: il nome è già sulla striscia della carta (tolta il 2026-07-23 su richiesta di Enrico)
   spot.classList.add('show');
   await sleep(1000); // 1 secondo dal lancio alla sparizione (lo scivolo occupa il primo mezzo secondo)
   spot.classList.remove('show');spot.innerHTML='';
@@ -2279,8 +2281,8 @@ const RULES=[
    <p>La monetina decide chi batte il calcio d'inizio del 1° tempo; il 2° lo inizia l'altra squadra. Se batte l'avversario, tocca il campo per far partire l'azione. E la scopa vale anche sull'ultima carta del tempo: <b>il gol al 90' esiste</b>, come nel calcio vero.</p>
    <h5>Le prese</h5>
    <p>Se sul tavolo c'è una carta uguale alla tua, la presa è obbligatoria su quella (le somme non valgono). Altrimenti prendi qualsiasi combinazione di carte che sommi al valore della tua; se ci sono più prese possibili, scegli tu. Se non puoi prendere, la carta resta sul tavolo.</p>`},
- {t:"L'asso",h:`<h5>L'asso: il calcio piazzato</h5>
-   <p>L'asso non è un calciatore: è una <b>punizione</b> (7 assi su 8) o un <b>rigore</b> (1 su 8, assegnato dal caso). Piglia sempre tutto quello che c'è sul tavolo — e puoi batterlo anche a tavolo vuoto: in quel caso la carta esce dal gioco e non resta mai in campo (scelta tattica legittima). L'asso però non segna mai: il gol arriva soltanto con una scopa vera.</p>`},
+ {t:"L'asso",h:`<h5>L'asso: l'assist</h5>
+   <p>L'asso non è un calciatore: è l'<b>assist</b>. Piglia sempre tutto quello che c'è sul tavolo e apparecchia il gol — ma non segna mai lui: la rete arriva soltanto con una scopa vera, il tocco del compagno. Puoi giocarlo anche a tavolo vuoto: in quel caso la carta esce dal gioco e non resta mai in campo (scelta tattica legittima). Fa eccezione solo la lotteria finale: <b>ai calci di rigore ogni asso è, naturalmente, un rigore</b>.</p>`},
  {t:'Le squadre',h:`<h5>I marcatori</h5>
    <p>Ogni squadra ha 9 marcatori, numerati dal 2 al 10: il 10 è il fuoriclasse. Le carte non hanno semi: due carte uguali sono due azioni dello stesso giocatore. Carte, denari, settebello e primiera non assegnano punti: qui conta solo il gol.</p>
    <h5>Le epoche</h5>
@@ -2326,8 +2328,8 @@ I18N.en.rules=[
    <p>A coin toss decides who kicks off the 1st half; the other team starts the 2nd. If the opponent kicks off, touch the pitch to start the action. And a sweep counts even on the very last card of the half: <b>the 90th-minute goal is real</b>, just like in football.</p>
    <h5>Captures</h5>
    <p>If a card equal to yours is on the table, you must capture that single card (sums are not allowed). Otherwise you capture any combination of cards adding up to your card's value; if several captures are possible, you choose. If you cannot capture, your card stays on the table.</p>`},
- {t:'The ace',h:`<h5>The ace: the set piece</h5>
-   <p>The ace is not a player: it is a <b>free kick</b> (7 aces out of 8) or a <b>penalty</b> (1 out of 8, assigned at random). It always takes everything on the table — and you can play it even when the table is empty: in that case the card simply leaves the game and never stays on the table (a legitimate tactical choice). The ace never scores though: goals only come from a real sweep.</p>`},
+ {t:'The ace',h:`<h5>The ace: the assist</h5>
+   <p>The ace is not a player: it is the <b>assist</b>. It always takes everything on the table and sets up the goal — but it never scores itself: the net only bulges with a real sweep, the teammate's finish. You can play it even when the table is empty: in that case the card simply leaves the game and never stays on the table (a legitimate tactical choice). The one exception is the final lottery: <b>in a penalty shootout every ace is, naturally, a penalty</b>.</p>`},
  {t:'The teams',h:`<h5>The scorers</h5>
    <p>Each team has 9 scorers, numbered 2 to 10: number 10 is the star player. Cards have no suits: two equal cards are two actions by the same player. Cards, coins, settebello and primiera award no points: here only goals count.</p>
    <h5>The eras</h5>
