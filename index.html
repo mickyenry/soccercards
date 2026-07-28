@@ -23,14 +23,15 @@
   *{box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI',system-ui,sans-serif;}
   :root{--px:'Press Start 2P',monospace;}
   body{color:#e2e8f0; min-height:100vh;
-    background:radial-gradient(ellipse at 30% 20%, #16309e 0%, #0a1a6b 45%, #050e3d 100%);}
+    background:#14181c;}
   .screen{display:none; min-height:100vh; flex-direction:column; align-items:center; justify-content:center; padding:20px;}
   .screen.active{display:flex;}
   h1{font-family:var(--px); font-size:1.5rem; letter-spacing:1px; color:#fff; text-transform:uppercase; margin-bottom:10px; text-align:center; line-height:1.5;
     text-shadow:2px 2px 0 #b00, -2px -2px 0 #b00, 2px -2px 0 #b00, -2px 2px 0 #b00, 4px 4px 0 rgba(0,0,0,.55);}
-  .sub{color:#9db3ff; margin-bottom:28px; font-family:var(--px); font-size:.55rem; letter-spacing:1px;}
-  .box{background:#0d1d52; border:3px solid #cfd8ff55; border-radius:0; padding:28px 34px; box-shadow:6px 6px 0 rgba(0,0,0,.55); max-width:540px; width:100%;}
-  label{display:block; font-family:var(--px); font-size:.5rem; text-transform:uppercase; letter-spacing:1px; color:#9db3ff; margin:16px 0 6px;}
+  .sub{color:#cfc9b8; margin-bottom:28px; font-family:'Segoe UI',system-ui,sans-serif; font-size:.95rem;} /* righe di stato e "A vs B": Segoe, non pixel */
+  /* tavolozza UNICA del gioco (stile pannelli): carbone caldo #343331 = il colore ESATTO dei panel90 sul giornale (nero .82 su carta crema). Il blu #0d1d52 era il vecchio prototipo, il nero pieno era troppo pesante. */
+  .box{background:#343331; border:3px solid #000; border-radius:0; padding:28px 34px; box-shadow:6px 6px 0 rgba(0,0,0,.55); max-width:540px; width:100%;}
+  label{display:block; font-family:var(--px); font-size:.5rem; text-transform:uppercase; letter-spacing:1px; color:#cfc9b8; margin:16px 0 6px;}
   input[type=text], select{width:100%; padding:10px 12px; border-radius:0; border:2px solid #555; background:#141414; color:#fff; font-size:1rem;}
   label{color:#cfc9b8;}
   button{cursor:pointer; border:3px solid #fff; border-radius:0; padding:13px 26px; font-family:var(--px); font-size:.62rem; letter-spacing:1px; text-transform:uppercase; color:#fff; box-shadow:4px 4px 0 rgba(0,0,0,.55);}
@@ -115,32 +116,36 @@
   /* torneo */
   /* altezza fissa con scroll interno: cambiando scheda cambia SOLO il contenuto, i pulsanti non si spostano */
   .tview{margin-top:14px; height:46vh; overflow-y:auto; padding-right:6px;}
-  .ttab{width:100%; border-collapse:collapse; font-size:1.05rem;}
+  .ttab{width:100%; border-collapse:collapse; font-size:.95rem;}
   .ttab th{font-size:.68rem; color:#9aa89b; text-transform:uppercase; padding:7px 6px; border-bottom:2px solid #555; text-align:right; font-family:var(--px);}
   .ttab td{padding:4px 8px; border-bottom:1px solid #3a3a3a; text-align:right; color:#e2e8f0;}
   .ttab td.tn, .ttab th.tn{text-align:left;}
+  /* "Girone A/B" DENTRO la riga d'intestazione (cella ex-Squadra), allineato a PT G V... ma in Segoe leggibile (il pixel lì era troppo grassetto), oro */
+  .ttab th.grp-h{color:var(--oro); font-family:'Segoe UI',system-ui,sans-serif; font-size:.92rem; font-weight:600; text-transform:none; letter-spacing:0;}
   .ttab tr.me td{color:var(--oro); font-weight:700;}
-  .trow{font-size:.95rem; padding:6px 0; border-bottom:1px solid #3a3a3a; color:#cbd5e1;}
-  .scr-row{display:flex; align-items:baseline; gap:12px; padding:4px 8px; border-bottom:1px solid #3a3a3a;}
+  .trow{font-size:.9rem; padding:6px 0; border-bottom:1px solid #3a3a3a; color:#cbd5e1;}
+  .trow b{font-weight:600;} /* grassetti uniformi (600) in albo e righe elenco */
+  /* marcatori/albo ALLINEATI ai risultati (2026-07-28, Enrico: "omogeneità"): stessa riga .9rem, numeri pixel .66 come i punteggi */
+  .scr-row{display:flex; align-items:baseline; gap:12px; padding:4px 8px; border-bottom:1px solid #3a3a3a; font-size:.9rem; color:#cbd5e1;}
   /* risultati incolonnati: casa a destra · punteggio centrale · trasferta a sinistra */
   .rrow{display:grid; grid-template-columns:1fr 56px 1fr; align-items:center; gap:8px; padding:4px 4px; font-size:.9rem; color:#cbd5e1; border-bottom:1px solid #2f3540;}
   .rrow .rh{text-align:right;} .rrow .ra{text-align:left;}
   .rrow .rs{font-family:var(--px); font-size:.66rem; text-align:center; color:#e2e8f0;}
   .rrow.you{color:var(--oro);} .rrow.you .rs{color:var(--oro);}
   .rrow.notplayed{opacity:.5;}
-  .scr-g{font-family:var(--px); color:var(--oro); font-size:.85rem; min-width:34px; text-align:right; flex:none;}
-  .scr-n{font-weight:700; color:#e2e8f0;}
-  .scr-sub{color:#94a3b8; font-size:.82rem; font-weight:400; margin-left:6px;}
+  .scr-g{font-family:var(--px); color:var(--oro); font-size:.66rem; min-width:34px; text-align:right; flex:none;}
+  .scr-n{font-weight:600;}
+  .scr-sub{color:#9aa89b; font-size:.82rem; font-weight:400; margin-left:6px;}
   /* tabellone (fase a eliminazione delle coppe) */
   .brk-note{color:#9aa89b; font-size:.85rem; margin:2px 0 12px; line-height:1.5;}
   .bracket{display:flex; align-items:stretch; gap:14px; overflow-x:auto; padding:4px 2px 14px;}
   .bcol{display:flex; flex-direction:column; min-width:150px; flex:1;}
   .bcol-h{font-family:var(--px); font-size:.5rem; color:var(--oro); text-transform:uppercase; letter-spacing:1px; text-align:center; margin-bottom:8px; min-height:1.2em;}
   .bcol-body{flex:1; display:flex; flex-direction:column; justify-content:space-around; gap:10px;}
-  .btie{border:2px solid #ffffff33; background:#0d1d52; border-radius:5px; overflow:hidden; box-shadow:3px 3px 0 rgba(0,0,0,.4);}
+  .btie{border:2px solid #4a5160; background:#1a1d24; border-radius:5px; overflow:hidden; box-shadow:3px 3px 0 rgba(0,0,0,.4);}
   .bteam{display:flex; justify-content:space-between; align-items:center; gap:8px; padding:7px 9px; font-size:.85rem; color:#cbd5e1; border-bottom:1px solid #ffffff1a;}
   .bteam:last-child{border-bottom:none;}
-  .bteam.win{color:var(--oro); font-weight:700; background:#152a6b;}
+  .bteam.win{color:var(--oro); font-weight:700; background:#3a2f0a;}
   .bteam.tbd{opacity:.45; font-style:italic;}
   .bteam .bnm{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
   .bteam .bsc{font-family:var(--px); font-size:.68rem; flex:none;}
@@ -155,9 +160,10 @@
   #career-play{font-size:.52rem; padding:11px 14px;} /* proporzionati alle altre bottoniere dell'hub */
   #career-sim{aspect-ratio:auto !important; flex-direction:row !important; font-size:.48rem !important; padding:11px 12px !important;} /* niente quadrato: bottone basso, da comprimario */
   .career-row .cres{background:#1fae1f;} .career-row .cdel{background:#c1121f;}
-  .trow.gday{color:var(--oro); font-family:var(--px); font-size:.55rem; letter-spacing:1px; border-bottom:none; margin-top:10px; text-transform:uppercase;}
+  .trow.gday{color:var(--oro); font-family:'Segoe UI',system-ui,sans-serif; font-size:.92rem; font-weight:600; border-bottom:none; margin-top:10px;} /* Segoe come grp-h: il pixel nei titoletti di contenuto era poco leggibile (Enrico: "il gioco deve essere pulito") */
+  /* schede (leghe/coppa/editor): tutte grigie, il BLU è la selezione e si sposta col click (2026-07-28, Enrico) */
   .ttag{opacity:.65;}
-  .ttag.active{opacity:1; border-color:var(--oro);}
+  .ttag.active{opacity:1; border-color:var(--oro); background:#1a1adf;}
   /* barra schede torneo: una sola riga a 4 colonne */
   .tour-tabs{display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin-top:12px;}
   .tour-tabs .b90{aspect-ratio:auto; width:100%; flex-direction:row; gap:5px; padding:11px 4px; font-size:.48rem; letter-spacing:.3px; text-align:center;}
@@ -170,8 +176,8 @@
   .rules-body p{margin:0 0 8px;}
   .rules-body ul{margin:0 0 8px 18px;} .rules-body li{margin:3px 0;}
   .rules-tabs{display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin:8px 0 12px;}
-  .rule-tab{font-family:var(--px); font-size:.5rem; padding:8px 10px; border:2px solid #ffffff33; background:#0d1d52; color:#ccd6ff; text-transform:uppercase; letter-spacing:.5px;}
-  .rule-tab.active{border-color:var(--oro); color:var(--oro); background:#152a6b;}
+  .rule-tab{font-family:var(--px); font-size:.5rem; padding:8px 10px; border:2px solid #4a5160; background:#2a2f3a; color:#8b97a8; text-transform:uppercase; letter-spacing:.5px;}
+  .rule-tab.active{border-color:var(--oro); color:#fff; background:#cf7a12;}
   .pick-list{display:grid; grid-template-columns:1fr 1fr; gap:7px;}
   .pick{display:flex; align-items:center; gap:9px; background:#141414; border:2px solid #555; padding:8px 10px; font-size:.9rem; cursor:pointer; color:#fff; margin:0; text-transform:none; letter-spacing:0; font-family:'Segoe UI',sans-serif;}
   .pick input{width:auto;}
@@ -191,7 +197,6 @@
   .team-badge{text-align:center;}
   .crest{width:84px; height:84px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:900; color:#fff; margin:0 auto 10px; border:3px solid rgba(255,255,255,.6);}
   .vs{font-size:1.6rem; font-weight:900; color:var(--oro);}
-  .toss{background:#0b1220; border-radius:10px; padding:12px 18px; margin-top:8px; font-size:.95rem; color:#cbd5e1;}
 
   /* Match */
   #scr-match{padding:0; justify-content:flex-start; background:#12220f;}
@@ -245,7 +250,7 @@
   .field-note.hidden{display:none;}
   @keyframes fnin{from{opacity:0; transform:translateY(-8px);} to{opacity:1; transform:none;}}
   .zone{padding:10px; display:flex; flex-wrap:wrap; gap:9px; justify-content:center; align-items:center; z-index:1;}
-  #zone-ai{min-height:96px;}
+  #zone-ai{min-height:132px;} /* = carta 112 + padding 10+10: la zona NON collassa quando l'IA resta senza carte, così il tavolo (flex:1) non si sposta rispetto alla linea di centrocampo */
   #zone-table{flex:1; min-height:140px; align-content:center;}
   #zone-me{min-height:150px;}
   /* le scritte-guida (Avversario/Tavolo/La tua mano) si vedono a inizio partita e SVANISCONO al primo tocco */
@@ -314,8 +319,8 @@
   .confirm-box{max-width:430px; width:90%; text-align:center;}
   .confirm-msg{font-family:'Segoe UI',system-ui,sans-serif; font-size:1.05rem; line-height:1.75; color:#fff; margin-bottom:18px; white-space:pre-line;}
   .confirm-box .btn-row2{display:flex; gap:12px; margin-top:0;}
-  #chooser h3{margin-bottom:14px; color:var(--oro);}
-  .opt-btn{display:flex; align-items:center; gap:8px; flex-wrap:wrap; width:100%; margin-top:10px; background:#0b1220; color:#fff; border:1px solid #334155; text-align:left; font-weight:600; padding:10px 14px;}
+  #chooser h3{margin-bottom:14px; color:var(--oro); font-family:var(--px); font-size:.7rem; letter-spacing:2px; text-transform:uppercase;}
+  .opt-btn{display:flex; align-items:center; gap:8px; flex-wrap:wrap; width:100%; margin-top:10px; background:#2a2926; color:#fff; border:1px solid #55524a; text-align:left; font-weight:600; padding:10px 14px;}
   .opt-btn:hover{border-color:var(--oro);}
   .opt-btn.scopa-hint{border-color:var(--oro); background:#3a2f0a;}
   .opt-btn .scopa-tag{margin-left:auto; color:var(--oro); font-weight:900;}
@@ -323,9 +328,9 @@
   .mini-card .mv{font-size:1.05rem; line-height:1;}
   .mini-card .ms{font-size:.72rem; margin-top:2px;}
   .mini-card.played{outline:2px solid var(--oro);}
-  .chooser-played-row{display:flex; align-items:center; gap:10px; margin-bottom:6px; color:#94a3b8; font-size:.85rem;}
-  .plus{color:#64748b; font-weight:900;}
-  .btn-cancel{background:#334155; color:#cbd5e1; margin-top:14px; width:100%;}
+  .chooser-played-row{display:flex; align-items:center; gap:10px; margin-bottom:6px; color:#cfc9b8; font-size:.85rem;}
+  .plus{color:#8b97a8; font-weight:900;}
+  .btn-cancel{background:#2a2926; color:#cfc9b8; border:2px solid #55524a; margin-top:14px; width:100%;}
 
   /* Intervallo / Finale */
   .big-score{font-family:var(--px); font-size:2rem; margin:22px 0; color:#fff; text-shadow:3px 3px 0 rgba(0,0,0,.6);}
@@ -336,7 +341,6 @@
   .esito{font-size:1.15rem; margin-top:10px; color:var(--oro); font-weight:700;}
   .btn-row{display:flex; gap:12px; margin-top:24px;}
   .btn-row button{flex:1;}
-  .btn-sec{background:#38508f;}
 
   /* ===== PRIMA PAGINA a fine partita: "edizione straordinaria", solo quando la partita lo merita ===== */
   #scr-news{justify-content:flex-start; padding-top:5vh; overflow-y:auto;}
@@ -471,8 +475,8 @@
     <label data-i18n="lbl_era">Epoca</label>
     <select id="team-era" onchange="UI.teamsEraChanged()"></select>
     <div class="btn-row2" style="margin-top:10px;">
-      <button class="b90 c-blue wide ttag active" id="tab-rosa" onclick="UI.teamsTab('rosa')" data-i18n="tab_rosa">👕 Rosa</button>
-      <button class="b90 c-orange wide ttag" id="tab-forza" onclick="UI.teamsTab('forza')" data-i18n="tab_forza">💪 Forza</button>
+      <button class="b90 c-gray wide ttag active" id="tab-rosa" onclick="UI.teamsTab('rosa')" data-i18n="tab_rosa">👕 Rosa</button>
+      <button class="b90 c-gray wide ttag" id="tab-forza" onclick="UI.teamsTab('forza')" data-i18n="tab_forza">💪 Forza</button>
       <button class="b90 c-gray wide ttag" id="tab-custom" onclick="UI.teamsTab('custom')" data-i18n="tab_custom">⭐ Inventata</button>
     </div>
     <div class="teams-wrap" id="teams-wrap" style="margin-top:12px;"></div>
@@ -611,7 +615,7 @@
     <div class="btn-row">
       <button id="news-rigioca" class="b90 c-green wide" onclick="UI.rematch()" data-i18n="btn_rematch">Rigioca</button>
       <button id="news-continue" class="b90 c-orange wide" style="display:none;" onclick="UI.newsContinue()" data-i18n="btn_careerback">Continua</button>
-      <button class="b90 c-gray wide" onclick="UI.finMenu()" data-i18n="btn_menu">Menu</button>
+      <button id="news-menu" class="b90 c-gray wide" onclick="UI.finMenu()" data-i18n="btn_menu">Menu</button>
     </div>
   </div>
 </div>
@@ -665,9 +669,9 @@
     <div class="phead" id="tour-title">🏆 Torneo</div>
     <div id="tour-status" class="sub" style="text-align:center; margin-bottom:4px;"></div>
     <div class="tour-tabs">
-      <button class="b90 c-blue ttag" id="tab-class" onclick="UI.tourTab('class')" data-i18n="tab_class">📊 Classifica</button>
-      <button class="b90 c-red ttag" id="tab-brk" onclick="UI.tourTab('brk')" data-i18n="tab_brk">🏆 Tabellone</button>
-      <button class="b90 c-orange ttag" id="tab-marc" onclick="UI.tourTab('marc')" data-i18n="tab_marc">⚽ Marcatori</button>
+      <button class="b90 c-gray ttag" id="tab-class" onclick="UI.tourTab('class')" data-i18n="tab_class">📊 Classifica</button>
+      <button class="b90 c-gray ttag" id="tab-brk" onclick="UI.tourTab('brk')" data-i18n="tab_brk">🏆 Tabellone</button>
+      <button class="b90 c-gray ttag" id="tab-marc" onclick="UI.tourTab('marc')" data-i18n="tab_marc">⚽ Marcatori</button>
       <button class="b90 c-gray ttag" id="tab-ris" onclick="UI.tourTab('ris')" data-i18n="tab_ris">📅 Risultati</button>
     </div>
     <div id="tour-view-class" class="tview"><table class="ttab" id="tour-table"></table></div>
@@ -1015,7 +1019,7 @@ I18N.it={
  ko_q:'Quarti di finale', ko_s:'Semifinali', ko_f:'Finale',
  tt_done:'CAMPIONE: {0}!', tt_run:'{0} — {1} squadre',
  phase_grp:'Fase a girone', phase_ar:'Campionato, andata e ritorno', phase_sa:'Campionato, solo andata', youlead:' — tu guidi {0}',
- tblh:['Squadra','Pt','G','V','N','P','GF','GS','DR'],
+ tblh:['','Pt','G','V','N','P','GF','GS','DR'],
  nogoals:'Ancora nessun gol', day_n:'{0}ª giornata', seed_n:'{0}ª',
  toplay_p:'(da giocare)', leg1:'(andata)', leg2:'(ritorno)', leg2tp:'(ritorno, da giocare)',
  pensline:'calci di rigore: {0} - {1}', advances:'→ passa {0}', penShort:'r',
@@ -1068,7 +1072,10 @@ I18N.it={
  cap_final:'{0} CAMPIONE!', cap_dcr:'DECIDE IL DISCHETTO', cap_rimonta:'DA -2 ALLA GLORIA',
  cap_gol90:"{0} AL 90'", cap_tris:'TRE VOLTE {0}!', cap_upset:'DAVIDE BATTE GOLIA',
  cap_goleada:'PIOGGIA DI GOL: {0}', cap_mvp:'{0}: MIGLIORE IN CAMPO', cap_nogoals:'RETI BIANCHE, CHE BATTAGLIA',
- cap_derby:'IL GIORNO DEL DERBY'
+ cap_derby:'IL GIORNO DEL DERBY',
+ hl_season:["{0} SUL TETTO D'EUROPA!","L'EUROPA È DI {0}!","{0} RE D'EUROPA!","NOTTE MAGICA: TRIONFA {0}!","{0} ALZA LA COPPA!"],
+ hl_seasonyou:["{0} SUL TETTO D'EUROPA!","LA COPPA È NOSTRA: {0}!","{0} CAMPIONE D'EUROPA!","NOTTE MAGICA PER {0}!","{0}, L'EUROPA È TUA!"],
+ cap_champ:"CAMPIONE D'EUROPA", cap_ballon:"PALLONE D'ORO: {0}"
 };
 I18N.en={
  langName:'English', langBadge:'ENG',
@@ -1176,7 +1183,7 @@ I18N.en={
  ko_q:'Quarterfinals', ko_s:'Semifinals', ko_f:'Final',
  tt_done:'CHAMPIONS: {0}!', tt_run:'{0} — {1} teams',
  phase_grp:'Group stage', phase_ar:'League, home and away', phase_sa:'League, single round', youlead:' — you manage {0}',
- tblh:['Team','Pts','P','W','D','L','GF','GA','GD'],
+ tblh:['','Pts','P','W','D','L','GF','GA','GD'],
  nogoals:'No goals yet', day_n:'Matchday {0}', seed_n:'#{0}',
  toplay_p:'(to play)', leg1:'(1st leg)', leg2:'(2nd leg)', leg2tp:'(2nd leg, to play)',
  pensline:'penalty shootout: {0} - {1}', advances:'→ {0} advance', penShort:'p',
@@ -1229,7 +1236,10 @@ I18N.en={
  cap_final:'{0} ARE CHAMPIONS!', cap_dcr:'SETTLED FROM THE SPOT', cap_rimonta:'FROM -2 TO GLORY',
  cap_gol90:"{0} AT 90'", cap_tris:'{0} TIMES THREE!', cap_upset:'DAVID BEATS GOLIATH',
  cap_goleada:'RAINING GOALS: {0}', cap_mvp:'{0}: MAN OF THE MATCH', cap_nogoals:'NO GOALS, WHAT A BATTLE',
- cap_derby:'DERBY DAY'
+ cap_derby:'DERBY DAY',
+ hl_season:['{0} ON TOP OF EUROPE!','EUROPE BELONGS TO {0}!','{0} KINGS OF EUROPE!','MAGIC NIGHT: {0} TRIUMPH!','{0} LIFT THE CUP!'],
+ hl_seasonyou:['{0} ON TOP OF EUROPE!','THE CUP IS OURS: {0}!','{0} CHAMPIONS OF EUROPE!','A MAGIC NIGHT FOR {0}!','{0}, EUROPE IS YOURS!'],
+ cap_champ:'CHAMPIONS OF EUROPE', cap_ballon:'GOLDEN BALL: {0}'
 };
 function applyLang(){
   T=I18N[LANG]||I18N.it;
@@ -2154,7 +2164,9 @@ function newsStory(){
   if(G.derby)return winner?{hl:fmt(pick(T.hl_derby_w),wName),cap1:T.cap_derby}:{hl:fmt(pick(T.hl_derby_x),score),cap1:T.cap_derby}; // il DERBY va SEMPRE in prima pagina
   return null;
 }
+var newsSeason=false; // true = la prima pagina è il GIORNALE DI FINE STAGIONE (niente partita da registrare)
 function renderNews(story){
+  newsSeason=false;$('news-menu').style.display='';
   $('news-headline').textContent=story.hl;
   $('news-score').textContent=`${G.score.me} - ${G.score.ai}`+(G.shootResult?` (${G.shootResult.me}-${G.shootResult.ai} ${T.dcr})`:'');
   $('news-sub').textContent=`${G.names.me} vs ${G.names.ai}`;
@@ -2179,6 +2191,35 @@ function renderNews(story){
   // stessi pulsanti del tabellino classico: Rigioca solo in amichevole, Continua in torneo/carriera
   $('news-rigioca').style.display=(G.tour||G.career)?'none':'';
   $('news-continue').style.display=(G.tour||G.career)?'':'none';
+}
+function renderSeasonNews(d){ // GIORNALE DI FINE STAGIONE: la coppa e il Pallone d'oro (deciso 2026-07-28, al posto del riepilogo testuale)
+  newsSeason=true;G=null; // nessuna partita in corso: Continua = hub della nuova stagione
+  $('news-headline').textContent=fmt(pick(d.userChamp?T.hl_seasonyou:T.hl_season),d.champ.name);
+  $('news-score').textContent=`${d.gh} - ${d.ga}`+(d.pen?` (${d.pen[0]}-${d.pen[1]} ${T.dcr})`:'');
+  $('news-sub').textContent=`${d.na} vs ${d.nb}`;
+  // FOTO 1: i due omini nelle maglie della finale; didascalia = il campione
+  $('news-cap').textContent=T.cap_champ;
+  const sc=$('news-scene');
+  sc.innerHTML='<div class="pb-spr" style="left:14%;top:6%;"></div><div class="pb-ball" style="left:48%;top:62%;"></div><div class="pb-spr" style="left:58%;top:18%;"></div>';
+  const {ka,kb}=resolveKits(d.champ,d.runner);
+  const sprs=sc.querySelectorAll('.pb-spr');
+  [ka,kb].forEach((k,i)=>{const sp=sprs[i];if(!sp)return;const px=document.createElement('div');px.className='px';px.style.boxShadow=spriteShadow(k.c1,k.c2,k.shorts);sp.appendChild(px);});
+  // FOTO 2: primo piano del Pallone d'oro nella SUA maglia
+  $('news-cap2').textContent=d.bd?fmt(T.cap_ballon,d.bd.name):T.cap_champ;
+  const sc2=$('news-scene2');
+  sc2.innerHTML='<div class="pb-spr big" style="left:26%;top:4%;"></div><div class="pb-ball" style="left:18%;top:74%;"></div>';
+  let bt=null;if(d.bd)Object.values(CAREER.leagues).forEach(L=>L.teams.forEach(t=>{if(!bt&&t.name===d.bd.team)bt=t;}));
+  const km=bt?kitOf(bt):ka;
+  const sp2=sc2.querySelector('.pb-spr');
+  if(sp2){const px2=document.createElement('div');px2.className='px';px2.style.boxShadow=spriteShadow(km.c1,km.c2,km.shorts);sp2.appendChild(px2);}
+  // tabellino della stagione: coppa, Pallone d'oro, arrivederci alla prossima
+  let rows=`<div class="news-row"><b>${T.ns_euro}</b>${escHtml(d.champ.name)}</div>`;
+  if(d.bd)rows+=`<div class="news-row"><b>${T.ns_bd}</b>${escHtml(d.bd.name)} (${escHtml(d.bd.team)}, ${d.bd.g} ${T.goals_w})</div>`;
+  rows+=`<div class="news-row" style="color:#2e7a2e;"><b>&nbsp;</b>${fmt(T.ns_next,d.s+1)}</div>`;
+  $('news-marc').innerHTML=rows;
+  $('news-rigioca').style.display='none';
+  $('news-continue').style.display='';
+  $('news-menu').style.display='none';
 }
 function endHalf(){
   busy=false;
@@ -2516,31 +2557,24 @@ function careerFinalizeSeason(){ // fine CAMPIONATI: bacheca scudetti/capocannon
   }
   careerNewSeason();
 }
-function careerNewSeason(){ // chiusura stagione: la Euro va in bacheca, si riparte
-  const s=CAREER.season;
-  const secH=t=>`<div style="font-family:var(--px); font-size:.58rem; color:#e8a020; letter-spacing:1px; margin:16px 0 6px;">${t}</div>`;
-  const row=(l,v)=>`<div style="font-size:1.1rem; line-height:1.95;"><span style="opacity:.65;">${escHtml(l)}:</span> <span style="font-weight:600;">${v}</span></div>`;
-  let html=`<div style="font-family:var(--px); font-size:.68rem; letter-spacing:1px;">${fmt(T.ns_head,s)}</div>`;
-  // riepilogo completo: anche i campioni nazionali della stagione
-  const scud=CAREER.bacheca.filter(b=>b.s===s&&b.tipo==='scudetto');
-  if(scud.length)html+=secH(T.fz_scud)+scud.map(b=>row(coLbl(b.co),escHtml(b.team))).join('');
+function careerNewSeason(){ // chiusura stagione: coppa e Pallone d'oro in bacheca, poi GIORNALE DI FINE STAGIONE (2026-07-28, al posto del riepilogo testuale)
+  const s=CAREER.season; let sn=null;
   if(CAREER.euro&&CAREER.euro.done){
-    const E=CAREER.euro, w=E.fin.winner==='a'?E.fin.a:E.fin.b, champ=euroTeam(w);
+    const E=CAREER.euro, w=E.fin.winner==='a'?E.fin.a:E.fin.b, l=E.fin.winner==='a'?E.fin.b:E.fin.a;
+    const champ=euroTeam(w), runner=euroTeam(l);
     CAREER.bacheca.push({s,co:E.teams[w].co,tipo:'eurocup',team:champ.name});
-    html+=`<div style="margin:16px 0;"><span style="font-family:var(--px); font-size:.58rem; color:#e8a020; letter-spacing:1px;">${T.ns_euro}</span><br><b style="font-size:1.15rem;">${escHtml(champ.name)}</b></div>`;
-    const bd=careerPallone(); // PALLONE D'ORO: gol in tutte le competizioni + successi della squadra
-    if(bd){
-      CAREER.bacheca.push({s,tipo:'pallone',name:bd.name,team:bd.team,g:bd.g});
-      html+=`<div style="margin:16px 0;"><span style="font-family:var(--px); font-size:.58rem; color:#e8a020; letter-spacing:1px;">${T.ns_bd}</span><br><b style="font-size:1.15rem;">${escHtml(bd.name)}</b> <span style="opacity:.75;">(${escHtml(bd.team)}, ${bd.g} ${T.goals_w})</span></div>`;
-    }
+    const bd=careerPallone(); // PALLONE D'ORO: gol in tutte le competizioni + successi della squadra (va calcolato PRIMA di azzerare la Euro)
+    if(bd)CAREER.bacheca.push({s,tipo:'pallone',name:bd.name,team:bd.team,g:bd.g});
+    sn={s,champ,runner,na:euroTeam(E.fin.a).name,nb:euroTeam(E.fin.b).name,gh:E.fin.gh,ga:E.fin.ga,pen:E.fin.pen,bd,
+        userChamp:E.teams[w].co===CAREER.userLeague&&E.teams[w].i===CAREER.userIdx};
   }
   CAREER.euro=null;CAREER.euroPhase=false;
   CAREER.season=s+1;CAREER.matchday=1;
   Object.values(CAREER.leagues).forEach(L=>{L.schedule=genCalendar(L.teams.length,true);L.scorers={};});
   CAREER.saved=Date.now();CAREERS[CAREER.name]=CAREER;saveCareers();
   careerTab=CAREER.userLeague;careerView='ris';renderCareerHub();show('scr-career');
-  html+=`<div style="margin-top:8px; opacity:.85; font-size:.98rem;">${T.ns_all}</div><div style="font-family:var(--px); font-size:.58rem; color:#7fd486; letter-spacing:1px; margin-top:14px;">${fmt(T.ns_next,s+1)}</div>`;
-  askConfirmHtml(html,()=>{});
+  if(sn){renderSeasonNews(sn);show('scr-news');} // la prima pagina: campione d'Europa + Pallone d'oro; Continua → hub
+  else askConfirmHtml(`<div style="font-family:var(--px); font-size:.68rem; letter-spacing:1px;">${fmt(T.ns_head,s)}</div><div style="margin-top:8px; opacity:.85; font-size:.98rem;">${T.ns_all}</div><div style="font-family:var(--px); font-size:.58rem; color:#7fd486; letter-spacing:1px; margin-top:14px;">${fmt(T.ns_next,s+1)}</div>`,()=>{}); // carriere senza coppa (pre-Fase 4)
 }
 /* ===== Euro SuperCup (Fase 4) ===== */
 function buildEuro(pe){ // dalle qualificate (prime 2 per lega) della stagione precedente
@@ -2739,7 +2773,7 @@ function renderEuroView(){ // scheda EURO: gironi finché si giocano, poi TABELL
     let t='';
     ['A','B'].forEach(g=>{
       const pl=euroL(g), st=careerStandings(pl);
-      t+=`<div class="trow"><b>${fmt(T.grp,g)}</b></div><table class="ttab" style="table-layout:fixed;"><tr><th class="tn" style="width:34%;">${T.tblh[0]}</th>${T.tblh.slice(1,8).map(x=>`<th>${x}</th>`).join('')}</tr>`+
+      t+=`<table class="ttab" style="table-layout:fixed;${g==='B'?' margin-top:16px;':''}"><tr><th class="tn grp-h" style="width:34%;">${fmt(T.grp,g)}</th>${T.tblh.slice(1,8).map(x=>`<th>${x}</th>`).join('')}</tr>`+
         st.map(s=>`<tr class="${pl._idx[s.i]===us?'me':''}"><td class="tn">${escHtml(s.name)}</td><td><b>${s.Pt}</b></td><td>${s.P}</td><td>${s.V}</td><td>${s.N}</td><td>${s.S}</td><td>${s.GF}</td><td>${s.GS}</td></tr>`).join('')+`</table>`;
     });
     return t;
@@ -2833,7 +2867,7 @@ function renderCareerHub(){
   if(euroOn)countries.push('__euro');
   $('career-tabs').style.gridTemplateColumns=euroOn?'repeat(5,1fr)':'';
   if(!careerTab||(careerTab==='__euro'&&!euroOn)||(careerTab!=='__euro'&&!c.leagues[careerTab]))careerTab=euroOn?'__euro':c.userLeague;
-  $('career-tabs').innerHTML=countries.map(co=>`<button class="b90 ${co==='__euro'?'c-orange':co===c.userLeague?'c-blue':'c-gray'} ttag${co===careerTab?' active':''}" data-co="${escHtml(co)}">${co==='__euro'?'EURO CUP':escHtml(coLbl(co))}</button>`).join('');
+  $('career-tabs').innerHTML=countries.map(co=>`<button class="b90 c-gray ttag${co===careerTab?' active':''}" data-co="${escHtml(co)}">${co==='__euro'?'EURO CUP':escHtml(coLbl(co))}</button>`).join(''); // tutte grigie: il blu (.ttag.active) segna la selezione e si sposta
   $('career-tabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{careerTab=b.dataset.co;renderCareerHub();});
   renderCareerView(careerTab);
   const pb=$('career-play');pb.style.display='';
@@ -3020,8 +3054,10 @@ window.UI={
     });
   },
   tourPreset(p){
-    const big=['Milan','Inter','Juve','Real Madrid','Barcellona','Bayern M.','Manchester U.','Liverpool'];
-    CLUBS.forEach((c,i)=>{if($('tt-'+i))$('tt-'+i).checked=big.includes(c.club);});
+    // slot FISSI (csvCode), non nomi: i club di default sono di fantasia e i nomi possono cambiare via CSV
+    // (le 8 big storiche: IT1 IT3 IT5 = Milano/nerazzurri/Torino, EN1 EN2, ES1 ES2, DE2)
+    const big=['IT1','IT3','IT5','EN1','EN2','ES1','ES2','DE2'];
+    CLUBS.forEach((c,i)=>{if($('tt-'+i))$('tt-'+i).checked=big.includes(csvCode(i));});
     $('tour-name').value='Euro Cup';$('tour-formula').value='1';$('tour-qual').value='4';
     $('tour-era').value='e90';
     refreshTourUser();
@@ -3263,6 +3299,7 @@ window.UI={
     show('scr-menu');
   },
   newsContinue(){ // "Continua" dalla prima pagina: stessa strada del tabellino classico
+    if(newsSeason){newsSeason=false;renderCareerHub();show('scr-career');return;} // giornale di fine stagione → hub della nuova stagione
     if(G&&G.tour)UI.tourAfterMatch();
     else if(G&&G.career)UI.careerAfterMatch();
     else show('scr-menu');
