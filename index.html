@@ -2813,6 +2813,28 @@ function renderCareerHub(){
 
 /* Registra la TUA partita GIOCATA FINO IN FONDO (torneo o carriera) senza cambiare schermata.
    Usata sia da "Continua" sia dall'uscita al Menu: una partita finita non va MAI persa. */
+function tourCompleteDay(day){ // finita la TUA partita, la giornata si completa SUBITO: i risultati delle altre si vedono senza aspettare il prossimo Prosegui (fix 2026-07-31, segnalato da Enrico)
+  TOUR.schedule.forEach(mt=>{
+    if(mt.g!==day||mt.played)return;
+    const g=simMatch(TOUR.teams[mt.h],TOUR.teams[mt.a]);
+    mt.gh=g.score.me;mt.ga=g.score.ai;mt.played=true;
+    tourAddScorers(g,TOUR.teams[mt.h],TOUR.teams[mt.a]);
+  });
+}
+function tourCompleteKoLeg(leg){ // idem in fase KO: si completa la stessa "mano" (andata o ritorno) delle altre sfide del turno
+  const r=TOUR.ko.rounds[TOUR.ko.stage];
+  r.ties.forEach(t=>{
+    const L=leg===1?t.l1:t.l2;
+    if(!L||L.played)return;
+    const hIdx=leg===1?t.a:t.b, aIdx=leg===1?t.b:t.a;
+    const mustDecide=t.single||leg===2;
+    const prior=leg===2?(t.l1.ga-t.l1.gh):0;
+    const g=simMatchX(TOUR.teams[hIdx],TOUR.teams[aIdx],mustDecide,prior);
+    L.gh=g.score.me;L.ga=g.score.ai;L.played=true;
+    if(g.pen){t.pen=g.pen.winner==='me'?hIdx:aIdx;t.penScore=[g.pen.me,g.pen.ai];}
+    tourAddScorers(g,TOUR.teams[hIdx],TOUR.teams[aIdx]);
+  });
+}
 function tourRecordMatch(){
   if(G.tour.ko){
     const t=G.tour.tie;
@@ -2826,12 +2848,14 @@ function tourRecordMatch(){
       t.pen=G.shootWinner==='me'?myIdx:otherIdx;
       t.penScore=G.tour.meIsHome?[G.shootResult.me,G.shootResult.ai]:[G.shootResult.ai,G.shootResult.me];
     }
+    tourCompleteKoLeg(G.tour.leg); // le altre sfide della stessa mano: risultati visibili subito
     koAdvance();
   }else{
     const mt=TOUR.schedule[G.tour.mi];
     mt.gh=G.tour.meIsHome?G.score.me:G.score.ai;
     mt.ga=G.tour.meIsHome?G.score.ai:G.score.me;
     mt.played=true;
+    tourCompleteDay(mt.g); // il resto della giornata: risultati visibili subito
   }
   tourAddScorers(G,G.teamA,G.teamB);
   saveTour();
@@ -3070,6 +3094,7 @@ window.UI={
         L.gh=g.score.me;L.ga=g.score.ai;L.played=true;
         if(g.pen){t.pen=g.pen.winner==='me'?hIdx:aIdx;t.penScore=[g.pen.me,g.pen.ai];}
         tourAddScorers(g,TOUR.teams[hIdx],TOUR.teams[aIdx]);
+        if(mine)tourCompleteKoLeg(leg); // giocata (simulata) la tua: si completa la mano del turno
         saveTour();renderTour();
         if(mine)return; else continue;
       }
@@ -3084,6 +3109,7 @@ window.UI={
       const g=simMatch(A,B);
       mt.gh=g.score.me;mt.ga=g.score.ai;mt.played=true;
       tourAddScorers(g,A,B);
+      if(mine)tourCompleteDay(mt.g); // giocata (simulata) la tua: si completa la giornata
       saveTour();renderTour();
       if(mine)return;
     }
