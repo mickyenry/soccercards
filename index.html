@@ -1,10 +1,12 @@
 <!DOCTYPE html>
+<!-- MATCHSWEEP! — © 2026 Enrico Michelin. Tutti i diritti riservati / All rights reserved.
+     Gioco originale basato sulle regole della Scopa. Nessuna licenza d'uso o riuso è concessa. -->
 <html lang="it" translate="no">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google" content="notranslate"><!-- il gioco è già multilingua: la traduzione automatica di Chrome rovina font e testi -->
-<title>Soccer Cards — Prototipo</title>
+<title>MatchSweep!</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -41,9 +43,9 @@
   .rules-note{font-size:.78rem; color:#7d90d8; margin-top:16px; text-align:center; line-height:1.5;}
 
   /* ===== Sfondo: prima pagina di giornale sportivo in bianco e nero ===== */
-  #scr-menu, #scr-setup, #scr-options, #scr-teams, #scr-interval, #scr-final, #scr-tour-pick, #scr-tour-setup, #scr-tour, #scr-rules, #scr-history, #scr-saves, #scr-settings, #scr-lang, #scr-career-list, #scr-career-new, #scr-career{background:#e9e5d8; position:relative; overflow:hidden;}
+  #scr-menu, #scr-setup, #scr-options, #scr-teams, #scr-interval, #scr-final, #scr-tour-pick, #scr-tour-setup, #scr-tour, #scr-rules, #scr-history, #scr-saves, #scr-lang, #scr-career-list, #scr-career-new, #scr-career{background:#e9e5d8; position:relative; overflow:hidden;}
   #scr-menu>*:not(.paper-bg), #scr-setup>*:not(.paper-bg), #scr-options>*:not(.paper-bg), #scr-teams>*:not(.paper-bg),
-  #scr-interval>*:not(.paper-bg), #scr-final>*:not(.paper-bg), #scr-tour-pick>*:not(.paper-bg), #scr-tour-setup>*:not(.paper-bg), #scr-tour>*:not(.paper-bg), #scr-rules>*:not(.paper-bg), #scr-history>*:not(.paper-bg), #scr-saves>*:not(.paper-bg), #scr-settings>*:not(.paper-bg), #scr-lang>*:not(.paper-bg), #scr-career-list>*:not(.paper-bg), #scr-career-new>*:not(.paper-bg), #scr-career>*:not(.paper-bg){position:relative; z-index:1;}
+  #scr-interval>*:not(.paper-bg), #scr-final>*:not(.paper-bg), #scr-tour-pick>*:not(.paper-bg), #scr-tour-setup>*:not(.paper-bg), #scr-tour>*:not(.paper-bg), #scr-rules>*:not(.paper-bg), #scr-history>*:not(.paper-bg), #scr-saves>*:not(.paper-bg), #scr-lang>*:not(.paper-bg), #scr-career-list>*:not(.paper-bg), #scr-career-new>*:not(.paper-bg), #scr-career>*:not(.paper-bg){position:relative; z-index:1;}
   .paper-bg{position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; user-select:none;}
   .pb-head{font-family:var(--px); color:#141414; font-size:clamp(1rem,2.6vw,1.7rem); text-align:center; margin-top:20px; letter-spacing:3px;}
   .pb-head .tred{color:#c00d0d;}
@@ -78,7 +80,7 @@
   /* Menu principale: più in basso (deve stare sotto il titolone "Clamoroso al Cibali") */
   #scr-menu{justify-content:flex-start; padding-top:clamp(185px,24vh,225px); overflow-y:auto;}
   /* Tutte le altre maschere: altezza intermedia e uguale tra loro (compromesso: spazio per le tabelle senza salire troppo) */
-  #scr-setup, #scr-options, #scr-teams, #scr-history, #scr-rules, #scr-saves, #scr-settings, #scr-lang, #scr-tour-pick, #scr-tour-setup, #scr-tour, #scr-career-list, #scr-career-new, #scr-career{
+  #scr-setup, #scr-options, #scr-teams, #scr-history, #scr-rules, #scr-saves, #scr-lang, #scr-tour-pick, #scr-tour-setup, #scr-tour, #scr-career-list, #scr-career-new, #scr-career{
     justify-content:flex-start; padding-top:clamp(150px,18vh,178px); overflow-y:auto;}
   /* pulsanti Marcatori/Risultati sotto la classifica: stato attivo dal colore netto */
   .subtabs{display:flex; gap:8px; margin:20px 0 12px; padding-top:14px; border-top:1px solid #ffffff22;}
@@ -116,19 +118,19 @@
   /* torneo */
   /* altezza fissa con scroll interno: cambiando scheda cambia SOLO il contenuto, i pulsanti non si spostano */
   .tview{margin-top:14px; height:46vh; overflow-y:auto; padding-right:6px;}
-  .ttab{width:100%; border-collapse:collapse; font-size:.95rem;}
+  .ttab{width:100%; border-collapse:collapse; font-size:.93rem;} /* dimensione UNICA di tutte le liste (classifiche/risultati/marcatori/albo): .93 scelto da Enrico 2026-07-30 */
   .ttab th{font-size:.68rem; color:#9aa89b; text-transform:uppercase; padding:7px 6px; border-bottom:2px solid #555; text-align:right; font-family:var(--px);}
   .ttab td{padding:4px 8px; border-bottom:1px solid #3a3a3a; text-align:right; color:#e2e8f0;}
   .ttab td.tn, .ttab th.tn{text-align:left;}
   /* "Girone A/B" DENTRO la riga d'intestazione (cella ex-Squadra), allineato a PT G V... ma in Segoe leggibile (il pixel lì era troppo grassetto), oro */
-  .ttab th.grp-h{color:var(--oro); font-family:'Segoe UI',system-ui,sans-serif; font-size:.92rem; font-weight:600; text-transform:none; letter-spacing:0;}
+  .ttab th.grp-h{color:var(--oro); font-family:'Segoe UI',system-ui,sans-serif; font-size:.93rem; font-weight:600; text-transform:none; letter-spacing:0;}
   .ttab tr.me td{color:var(--oro); font-weight:700;}
-  .trow{font-size:.9rem; padding:6px 0; border-bottom:1px solid #3a3a3a; color:#cbd5e1;}
+  .trow{font-size:.93rem; padding:6px 0; border-bottom:1px solid #3a3a3a; color:#cbd5e1;}
   .trow b{font-weight:600;} /* grassetti uniformi (600) in albo e righe elenco */
   /* marcatori/albo ALLINEATI ai risultati (2026-07-28, Enrico: "omogeneità"): stessa riga .9rem, numeri pixel .66 come i punteggi */
-  .scr-row{display:flex; align-items:baseline; gap:12px; padding:4px 8px; border-bottom:1px solid #3a3a3a; font-size:.9rem; color:#cbd5e1;}
+  .scr-row{display:flex; align-items:baseline; gap:12px; padding:4px 8px; border-bottom:1px solid #3a3a3a; font-size:.93rem; color:#cbd5e1;}
   /* risultati incolonnati: casa a destra · punteggio centrale · trasferta a sinistra */
-  .rrow{display:grid; grid-template-columns:1fr 56px 1fr; align-items:center; gap:8px; padding:4px 4px; font-size:.9rem; color:#cbd5e1; border-bottom:1px solid #2f3540;}
+  .rrow{display:grid; grid-template-columns:1fr 56px 1fr; align-items:center; gap:8px; padding:4px 4px; font-size:.93rem; color:#cbd5e1; border-bottom:1px solid #2f3540;}
   .rrow .rh{text-align:right;} .rrow .ra{text-align:left;}
   .rrow .rs{font-family:var(--px); font-size:.66rem; text-align:center; color:#e2e8f0;}
   .rrow.you{color:var(--oro);} .rrow.you .rs{color:var(--oro);}
@@ -158,9 +160,9 @@
   /* pulsanti riga carriera: quadrati 34x34 come il ◄ in alto, allineati al bordo destro del contenuto */
   .career-row .cbtn{width:34px; height:34px; padding:0; display:flex; align-items:center; justify-content:center; line-height:1; font-family:var(--px); font-size:.62rem; border:2px solid #fff; color:#fff; box-shadow:2px 2px 0 rgba(0,0,0,.5); flex:none;}
   #career-play{font-size:.52rem; padding:11px 14px;} /* proporzionati alle altre bottoniere dell'hub */
-  #career-sim{aspect-ratio:auto !important; flex-direction:row !important; font-size:.48rem !important; padding:11px 12px !important;} /* niente quadrato: bottone basso, da comprimario */
+  #career-sim, #tour-sim, #tour-abandon, #tour-hist{aspect-ratio:auto !important; flex-direction:row !important; font-size:.48rem !important; padding:11px 12px !important;} /* niente quadrato: bottoni bassi, da comprimari (protagonista = solo il verde) */
   .career-row .cres{background:#1fae1f;} .career-row .cdel{background:#c1121f;}
-  .trow.gday{color:var(--oro); font-family:'Segoe UI',system-ui,sans-serif; font-size:.92rem; font-weight:600; border-bottom:none; margin-top:10px;} /* Segoe come grp-h: il pixel nei titoletti di contenuto era poco leggibile (Enrico: "il gioco deve essere pulito") */
+  .trow.gday{color:var(--oro); font-family:'Segoe UI',system-ui,sans-serif; font-size:.93rem; font-weight:600; border-bottom:none; margin-top:10px;} /* Segoe come grp-h: il pixel nei titoletti di contenuto era poco leggibile (Enrico: "il gioco deve essere pulito") */
   /* schede (leghe/coppa/editor): tutte grigie, il BLU è la selezione e si sposta col click (2026-07-28, Enrico) */
   .ttag{opacity:.65;}
   .ttag.active{opacity:1; border-color:var(--oro); background:#1a1adf;}
@@ -204,7 +206,6 @@
   #sb-score{font-size:1.9rem; color:var(--oro);}
   #sb-me-name,#sb-ai-name{font-size:.82rem;}
   #sb-exit{position:absolute; right:10px; top:50%; transform:translateY(-50%); background:#7e1420; border:2px solid #fff; padding:6px 9px; font-size:.5rem; box-shadow:3px 3px 0 rgba(0,0,0,.5);}
-  #sb-audio{position:absolute; right:92px; top:50%; transform:translateY(-50%); background:#2a2f3a; border:2px solid #fff; padding:5px 8px; font-size:.62rem; box-shadow:3px 3px 0 rgba(0,0,0,.5);}
   .sb-team{display:flex; align-items:center; gap:8px;}
   .dot{width:14px; height:14px; display:inline-block; border:2px solid #fff;}
   #sb-info{font-size:.55rem; font-family:var(--px); color:#7fd18b; margin-left:14px; text-align:center; line-height:1.9;}
@@ -371,7 +372,7 @@
   @media (max-width:920px){ /* iPad verticale e simili: i pannelli larghi si adattano allo schermo */
     .panel90{max-width:96vw !important; padding:18px;}
     .box{max-width:94vw;}
-    .ttab{font-size:.88rem;}
+    .ttab{font-size:.84rem;}
     .ttab td{padding:4px 5px;}
     .ttab th{font-size:.6rem; padding:6px 4px;}
     .trow{font-size:.86rem;}
@@ -387,11 +388,11 @@
 <div id="scr-menu" class="screen active">
   <div class="menu-grid90">
     <button class="b90 c-gray" onclick="UI.toSetup()"><span class="ico">⚽</span><span data-i18n="m_friendly">Amichevole</span></button>
-    <button class="b90 c-red" onclick="UI.toTour()"><span class="ico">🏆</span><span data-i18n="m_tour">Torneo</span></button>
+    <button class="b90 c-red" onclick="UI.toTourPick()"><span class="ico">🏆</span><span data-i18n="m_tour">Torneo</span></button>
     <button class="b90 c-blue mdis"><span class="ico">👥</span><span data-i18n="m_multi">Multiplayer</span><span class="soon" data-i18n="soon">presto</span></button>
     <button class="b90 c-orange" onclick="UI.toOptions()"><span class="ico">⚙️</span><span data-i18n="m_options">Opzioni</span></button>
   </div>
-  <div class="mcopy" data-i18n="mcopy_menu">© 2026 Soccer Cards — prototipo v1.0</div>
+  <div class="mcopy" data-i18n="mcopy_menu">© 2026 Enrico Michelin — MatchSweep! · tutti i diritti riservati</div>
 </div>
 
 <!-- ===== SETUP AMICHEVOLE (stesso layout del menu principale) ===== -->
@@ -420,27 +421,16 @@
     <button class="top-back" style="top:14px; right:20px;" onclick="UI.toMenu()" data-i18n-title="t_menu" title="Menu">◄</button>
     <button class="b90 c-red" onclick="UI.toTeams()"><span class="ico">👕</span><span data-i18n="opt_teams">Squadre</span></button>
     <button class="b90 c-blue" onclick="UI.toRules()"><span class="ico">📜</span><span data-i18n="opt_rules">Regole</span></button>
-    <button class="b90 c-orange" onclick="UI.toHistory()"><span class="ico">🗄️</span><span data-i18n="opt_history">Storico Coppe</span></button>
-    <button class="b90" style="background:#2eb82e;" onclick="UI.toSettings()"><span class="ico">⚙️</span><span data-i18n="opt_settings">Impostazioni</span></button>
+    <button class="b90 c-orange" onclick="UI.toSaves()"><span class="ico">💾</span><span data-i18n="set_saves">Salvataggi</span></button>
+    <button class="b90" style="background:#2eb82e;" id="opt-lang" onclick="UI.toLang()"><span class="ico">🌍</span><span data-i18n="set_lang">Lingua</span><span class="soon" id="opt-lang-state">ITA</span></button>
   </div>
   <div class="mcopy" data-i18n="mcopy_options">Opzioni</div>
-</div>
-
-<!-- ===== IMPOSTAZIONI: salvataggi, audio, lingua ===== -->
-<div id="scr-settings" class="screen">
-  <div class="menu-grid90" style="position:relative; padding-top:62px;">
-    <button class="top-back" style="top:14px; right:20px;" onclick="UI.toOptions()" data-i18n-title="t_options" title="Opzioni">◄</button>
-    <button class="b90 c-green" onclick="UI.toSaves()"><span class="ico">💾</span><span data-i18n="set_saves">Salvataggi</span></button>
-    <button class="b90 c-blue" id="opt-audio" onclick="UI.audioOptToggle()"><span class="ico" id="opt-audio-ico">🔊</span><span data-i18n="set_audio">Audio</span><span class="soon" id="opt-audio-state">SÌ</span></button>
-    <button class="b90 c-orange" id="opt-lang" onclick="UI.toLang()"><span class="ico">🌍</span><span data-i18n="set_lang">Lingua</span><span class="soon" id="opt-lang-state">ITA</span></button>
-  </div>
-  <div class="mcopy" data-i18n="mcopy_settings">Impostazioni</div>
 </div>
 
 <!-- ===== LINGUA: menu di scelta (de/es predisposte, arriveranno) ===== -->
 <div id="scr-lang" class="screen">
   <div class="menu-grid90" style="position:relative; padding-top:62px;">
-    <button class="top-back" style="top:14px; right:20px;" onclick="UI.toSettings()" data-i18n-title="t_settings" title="Impostazioni">◄</button>
+    <button class="top-back" style="top:14px; right:20px;" onclick="UI.toOptions()" data-i18n-title="t_options" title="Opzioni">◄</button>
     <button class="b90 c-green" onclick="UI.setLang('it')"><span class="ico" style="font-family:var(--px); font-size:1.2rem;">IT</span><span>Italiano</span><span class="soon" id="lang-on-it"></span></button>
     <button class="b90 c-blue" onclick="UI.setLang('en')"><span class="ico" style="font-family:var(--px); font-size:1.2rem;">EN</span><span>English</span><span class="soon" id="lang-on-en"></span></button>
     <button class="b90 c-gray mdis"><span class="ico" style="font-family:var(--px); font-size:1.2rem;">DE</span><span>Deutsch</span><span class="soon" data-i18n="soon">presto</span></button>
@@ -452,7 +442,7 @@
 <!-- ===== SALVATAGGI: esporta/importa tutto ===== -->
 <div id="scr-saves" class="screen">
   <div class="panel90" style="max-width:640px;">
-    <button class="top-back" onclick="UI.toSettings()" data-i18n-title="t_settings" title="Impostazioni">◄</button>
+    <button class="top-back" onclick="UI.toOptions()" data-i18n-title="t_options" title="Opzioni">◄</button>
     <div class="phead" data-i18n="saves_head">💾 Salvataggi</div>
     <div class="rules-note" style="margin:14px 0;" data-i18n="saves_note1">Il gioco si salva da solo su questo computer. Da qui puoi metterlo al sicuro in un file — squadre, squadra inventata, carriere e storico — e ripristinarlo quando vuoi, anche su un altro dispositivo.</div>
     <div class="btn-row2">
@@ -495,7 +485,7 @@
 <!-- ===== STORICO: ALBO D'ORO E BACHECA (layout giornale) ===== -->
 <div id="scr-history" class="screen">
   <div class="panel90" style="max-width:740px;">
-    <button class="top-back" onclick="UI.toOptions()" data-i18n-title="t_options" title="Opzioni">◄</button>
+    <button class="top-back" onclick="UI.toCoppa()" data-i18n-title="t_back" title="Indietro">◄</button>
     <div class="phead" data-i18n="hist_head">🗄️ Storico Coppe</div>
     <div id="hist-albo" style="margin-top:8px;"></div>
     <div class="phead" style="margin-top:22px;" data-i18n="hist_bacheca">🏆 Bacheca dei club</div>
@@ -517,7 +507,6 @@
 <div id="scr-match" class="screen">
   <div id="scoreboard">
     <button id="sb-exit" onclick="event.stopPropagation();UI.quitMatch()" data-i18n="btn_exit">✖ Esci</button>
-    <button id="sb-audio" onclick="event.stopPropagation();UI.audioToggle()" data-i18n-title="t_audio" title="Audio stadio">🔊</button>
     <span class="sb-team"><span class="dot kit-me"></span><span id="sb-me-name"></span></span>
     <span id="sb-score">0 - 0</span>
     <span class="sb-team"><span id="sb-ai-name"></span><span class="dot kit-ai" style="border:1px solid #555;"></span></span>
@@ -601,7 +590,7 @@
 <!-- ===== PRIMA PAGINA: edizione straordinaria (solo partite memorabili) ===== -->
 <div id="scr-news" class="screen">
   <div class="news-sheet">
-    <div class="pb-head" style="margin-top:0;">★ SOCCER <span class="tred">CARDS</span> ★</div>
+    <div class="pb-head" style="margin-top:0;">★ MATCH<span class="tred">SWEEP!</span> ★</div>
     <div class="pb-sub" data-i18n="news_edition">★ EDIZIONE STRAORDINARIA ★</div>
     <div class="pb-rule" style="margin:10px 6px;"></div>
     <div class="pb-headline" id="news-headline"></div>
@@ -624,7 +613,7 @@
 <div id="scr-tour-pick" class="screen">
   <div class="menu-grid90" style="position:relative; padding-top:62px;">
     <button class="top-back" style="top:14px; right:20px;" onclick="UI.toMenu()" data-i18n-title="t_menu" title="Menu">◄</button>
-    <button class="b90 c-red" onclick="UI.toTourSetup()"><span class="ico">🏆</span><span data-i18n="pick_cup">Coppa</span></button>
+    <button class="b90 c-red" onclick="UI.toCoppa()"><span class="ico">🏆</span><span data-i18n="pick_cup">Coppa</span></button>
     <button class="b90 c-blue" onclick="UI.toCareerList()"><span class="ico">📅</span><span data-i18n="pick_season">Stagione</span></button>
   </div>
   <div class="mcopy" data-i18n="mcopy_pick">Scegli la competizione</div>
@@ -657,6 +646,7 @@
     </select>
     <div class="btn-row2">
       <button class="b90 c-green wide" onclick="UI.tourCreate()" data-i18n="btn_createcup">Crea coppa</button>
+      <button class="b90 c-gray" style="flex:0 0 auto; font-size:.5rem; padding:13px 16px;" onclick="UI.toHistory()" data-i18n="opt_history">Storico Coppe</button>
     </div>
     <div class="rules-note" id="tour-msg" data-i18n-html="ts_note">La coppa è girone all'italiana + fase finale a eliminazione. La preconfigurata (Euro Cup) assegna il trofeo, che finisce nello <b>Storico Coppe</b> (Opzioni → Storico), e si salva da sola (esci e riprendi quando vuoi). Le coppe inventate sono amichevoli: nessun trofeo. Le partite senza di te le gioca l'IA.</div>
   </div>
@@ -665,7 +655,7 @@
 <!-- ===== TORNEO: CLASSIFICA E CALENDARIO (layout giornale) ===== -->
 <div id="scr-tour" class="screen">
   <div class="panel90" style="max-width:880px;">
-    <button class="top-back" onclick="UI.toMenu()" data-i18n-title="t_backmenu" title="Torna al menu">◄</button>
+    <button class="top-back" onclick="UI.tourExit()" data-i18n-title="t_backmenu" title="Torna al menu">◄</button>
     <div class="phead" id="tour-title">🏆 Torneo</div>
     <div id="tour-status" class="sub" style="text-align:center; margin-bottom:4px;"></div>
     <div class="tour-tabs">
@@ -680,8 +670,10 @@
     <div id="tour-view-ris" class="tview" style="display:none;"><div id="tour-results"></div></div>
     <div class="btn-row2">
       <button class="b90 c-green wide" id="tour-play" onclick="UI.tourNext()" data-i18n="btn_next">▶ Prosegui</button>
+      <button class="b90 c-gray" id="tour-sim" style="flex:0 0 auto; font-size:.5rem; padding:13px 16px;" onclick="UI.tourSim()" data-i18n-title="t_sim" data-i18n="btn_csim" title="L'IA gioca anche la tua partita">⏩ Simula</button>
       <button class="b90 c-green wide" id="tour-new" style="display:none;" onclick="UI.tourFinish()" data-i18n="btn_newcomp">🏆 Nuova competizione</button>
-      <button class="b90 c-red wide" id="tour-abandon" onclick="UI.tourAbandon()" data-i18n="btn_abandon">✖ Annulla</button>
+      <button class="b90 c-red" id="tour-abandon" style="flex:0 0 auto; font-size:.5rem; padding:13px 16px;" onclick="UI.tourAbandon()" data-i18n="btn_abandon">✖ Annulla</button>
+      <button class="b90 c-gray" id="tour-hist" style="flex:0 0 auto; font-size:.5rem; padding:13px 16px;" onclick="UI.toHistory()" data-i18n="opt_history">Storico Coppe</button>
     </div>
   </div>
 </div>
@@ -918,23 +910,22 @@ function fmt(s){const a=arguments;return String(s).replace(/\{(\d)\}/g,function(
 function pick(a){return Array.isArray(a)?a[Math.floor(Math.random()*a.length)]:a;} // pesca una variante (per i titoli del giornale)
 I18N.it={
  langName:'Italiano', langBadge:'ITA',
- title:'Soccer Cards — Prototipo',
+ title:'MatchSweep!',
  headline:'Clamoroso al Cibali!',
- yes:'SÌ', no:'NO',
  eras:{e90:'Anni 90',oggi:'Oggi'}, sameEra:'Stessa epoca',
  countries:{}, kits:{},
  // menu, navigazione, tooltip
  m_friendly:'Amichevole', m_tour:'Torneo', m_multi:'Multiplayer', soon:'presto', m_options:'Opzioni',
- mcopy_menu:'© 2026 Soccer Cards — prototipo v1.0', mcopy_options:'Opzioni', mcopy_settings:'Impostazioni', mcopy_pick:'Scegli la competizione', mcopy_lang:'Scegli la lingua',
- t_backmenu:'Torna al menu', t_menu:'Menu', t_options:'Opzioni', t_back:'Indietro', t_saveexit:'Salva ed esci', t_settings:'Impostazioni',
- t_sim:"L'IA gioca anche la tua partita: giornata istantanea", t_audio:'Audio stadio',
+ mcopy_menu:'© 2026 Enrico Michelin — MatchSweep! · tutti i diritti riservati', mcopy_options:'Opzioni', mcopy_pick:'Scegli la competizione', mcopy_lang:'Scegli la lingua',
+ t_backmenu:'Torna al menu', t_menu:'Menu', t_options:'Opzioni', t_back:'Indietro', t_saveexit:'Salva ed esci',
+ t_sim:"L'IA gioca anche la tua partita: giornata istantanea",
  // amichevole
  setup_head:'Amichevole', lbl_era:'Epoca', lbl_yourteam:'La tua squadra', lbl_oppteam:'Squadra avversaria (IA)',
  lbl_oppera:'Epoca avversario (per sfide tra epoche)', btn_play:'Gioca',
  setup_note:'Regole Scopa &bull; Ogni SCOPA = GOL &bull; Asso = ASSIST: piglia tutto e apparecchia il gol, ma segna solo la scopa<br>Le squadre si modificano in Opzioni &rarr; Squadre',
  // opzioni e impostazioni
- opt_teams:'Squadre', opt_rules:'Regole', opt_history:'Storico Coppe', opt_settings:'Impostazioni',
- set_saves:'Salvataggi', set_audio:'Audio', set_lang:'Lingua',
+ opt_teams:'Squadre', opt_rules:'Regole', opt_history:'Storico Coppe',
+ set_saves:'Salvataggi', set_lang:'Lingua',
  saves_head:'Salvataggi',
  saves_note1:'Il gioco si salva da solo su questo computer. Da qui puoi metterlo al sicuro in un file — squadre, squadra inventata, carriere e storico — e ripristinarlo quando vuoi, anche su un altro dispositivo.',
  saves_note2:'Esporta scarica un file nella cartella Download. Importa lo ricarica: i dati attuali vengono sostituiti da quelli del file.',
@@ -1001,7 +992,7 @@ I18N.it={
  q_quit:"Vuoi annullare l'incontro?\nIl risultato attuale andrà perso.",
  // salvataggi
  msg_export:'Salvataggio esportato!\nIl file è nella cartella Download: conservalo dove vuoi (Drive, chiavetta...). Per ripristinare tutto, anche su un altro computer, usa "Importa".',
- msg_bad:'File non valido: non sembra un salvataggio di Soccer Cards.',
+ msg_bad:'File non valido: non sembra un salvataggio di MatchSweep!.',
  q_import:'Importare questo salvataggio?\nSquadre, carriere e storico ATTUALI verranno sostituiti da quelli del file.',
  // torneo / coppa
  pick_cup:'Coppa', pick_season:'Stagione',
@@ -1023,7 +1014,7 @@ I18N.it={
  nogoals:'Ancora nessun gol', day_n:'{0}ª giornata', seed_n:'{0}ª',
  toplay_p:'(da giocare)', leg1:'(andata)', leg2:'(ritorno)', leg2tp:'(ritorno, da giocare)',
  pensline:'calci di rigore: {0} - {1}', advances:'→ passa {0}', penShort:'r',
- save_file:'SoccerCards_salvataggio_', csv_file:'SoccerCards_Rose.csv',
+ save_file:'MatchSweep_salvataggio_', csv_file:'MatchSweep_Rose.csv',
  brk_note:'Girone in corso: ecco chi è provvisoriamente qualificato (prime {0}) e come sarebbe accoppiato. Il tabellone definitivo si forma alla fine del girone.',
  brk_prov:' · provvisorio', brk_champ:'Campione: {0}',
  q_abandon:'Annullare il torneo?\nClassifica e risultati andranno persi.',
@@ -1040,6 +1031,7 @@ I18N.it={
  warn_dup:'⚠ Esiste già una carriera con questo nome: scegline un altro.',
  q_del:'Eliminare la carriera "{0}"?',
  q_exit:"Vuoi uscire dalla carriera?\nTutto è salvato automaticamente: la ritroverai nell'elenco esattamente da dove hai lasciato.",
+ q_exit_cup:"Vuoi uscire dalla coppa?\nTutto è salvato automaticamente: la ritroverai esattamente da dove hai lasciato.",
  q_close_season:'Chiudere la Stagione {0}?\nLa Euro Cup va in bacheca, poi parte la nuova stagione.',
  q_close_leagues:'Chiudere i campionati della Stagione {0}?\nVengono assegnati scudetti e capocannonieri (a pari punti decidono differenza reti e gol fatti).',
  hub_euro:'Stagione {0} · Euro SuperCup — {1}', euro_done:'conclusa',
@@ -1079,9 +1071,8 @@ I18N.it={
 };
 I18N.en={
  langName:'English', langBadge:'ENG',
- title:'Soccer Cards — Prototype',
+ title:'MatchSweep!',
  headline:"They think it's all over!",
- yes:'ON', no:'OFF',
  eras:{e90:"'90s",oggi:'Today'}, sameEra:'Same era',
  countries:{Italia:'Italy',Inghilterra:'England',Spagna:'Spain',Germania:'Germany'},
  kits:{rossonera:'Red & black (stripes)',azzurra:'Sky blue',bianconera:'Black & white (stripes)',nerazzurra:'Black & blue (stripes)',
@@ -1089,16 +1080,16 @@ I18N.en={
   biancoceleste:'White & sky blue',blaugrana:'Claret & blue (stripes)',biancorossa:'White & red (stripes)',biancoblu:'White & blue (stripes)',biancoverde:'White & green (stripes)'},
  // menu, navigation, tooltips
  m_friendly:'Friendly', m_tour:'Tournament', m_multi:'Multiplayer', soon:'soon', m_options:'Options',
- mcopy_menu:'© 2026 Soccer Cards — prototype v1.0', mcopy_options:'Options', mcopy_settings:'Settings', mcopy_pick:'Choose your competition', mcopy_lang:'Choose your language',
- t_backmenu:'Back to menu', t_menu:'Menu', t_options:'Options', t_back:'Back', t_saveexit:'Save and exit', t_settings:'Settings',
- t_sim:'The AI plays your match too: instant matchday', t_audio:'Stadium sound',
+ mcopy_menu:'© 2026 Enrico Michelin — MatchSweep! · all rights reserved', mcopy_options:'Options', mcopy_pick:'Choose your competition', mcopy_lang:'Choose your language',
+ t_backmenu:'Back to menu', t_menu:'Menu', t_options:'Options', t_back:'Back', t_saveexit:'Save and exit',
+ t_sim:'The AI plays your match too: instant matchday',
  // friendly
  setup_head:'Friendly', lbl_era:'Era', lbl_yourteam:'Your team', lbl_oppteam:'Opponent (AI)',
  lbl_oppera:'Opponent era (for cross-era matches)', btn_play:'Play',
  setup_note:'Scopa rules &bull; Every SWEEP = GOAL &bull; Ace = ASSIST: it takes everything and sets up the goal, but only a sweep scores<br>Teams can be edited in Options &rarr; Teams',
  // options & settings
- opt_teams:'Teams', opt_rules:'Rules', opt_history:'Cup History', opt_settings:'Settings',
- set_saves:'Saves', set_audio:'Sound', set_lang:'Language',
+ opt_teams:'Teams', opt_rules:'Rules', opt_history:'Cup History',
+ set_saves:'Saves', set_lang:'Language',
  saves_head:'Saves',
  saves_note1:'The game saves itself on this computer. From here you can back everything up to a file — teams, custom team, careers and history — and restore it whenever you want, even on another device.',
  saves_note2:'Export downloads a file to your Downloads folder. Import loads it back: current data is replaced by the file.',
@@ -1165,7 +1156,7 @@ I18N.en={
  q_quit:'Abandon this match?\nThe current score will be lost.',
  // saves
  msg_export:'Backup exported!\nThe file is in your Downloads folder: keep it wherever you like (Drive, USB stick...). To restore everything, even on another computer, use "Import".',
- msg_bad:'Invalid file: it does not look like a Soccer Cards backup.',
+ msg_bad:'Invalid file: it does not look like a MatchSweep! backup.',
  q_import:'Import this backup?\nCURRENT teams, careers and history will be replaced by the file.',
  // tournament / cup
  pick_cup:'Cup', pick_season:'Season',
@@ -1187,7 +1178,7 @@ I18N.en={
  nogoals:'No goals yet', day_n:'Matchday {0}', seed_n:'#{0}',
  toplay_p:'(to play)', leg1:'(1st leg)', leg2:'(2nd leg)', leg2tp:'(2nd leg, to play)',
  pensline:'penalty shootout: {0} - {1}', advances:'→ {0} advance', penShort:'p',
- save_file:'SoccerCards_backup_', csv_file:'SoccerCards_Squads.csv',
+ save_file:'MatchSweep_backup_', csv_file:'MatchSweep_Squads.csv',
  brk_note:'Group stage in progress: these are the provisional qualifiers (top {0}) and how they would be paired. The final bracket forms when the group ends.',
  brk_prov:' · provisional', brk_champ:'Champions: {0}',
  q_abandon:'Abandon the tournament?\nTable and results will be lost.',
@@ -1204,6 +1195,7 @@ I18N.en={
  warn_dup:'⚠ A career with this name already exists: choose another.',
  q_del:'Delete the career "{0}"?',
  q_exit:'Leave the career?\nEverything is saved automatically: you will find it in the list exactly where you left off.',
+ q_exit_cup:'Leave the cup?\nEverything is saved automatically: you will find it exactly where you left off.',
  q_close_season:'Close Season {0}?\nThe Euro Cup goes into the cabinet, then the new season starts.',
  q_close_leagues:'Close the Season {0} leagues?\nTitles and top scorers are awarded (if level on points, goal difference then goals scored decide).',
  hub_euro:'Season {0} · Euro SuperCup — {1}', euro_done:'finished',
@@ -1901,18 +1893,17 @@ function renderTour(){
     st.map(s=>`<tr class="${s.i===TOUR.user?'me':''}"><td class="tn">${s.name}</td><td><b>${s.Pt}</b></td><td>${s.P}</td><td>${s.V}</td><td>${s.N}</td><td>${s.S}</td><td>${s.GF}</td><td>${s.GS}</td><td>${s.GF-s.GS}</td></tr>`).join('');
   // marcatori (vista su richiesta): gol + nome, con (squadra, n.maglia) accanto al nome
   const sc=Object.entries(TOUR.scorers).map(([k,g])=>{const p=k.split('|');return {team:p[0],name:p[1],num:p[2],g};}).sort((a,b)=>b.g-a.g).slice(0,10);
-  $('tour-scorers').innerHTML=sc.length?sc.map(s=>`<div class="scr-row"><span class="scr-g">${s.g}</span><span class="scr-n">${s.name}<span class="scr-sub">(${s.team}, n.${s.num})</span></span></div>`).join(''):'<div class="trow">'+T.nogoals+'</div>';
+  $('tour-scorers').innerHTML=sc.length?sc.map(s=>`<div class="scr-row"><span class="scr-g">${s.g}</span><span class="scr-n">${s.name}<span class="scr-sub">(${s.team}, n.${s.num})</span></span></div>`).join('')+'<div class="trow" style="opacity:.55; font-size:.5rem; text-align:center;">'+T.top10+'</div>':'<div class="trow">'+T.nogoals+'</div>';
   // tabellone della fase a eliminazione (solo coppe)
   $('tab-brk').style.display=(TOUR.type==='cup')?'':'none';
   if(TOUR.type==='cup')renderBracket(); else if(currentTourTab==='brk')currentTourTab='class';
   // risultati e prossime partite: girone per giornata + tabellone della fase finale
+  // risultati nel FORMATO DELLA CARRIERA (.rrow: casa a dx · punteggio · trasferta; tua partita in oro) — uniformato 2026-07-29
   let ris='',lastG=0;
   TOUR.schedule.forEach(mt=>{
     if(mt.g!==lastG){lastG=mt.g;ris+=`<div class="trow gday">${fmt(T.day_n,mt.g)}</div>`;}
-    const star=(mt.h===TOUR.user||mt.a===TOUR.user)?' ⭐':'';
-    ris+=mt.played
-      ?`<div class="trow">${TOUR.teams[mt.h].name} <b>${mt.gh} - ${mt.ga}</b> ${TOUR.teams[mt.a].name}${star}</div>`
-      :`<div class="trow" style="opacity:.6;">${TOUR.teams[mt.h].name} - ${TOUR.teams[mt.a].name}${star} <i>${T.toplay_p}</i></div>`;
+    const you=(mt.h===TOUR.user||mt.a===TOUR.user);
+    ris+=`<div class="rrow${you?' you':''}${mt.played?'':' notplayed'}"><span class="rh">${TOUR.teams[mt.h].name}</span><span class="rs">${mt.played?mt.gh+' - '+mt.ga:'–'}</span><span class="ra">${TOUR.teams[mt.a].name}</span></div>`;
   });
   if(TOUR.type==='cup'&&TOUR.ko){
     TOUR.ko.rounds.forEach((r,ri)=>{
@@ -1920,16 +1911,13 @@ function renderTour(){
       ris+=`<div class="trow gday">${koRoundNames(TOUR.koQual)[ri]}</div>`;
       r.ties.forEach(t=>{
         const A=TOUR.teams[t.a].name, B=TOUR.teams[t.b].name;
-        const star=(t.a===TOUR.user||t.b===TOUR.user)?' ⭐':'';
-        ris+=t.l1.played
-          ?`<div class="trow">${A} <b>${t.l1.gh} - ${t.l1.ga}</b> ${B}${t.single?'':' <i>'+T.leg1+'</i>'}${star}</div>`
-          :`<div class="trow" style="opacity:.6;">${A} - ${B}${star} <i>${T.toplay_p}</i></div>`;
-        if(t.l2)ris+=t.l2.played
-          ?`<div class="trow">${B} <b>${t.l2.gh} - ${t.l2.ga}</b> ${A} <i>${T.leg2}</i></div>`
-          :`<div class="trow" style="opacity:.6;">${B} - ${A} <i>${T.leg2tp}</i></div>`;
-        if(t.pen!=null&&t.penScore)ris+=`<div class="trow"><i>${fmt(T.pensline,t.penScore[0],t.penScore[1])}</i></div>`;
+        const you=(t.a===TOUR.user||t.b===TOUR.user);
+        const row=(h,s,a,played)=>`<div class="rrow${you?' you':''}${played?'':' notplayed'}"><span class="rh">${h}</span><span class="rs">${s}</span><span class="ra">${a}</span></div>`;
+        ris+=row(A,t.l1.played?t.l1.gh+' - '+t.l1.ga:'–',B,t.l1.played);
+        if(t.l2)ris+=row(B,t.l2.played?t.l2.gh+' - '+t.l2.ga:'–',A,t.l2.played); // ritorno a campi invertiti, come in Euro
+        if(t.pen!=null&&t.penScore)ris+=`<div class="trow" style="opacity:.7;"><i>${fmt(T.pensline,t.penScore[0],t.penScore[1])}</i></div>`;
         const w=tieWinner(t);
-        if(w!==null)ris+=`<div class="trow" style="color:var(--oro);">${fmt(T.advances,TOUR.teams[w].name)}</div>`;
+        if(w!==null)ris+=`<div class="trow" style="color:var(--oro); border-bottom:none;">${fmt(T.advances,TOUR.teams[w].name)}</div>`;
       });
     });
   }
@@ -1937,20 +1925,21 @@ function renderTour(){
   // a torneo finito: via "Prosegui" e "Annulla", compare "Nuova competizione"
   $('tour-play').style.display=done?'none':'';
   $('tour-abandon').style.display=done?'none':'';
+  $('tour-sim').style.display=done?'none':'';
   $('tour-new').style.display=done?'':'none';
   UI.tourTab(currentTourTab);
 }
 var currentTourTab='class';
 function injectPaper(){
   const oggi=new Date().toLocaleDateString('it-IT',{month:'long',year:'numeric'});
-  const htmlFor=id=>`<div class="pb-head">★ SOCCER <span class="tred">CARDS</span> ★</div>
+  const htmlFor=id=>`<div class="pb-head">★ MATCH<span class="tred">SWEEP!</span> ★</div>
     <div class="pb-sub">★ summer edition 2026 ★</div>
     <div class="pb-rule"></div>
     ${id==='scr-menu'?`<div class="pb-headline" data-i18n="headline">Clamoroso al Cibali!</div>`:''}
     <div class="pb-cols"><div class="pb-col"></div><div class="pb-col"></div><div class="pb-col"></div><div class="pb-col"></div></div>
     <div class="pb-photo"><div class="pb-scene"><div class="pb-spr" style="left:16%;top:12%;"></div><div class="pb-ball" style="left:48%;top:56%;"></div><div class="pb-spr" style="left:64%;top:26%;"></div></div></div>
     <div class="pb-photo2"><div class="pb-scene"><div class="pb-spr big" style="left:30%;top:8%;"></div><div class="pb-ball" style="left:22%;top:78%;"></div></div></div>`;
-  ['scr-menu','scr-setup','scr-options','scr-teams','scr-interval','scr-final','scr-tour-pick','scr-tour-setup','scr-tour','scr-rules','scr-history','scr-saves','scr-settings','scr-lang','scr-career-list','scr-career-new','scr-career'].forEach(id=>{
+  ['scr-menu','scr-setup','scr-options','scr-teams','scr-interval','scr-final','scr-tour-pick','scr-tour-setup','scr-tour','scr-rules','scr-history','scr-saves','scr-lang','scr-career-list','scr-career-new','scr-career'].forEach(id=>{
     const el=document.getElementById(id);if(!el)return;
     const d=document.createElement('div');d.className='paper-bg';d.innerHTML=htmlFor(id);
     el.prepend(d);
@@ -2059,7 +2048,6 @@ function showFieldNote(a,b){
   $('kickoff-note').classList.remove('hidden');
 }
 async function showGoal(r){
-  sfxGoal(); // boato della curva
   const team=r.side==='me'?G.names.me:G.names.ai;
   const sc=G.scorers[G.scorers.length-1];
   $('goal-big').textContent=T.goalBig;
@@ -2112,8 +2100,6 @@ async function doPlay(side,handIdx,optIdx){
   busy=true;
   if(side==='ai')await revealAiCard(G.hands.ai[handIdx]);
   const r=playCard(G,side,handIdx,optIdx);
-  sfxCard(); // toc della carta sul panno
-  crowdMood(r); // la folla si scalda su asso o tavolo quasi vuoto
   renderAll(r.laid);
   logMove(r);
   if(r.newRound)addLog(`<span class="evt">${T.log_newround}</span>`);
@@ -2225,7 +2211,6 @@ function endHalf(){
   busy=false;
   $('kickoff-note').classList.add('hidden');
   if(G.half===1){
-    sfxWhistle(2);crowdStop(); // duplice fischio: intervallo
     $('int-teams').textContent=`${G.names.me} vs ${G.names.ai}`;
     $('int-score').textContent=`${G.score.me} - ${G.score.ai}`;
     $('int-marcatori').innerHTML=marcatoriHTML();
@@ -2254,7 +2239,6 @@ function endHalf(){
     $('btn-rigioca').style.display=(G.tour||G.career)?'none':'';
     $('btn-tour-back').style.display=G.tour?'':'none';
     $('btn-career-back').style.display=G.career?'':'none';
-    sfxWhistle(3);crowdStop(); // triplice fischio: è finita
     const story=newsStory(); // partita memorabile? allora PRIMA PAGINA al posto del tabellino
     if(story){renderNews(story);show('scr-news');}
     else show('scr-final');
@@ -2282,62 +2266,13 @@ async function shootRound(){
     pendingStart=async()=>{await sleep(400);const ch=aiChoose(G,'ai');await doPlay('ai',ch.handIdx,ch.optIdx);};
   }else busy=false;
 }
-/* ===== AUDIO STADIO (retrò, generato dal codice: nessun file, nessun diritto) ===== */
-var AUDIO={on:(lsGet('soccercard_audio')||'1')==='1', ctx:null, crowd:null};
-function aCtx(){if(!AUDIO.ctx){const C=window.AudioContext||window.webkitAudioContext;if(C)AUDIO.ctx=new C();}return AUDIO.ctx;}
-function noiseBuf(ctx,sec){const b=ctx.createBuffer(1,Math.floor(ctx.sampleRate*sec),ctx.sampleRate);const d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;return b;}
-function crowdStart(){ // brusio continuo della folla, molto leggero
-  if(!AUDIO.on)return;const ctx=aCtx();if(!ctx||AUDIO.crowd)return;
-  const src=ctx.createBufferSource();src.buffer=noiseBuf(ctx,2);src.loop=true;
-  const f=ctx.createBiquadFilter();f.type='bandpass';f.frequency.value=850;f.Q.value=.5;
-  const g=ctx.createGain();g.gain.value=.007; // base molto leggera: sale nei momenti caldi
-  src.connect(f);f.connect(g);g.connect(ctx.destination);src.start();
-  AUDIO.crowd={src,g};
-}
-function crowdStop(){if(AUDIO.crowd){try{AUDIO.crowd.src.stop();}catch(e){}AUDIO.crowd=null;}}
-function crowdMood(r){ // la folla sente il pericolo: asso appena giocato o una sola carta sul tavolo
-  if(!AUDIO.crowd||!AUDIO.ctx)return;
-  const hot=(r&&r.card&&r.card.v===1)||(G&&!G.shootMode&&G.table.length<=1);
-  const g=AUDIO.crowd.g.gain, t=AUDIO.ctx.currentTime;
-  g.cancelScheduledValues(t);g.setValueAtTime(g.value,t);
-  g.linearRampToValueAtTime(hot?.055:.007, t+.6);
-}
-function sfxWhistle(n){ // fischio dell'arbitro (n fischi)
-  if(!AUDIO.on)return;const ctx=aCtx();if(!ctx)return;
-  for(let i=0;i<(n||1);i++){
-    const t=ctx.currentTime+i*.38;
-    const o=ctx.createOscillator();o.type='square';o.frequency.setValueAtTime(2350,t);o.frequency.linearRampToValueAtTime(2650,t+.1);
-    const g=ctx.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.28,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.32);
-    o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+.34);
-  }
-}
-function sfxGoal(){ // boato della curva: due strati (rombo + voci), ben udibile
-  if(!AUDIO.on)return;const ctx=aCtx();if(!ctx)return;
-  const t=ctx.currentTime;
-  [[600,.9,.4],[1400,.45,.8]].forEach(([fq,vol,q])=>{
-    const src=ctx.createBufferSource();src.buffer=noiseBuf(ctx,2.4);
-    const f=ctx.createBiquadFilter();f.type='bandpass';f.frequency.value=fq;f.Q.value=q;
-    const g=ctx.createGain();
-    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.15);g.gain.exponentialRampToValueAtTime(.0001,t+2.3);
-    src.connect(f);f.connect(g);g.connect(ctx.destination);src.start();
-  });
-}
-function sfxCard(){ // toc della carta sul panno
-  if(!AUDIO.on)return;const ctx=aCtx();if(!ctx)return;
-  const src=ctx.createBufferSource();src.buffer=noiseBuf(ctx,.06);
-  const f=ctx.createBiquadFilter();f.type='highpass';f.frequency.value=1600;
-  const g=ctx.createGain();const t=ctx.currentTime;
-  g.gain.setValueAtTime(.08,t);g.gain.exponentialRampToValueAtTime(.0001,t+.06);
-  src.connect(f);f.connect(g);g.connect(ctx.destination);src.start();
-}
+/* AUDIO STADIO RIMOSSO (2026-07-29): i cori veri non si possono avere (diritti) e il sintetico
+   "non faceva la differenza" (verdetto dei tester, condiviso). Niente interruttori, niente motore. */
 async function beginHalf(h){
   startHalf(G,h);
   pendingStart=null;
   show('scr-match');
   if(h===1)document.querySelectorAll('.zone-label').forEach(e=>e.classList.remove('zl-hide')); // scritte-guida di nuovo visibili (svaniranno al primo tocco)
-  $('sb-audio').style.display=AUDIO.on?'':'none'; // il pulsante in partita esiste solo se l'audio è attivo in Opzioni
-  $('sb-audio').textContent='🔊';
-  sfxWhistle(1);crowdStart();
   drawSprites();
   renderAll();
   const first=G.turn==='me'?G.names.me:G.names.ai;
@@ -2832,8 +2767,8 @@ function renderCareerView(country){
     h+= sc.length? sc.map(s=>`<div class="scr-row"><span class="scr-g">${s.g}</span><span class="scr-n">${s.name}<span class="scr-sub">(${s.team}, n.${s.num})</span></span></div>`).join('')+'<div class="trow" style="opacity:.55; font-size:.5rem; text-align:center;">'+T.top10+'</div>' : '<div class="trow" style="opacity:.7;">'+T.nogoals+'</div>';
   }else if(view==='albo'){ // ALBO D'ORO GLOBALE: identico in ogni lega — classifica generale per trofei + una riga per stagione
     const rows=CAREER.bacheca||[];
-    const SCUD='<svg width="11" height="13" viewBox="0 0 12 14" style="vertical-align:-2px;"><path d="M6 0L12 2V8Q12 12 6 14Q0 12 0 8V2Z" fill="#e8a020"/></svg>'; // scudetto PIENO (l'emoji su Windows è bicolore)
-    const COPPA='<svg width="12" height="13" viewBox="0 0 12 13" style="vertical-align:-2px;"><path d="M2 0H10V1H12V3Q12 6 9.6 6.6Q8.8 8.4 7 8.9V10H9V13H3V10H5V8.9Q3.2 8.4 2.4 6.6Q0 6 0 3V1H2Z" fill="#e8a020"/></svg>'; // Euro Cup
+    const SCUD='<svg width="13" height="15" viewBox="0 0 12 14" style="vertical-align:-2px; margin-right:4px;"><path d="M6 0L12 2V8Q12 12 6 14Q0 12 0 8V2Z" fill="#e8a020" stroke="#9aa89b" stroke-width="1"/></svg>'; // variante A scelta da Enrico (bordo grigio chiaro) + 4px di spazio tra i trofei; l'emoji scudo su Windows è bicolore
+    const COPPA='<span style="margin-right:4px;">🏆</span>'; // stessa coppa dello Storico Coppe, spaziata
     const PALLA='<svg width="11" height="11" viewBox="0 0 12 12" style="vertical-align:-1px;"><circle cx="6" cy="6" r="5.4" fill="#e8a020"/><path d="M6 3.1L8.7 5.1L7.7 8.3H4.3L3.3 5.1Z" fill="#141414"/></svg>'; // Pallone d'oro
     if(!rows.some(r=>r.tipo==='scudetto'||r.tipo==='eurocup')) h+='<div class="trow" style="opacity:.7;">'+T.albo_empty+'</div>';
     else{
@@ -2941,7 +2876,7 @@ window.UI={
   secondHalf(){beginHalf(2);},
   quitMatch(){ // esci dal match in corso: l'incontro viene annullato (non registrato)
     askConfirm(T.q_quit,()=>{
-      busy=false;pendingStart=null;crowdStop();
+      busy=false;pendingStart=null;
       const inTour=!!(G&&G.tour), inCareer=!!(G&&G.career);
       G=null;
       if(inTour){renderTour();show('scr-tour');} // torna al torneo: la partita resta "da giocare"
@@ -2954,18 +2889,9 @@ window.UI={
   closeConfirm(){$('confirm-modal').classList.remove('show');confirmCb=null;},
   rematch(){startFriendly(G.teamA,G.teamB);},
   toSetup(){fillTeamSelects();show('scr-setup');},
-  toOptions(){show('scr-options');},
-  toSettings(){
-    $('opt-audio-state').textContent=AUDIO.on?T.yes:T.no;
-    $('opt-audio-ico').textContent=AUDIO.on?'🔊':'🔇';
-    $('opt-lang-state').textContent=T.langBadge;
-    show('scr-settings');
-  },
-  audioOptToggle(){ // interruttore MASTER dell'audio: se spento, in partita non compare nemmeno il pulsante
-    AUDIO.on=!AUDIO.on;lsSet('soccercard_audio',AUDIO.on?'1':'0');
-    if(!AUDIO.on)crowdStop();
-    $('opt-audio-state').textContent=AUDIO.on?T.yes:T.no;
-    $('opt-audio-ico').textContent=AUDIO.on?'🔊':'🔇';
+  toOptions(){
+    $('opt-lang-state').textContent=T.langBadge; // badge lingua sulla tessera (era in Impostazioni, schermata soppressa il 2026-07-29)
+    show('scr-options');
   },
   toLang(){ // menu lingue: spunta sulla lingua attiva; de/es sono predisposte ma non attive
     LANGS.forEach(k=>{const b=$('lang-on-'+k);if(b)b.textContent=(k===LANG)?'✓':'';});
@@ -2976,11 +2902,6 @@ window.UI={
     UI.toLang();
   },
   toSaves(){show('scr-saves');},
-  audioToggle(){ // interruttore stadio (ricordato tra le partite)
-    AUDIO.on=!AUDIO.on;lsSet('soccercard_audio',AUDIO.on?'1':'0');
-    if(!AUDIO.on)crowdStop();else if(G&&document.getElementById('scr-match').classList.contains('active'))crowdStart();
-    $('sb-audio').textContent=AUDIO.on?'🔊':'🔇';
-  },
   /* ===== Salvataggio globale: esporta/importa TUTTO in un file ===== */
   exportData(){ // squadre, inventata, carriere, storico e coppa in corso → file .json nei Download
     const d={app:'soccercards',v:1,exported:new Date().toISOString(),
@@ -3035,9 +2956,11 @@ window.UI={
   },
   teamsCountryChanged(){renderTeamsTab();},
   teamsEraChanged(){renderTeamsTab();},
-  toTour(){
+  toCoppa(){ // tessera Coppa: riprende la coppa in corso, altrimenti setup nuova. FIX LOOP (2026-07-28):
+    // il pulsante del menu ora apre SEMPRE la scelta competizione — prima, con una coppa attiva,
+    // saltava dritto alla coppa e Stagione/Storico diventavano irraggiungibili.
     if(TOUR){currentTourTab='class';renderTour();show('scr-tour');}
-    else{UI.toTourPick();}
+    else UI.toTourSetup();
   },
   toTourPick(){show('scr-tour-pick');},
   toTourSetup(){
@@ -3125,6 +3048,44 @@ window.UI={
       mt.gh=g.score.me;mt.ga=g.score.ai;mt.played=true;
       tourAddScorers(g,A,B);
       saveTour();renderTour();
+    }
+  },
+  tourExit(){ // ◄ dall'hub coppa: stessa conferma-rassicurazione della carriera (omogeneità, 2026-07-30)
+    askConfirm(T.q_exit_cup,()=>show('scr-menu'));
+  },
+  tourSim(){ // ⏩ come in carriera: l'IA gioca anche la TUA prossima partita (una per click), il resto scorre da solo
+    while(true){
+      if(TOUR.type==='cup'&&TOUR.phase==='ko'){
+        koAdvance();
+        if(tourDone()){saveTour();renderTour();return;}
+        const nm=koNextMatch();
+        if(!nm){saveTour();renderTour();return;}
+        const {t,leg}=nm;
+        const hIdx=leg===1?t.a:t.b, aIdx=leg===1?t.b:t.a;
+        const mustDecide=t.single||leg===2;
+        const prior=leg===2?(t.l1.ga-t.l1.gh):0;
+        const mine=(hIdx===TOUR.user||aIdx===TOUR.user);
+        const g=simMatchX(TOUR.teams[hIdx],TOUR.teams[aIdx],mustDecide,prior);
+        const L=leg===1?t.l1:t.l2;
+        L.gh=g.score.me;L.ga=g.score.ai;L.played=true;
+        if(g.pen){t.pen=g.pen.winner==='me'?hIdx:aIdx;t.penScore=[g.pen.me,g.pen.ai];}
+        tourAddScorers(g,TOUR.teams[hIdx],TOUR.teams[aIdx]);
+        saveTour();renderTour();
+        if(mine)return; else continue;
+      }
+      const mi=TOUR.schedule.findIndex(mt=>!mt.played);
+      if(mi<0){
+        if(TOUR.type==='cup'&&TOUR.phase==='group'){buildKO();currentTourTab='brk';saveTour();renderTour();continue;}
+        renderTour();return;
+      }
+      const mt=TOUR.schedule[mi];
+      const mine=(mt.h===TOUR.user||mt.a===TOUR.user);
+      const A=TOUR.teams[mt.h], B=TOUR.teams[mt.a];
+      const g=simMatch(A,B);
+      mt.gh=g.score.me;mt.ga=g.score.ai;mt.played=true;
+      tourAddScorers(g,A,B);
+      saveTour();renderTour();
+      if(mine)return;
     }
   },
   tourAfterMatch(){ // "Continua": registra la tua partita e torna al torneo
