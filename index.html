@@ -160,7 +160,7 @@
   /* pulsanti riga carriera: quadrati 34x34 come il ◄ in alto, allineati al bordo destro del contenuto */
   .career-row .cbtn{width:34px; height:34px; padding:0; display:flex; align-items:center; justify-content:center; line-height:1; font-family:var(--px); font-size:.62rem; border:2px solid #fff; color:#fff; box-shadow:2px 2px 0 rgba(0,0,0,.5); flex:none;}
   #career-play{font-size:.52rem; padding:11px 14px;} /* proporzionati alle altre bottoniere dell'hub */
-  #career-sim, #tour-sim, #tour-abandon, #tour-hist{aspect-ratio:auto !important; flex-direction:row !important; font-size:.48rem !important; padding:11px 12px !important;} /* niente quadrato: bottoni bassi, da comprimari (protagonista = solo il verde) */
+  #career-sim, #tour-sim, #tour-abandon, #tour-hist, #setup-hist{aspect-ratio:auto !important; flex-direction:row !important; font-size:.48rem !important; padding:11px 12px !important;} /* niente quadrato: bottoni bassi, da comprimari (protagonista = solo il verde) */
   .career-row .cres{background:#1fae1f;} .career-row .cdel{background:#c1121f;}
   .trow.gday{color:var(--oro); font-family:'Segoe UI',system-ui,sans-serif; font-size:.93rem; font-weight:600; border-bottom:none; margin-top:10px;} /* Segoe come grp-h: il pixel nei titoletti di contenuto era poco leggibile (Enrico: "il gioco deve essere pulito") */
   /* schede (leghe/coppa/editor): tutte grigie, il BLU è la selezione e si sposta col click (2026-07-28, Enrico) */
@@ -646,7 +646,7 @@
     </select>
     <div class="btn-row2">
       <button class="b90 c-green wide" onclick="UI.tourCreate()" data-i18n="btn_createcup">Crea coppa</button>
-      <button class="b90 c-gray" style="flex:0 0 auto; font-size:.5rem; padding:13px 16px;" onclick="UI.toHistory()" data-i18n="opt_history">Storico Coppe</button>
+      <button class="b90 c-gray" id="setup-hist" style="flex:0 0 auto; font-size:.5rem; padding:13px 16px;" onclick="UI.toHistory()" data-i18n="opt_history">Storico Coppe</button>
     </div>
     <div class="rules-note" id="tour-msg" data-i18n-html="ts_note">La coppa è girone all'italiana + fase finale a eliminazione. La preconfigurata (Euro Cup) assegna il trofeo, che finisce nello <b>Storico Coppe</b> (Opzioni → Storico), e si salva da sola (esci e riprendi quando vuoi). Le coppe inventate sono amichevoli: nessun trofeo. Le partite senza di te le gioca l'IA.</div>
   </div>
@@ -1001,7 +1001,7 @@ I18N.it={
  opt_ar:'Andata e ritorno', opt_a:'Solo andata', lbl_qual:'Squadre alla fase finale',
  opt_q4:'4 — semifinali (A/R) e finale', opt_q8:'8 — quarti (A/R), semifinali (A/R) e finale', opt_q2:'2 — finale secca',
  btn_createcup:'Crea coppa', myCup:'La mia Coppa', myCareer:'La mia carriera', default_tour:'Torneo', default_career:'Carriera',
- ts_note:'La coppa è girone all\'italiana + fase finale a eliminazione. La preconfigurata (Euro Cup) assegna il trofeo, che finisce nello <b>Storico Coppe</b> (Opzioni &rarr; Storico), e si salva da sola (esci e riprendi quando vuoi). Le coppe inventate sono amichevoli: nessun trofeo. Le partite senza di te le gioca l\'IA.',
+ ts_note:'La coppa è girone all\'italiana + fase finale a eliminazione. La preconfigurata (Euro Cup) assegna il trofeo, che finisce nello <b>Storico Coppe</b> (pulsante qui sopra), e si salva da sola (esci e riprendi quando vuoi). Le coppe inventate sono amichevoli: nessun trofeo. Le partite senza di te le gioca l\'IA.',
  tab_class:'Classifica', tab_brk:'Tabellone', tab_marc:'Marcatori', tab_ris:'Risultati',
  btn_next:'Prosegui', btn_newcomp:'Nuova competizione', btn_abandon:'Annulla',
  sel_all:'Seleziona tutte',
@@ -1165,7 +1165,7 @@ I18N.en={
  opt_ar:'Home and away', opt_a:'Single round', lbl_qual:'Teams in the knockout stage',
  opt_q4:'4 — semifinals (H/A) and final', opt_q8:'8 — quarterfinals (H/A), semifinals (H/A) and final', opt_q2:'2 — single-match final',
  btn_createcup:'Create cup', myCup:'My Cup', myCareer:'My career', default_tour:'Tournament', default_career:'Career',
- ts_note:'The cup is a round-robin group plus a knockout stage. The preset (Euro Cup) awards the trophy, which goes into <b>Cup History</b> (Options &rarr; History), and saves itself (leave and resume anytime). Cups you invent are friendlies: no trophy. Matches without you are played by the AI.',
+ ts_note:'The cup is a round-robin group plus a knockout stage. The preset (Euro Cup) awards the trophy, which goes into <b>Cup History</b> (button above), and saves itself (leave and resume anytime). Cups you invent are friendlies: no trophy. Matches without you are played by the AI.',
  tab_class:'Table', tab_brk:'Bracket', tab_marc:'Scorers', tab_ris:'Results',
  btn_next:'Continue', btn_newcomp:'New competition', btn_abandon:'Abandon',
  sel_all:'Select all',
@@ -2322,7 +2322,7 @@ const RULES=[
    <h5>Classifica e titoli</h5>
    <p>3 punti a vittoria, 1 al pareggio, 0 alla sconfitta. Classifica per punti, poi differenza reti, poi gol fatti. Il capocannoniere è il miglior marcatore, ex aequo in caso di parità.</p>
    <h5>Trofei e amichevoli</h5>
-   <p>Le competizioni preconfigurate assegnano trofei che finiscono in bacheca (Opzioni → Storico). I tornei che inventi tu sono amichevoli: nessun trofeo.</p>`},
+   <p>Le competizioni preconfigurate assegnano trofei che finiscono nello <b>Storico Coppe</b> (nel menu della Coppa). I tornei che inventi tu sono amichevoli: nessun trofeo.</p>`},
  {t:'La Stagione',h:`<h5>La carriera</h5>
    <p>Dal menu Torneo → <b>Stagione</b> crei una carriera col tuo nome: scegli l'epoca (vale per tutte le squadre, per sempre) e la tua squadra. Si giocano <b>4 campionati nazionali</b> — Italia, Inghilterra, Spagna, Germania, 8 squadre ciascuno, andata e ritorno — tu disputi il tuo, gli altri li simula l'IA. Classifiche, risultati e marcatori di ogni lega sono sempre consultabili. Col pulsante <b>Simula</b> puoi far giocare all'IA anche la tua partita: giornata istantanea, stile allenatore-manager.</p>
    <h5>La Euro SuperCup</h5>
@@ -2370,7 +2370,7 @@ I18N.en.rules=[
    <h5>Table and titles</h5>
    <p>3 points for a win, 1 for a draw, 0 for a loss. Ranking by points, then goal difference, then goals scored. The top scorer award goes to the best scorer, shared if tied.</p>
    <h5>Trophies and friendlies</h5>
-   <p>Preset competitions award trophies that go into the cabinet (Options → History). Tournaments you invent are friendlies: no trophy.</p>`},
+   <p>Preset competitions award trophies that go into <b>Cup History</b> (in the Cup menu). Tournaments you invent are friendlies: no trophy.</p>`},
  {t:'The Season',h:`<h5>The career</h5>
    <p>From the Tournament menu → <b>Season</b> you create a named career: choose the era (applies to every team, forever) and your club. There are <b>4 national leagues</b> — Italy, England, Spain, Germany, 8 teams each, home and away — you play yours, the AI simulates the others. Tables, results and scorers of every league are always available. With the <b>Simulate</b> button the AI can play your match too: an instant matchday, manager style.</p>
    <h5>The Euro SuperCup</h5>
